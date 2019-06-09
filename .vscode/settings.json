@@ -1,0 +1,3 @@
+{
+  "dotnet-test-explorer.testProjectPath": "./test/smarty-pants.lambda.Tests"
+}
