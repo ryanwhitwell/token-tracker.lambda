@@ -1,52 +1,83 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-      {
-          "label": "build",
-          "command": "dotnet",
-          "type": "process",
-          "args": [
-              "build",
-              "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
-          ],
-          "problemMatcher": "$tsc"
-      },
-      {
-          "label": "deploy",
-          "command": "dotnet",
-          "type": "process",
-          "args": [
-              "lambda",
-              "deploy-function",
-              "DocGenerator",
-              "--region",
-              "us-east-1",
-              "--profile",
-              "LambdaSmartyPants",
-              "--function-role",
-              "woof_garden_canary"
-          ],
-          "options": {
-              "cwd": "${workspaceFolder}/src/smarty-pants.lambda"
-          },
-          "problemMatcher": []
-      },
-      {
-          "label": "invoke",
-          "command": "dotnet",
-          "type": "process",
-          "args": [
-              "lambda",
-              "invoke-function",
-              "DocGenerator",
-              "--region",
-              "us-east-1",
-              "--profile",
-              "LambdaSmartyPants",
-              "--payload",
-              "Just Checking If Everything is OK"
-          ],
-          "problemMatcher": []
-      }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "deploy",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "lambda",
+                "deploy-function",
+                "smartypants",
+                "--region",
+                "us-east-1",
+                "--profile",
+                "LambdaSmartyPants",
+                "--function-role",
+                "LambdaService"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/smarty-pants.lambda"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "invoke",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "lambda",
+                "invoke-function",
+                "smartypants",
+                "--region",
+                "us-east-1",
+                "--profile",
+                "LambdaSmartyPants",
+                "--payload",
+                "Just Checking If Everything is OK"
+            ],
+            "problemMatcher": []
+        }
+    ]
 }
