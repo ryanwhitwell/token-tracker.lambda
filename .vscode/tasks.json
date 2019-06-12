@@ -58,7 +58,7 @@
                 "LambdaService"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/src/smarty-pants.lambda"
+                "cwd": "${workspaceFolder}/smarty-pants.lambda"
             },
             "problemMatcher": []
         },
