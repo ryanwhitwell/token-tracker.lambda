@@ -8,44 +8,20 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 
 using smarty_pants.lambda;
-using Slight.Alexa.Framework.Models.Requests;
-using Slight.Alexa.Framework.Models.Requests.RequestTypes;
 
 namespace smarty_pants.lambda.Tests
 {
-  public class FunctionTest
-  {
-    [Fact]
-    public void TestFunction()
+    public class FunctionTest
     {
-      Function function = new Function();
-      TestLambdaContext context = new TestLambdaContext();
-      SkillRequest input = new SkillRequest();
-      Intent myIntent = new Intent();
-      myIntent.Name = "CreateRelationship";
-      myIntent.Slots = new Dictionary<string, Slot>()
-      {
-        ["slot1"] = new Slot() { Name = "slot1Name", Value = "slot1Value" }
-      };
+        [Fact]
+        public void TestToUpperFunction()
+        {
 
-      RequestBundle myRequestBundle = new RequestBundle();
-      myRequestBundle.Type = "myType";
-      myRequestBundle.RequestId = "myRequestId";
-      myRequestBundle.Timestamp = new DateTime();
-      myRequestBundle.Intent = myIntent;
-      myRequestBundle.Reason = "myReason";
-      input.Request = myRequestBundle;
+            // Invoke the lambda function and confirm the string was upper cased.
+            var context = new TestLambdaContext();
+            var upperCase = Function.FunctionHandler("hello world", context);
 
-      String expectedResponse = "End";
-      String response = function.FunctionHandler(input, context);
-
-      Assert.Equal(expectedResponse, response);
+            Assert.Equal("HELLO WORLD", upperCase);
+        }
     }
-
-    [Fact]
-    public void Truthtest()
-    {
-      Assert.True(true);
-    }
-  }
 }

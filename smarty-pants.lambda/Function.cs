@@ -1,33 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
 using Amazon.Lambda.Core;
-using Slight.Alexa.Framework.Models.Requests;
-
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
+using Amazon.Lambda.RuntimeSupport;
+using Amazon.Lambda.Serialization.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace smarty_pants.lambda
 {
-  public class Function
-  {
-    public string FunctionHandler(SkillRequest input, ILambdaContext ILambdaContext)
+    public class Function
     {
-      this.LogMessage(ILambdaContext, input);
+        /// <summary>
+        /// The main entry point for the custom runtime.
+        /// </summary>
+        /// <param name="args"></param>
+        private static async Task Main(string[] args)
+        {
+            Func<string, ILambdaContext, string> func = FunctionHandler;
+            using(var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new JsonSerializer()))
+            using(var bootstrap = new LambdaBootstrap(handlerWrapper))
+            {
+                await bootstrap.RunAsync();
+            }
+        }
 
-      return "End";
+        /// <summary>
+        /// A simple function that takes a string and does a ToUpper
+        ///
+        /// To use this handler to respond to an AWS event, reference the appropriate package from 
+        /// https://github.com/aws/aws-lambda-dotnet#events
+        /// and change the string input parameter to the desired event type.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static string FunctionHandler(string input, ILambdaContext context)
+        {
+            return input?.ToUpper();
+        }
     }
-
-    public void LogMessage(ILambdaContext ctx, SkillRequest input)
-    {
-      ctx.Logger.LogLine(
-          string.Format("{0}:{1} - {2}",
-              ctx.AwsRequestId,
-              ctx.FunctionName,
-              JsonConvert.SerializeObject(input)));
-    }
-  }
 }

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -38,7 +38,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/test/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
