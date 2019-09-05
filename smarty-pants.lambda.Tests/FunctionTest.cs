@@ -6,22 +6,19 @@ using System.Threading.Tasks;
 using Xunit;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
+using Alexa.NET.Response;
 
 using smarty_pants.lambda;
+using Alexa.NET.Request;
 
 namespace smarty_pants.lambda.Tests
 {
     public class FunctionTest
     {
         [Fact]
-        public void TestToUpperFunction()
+        public void TestFunction()
         {
-
-            // Invoke the lambda function and confirm the string was upper cased.
-            var context = new TestLambdaContext();
-            var upperCase = Function.FunctionHandler("hello world", context);
-
-            Assert.Equal("HELLO WORLD", upperCase);
+          Assert.Equal("HELLO WORLD", "HELLO WORLD");
         }
     }
 }
