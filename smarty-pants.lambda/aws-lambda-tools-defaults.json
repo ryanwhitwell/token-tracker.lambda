@@ -11,10 +11,9 @@
   "profile":"",
   "region" : "",
   "configuration" : "Release",
-  "framework" : "netcoreapp2.2",
+  "framework" : "netcoreapp2.1",
   "function-runtime":"provided",
   "function-memory-size" : 256,
   "function-timeout" : 30,
-  "function-handler" : "not_required_for_custom_runtime",  
-  "msbuild-parameters": "--self-contained true"
+  "function-handler" : "smarty-pants.lambda::smarty_pants.lambda.Function::FunctionHandler"
   }

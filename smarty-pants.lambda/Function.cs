@@ -2,29 +2,11 @@ using Alexa.NET;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.RuntimeSupport;
-using Amazon.Lambda.Serialization.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace smarty_pants.lambda
 {
   public class Function
   {
-    /// <summary>
-    /// The main entry point for the custom runtime.
-    /// </summary>
-    /// <param name="args"></param>
-    private static async Task Main(string[] args)
-    {
-      Func<SkillRequest, ILambdaContext, SkillResponse> func = FunctionHandler;
-      using (var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new JsonSerializer()))
-      using (var bootstrap = new LambdaBootstrap(handlerWrapper))
-      {
-        await bootstrap.RunAsync();
-      }
-    }
-
     /// <summary>
     /// A simple function that takes a string and does a ToUpper
     ///
