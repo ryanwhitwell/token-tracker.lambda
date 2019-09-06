@@ -5,18 +5,18 @@ using Amazon.Lambda.Core;
 using System;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-namespace points.lambda
+namespace token.lambda
 {
   public class Function
   {
     public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
     {
       // build the speech response 
-      var speech = new SsmlOutputSpeech();
-      speech.Ssml = string.Format("<speak>Today is <say-as interpret-as=\"date\">{0}</say-as>.<break strength=\"x-strong\"/>I hope you have a good day.</speak>", DateTime.Now.ToShortDateString());
-
+      SsmlOutputSpeech speech = new SsmlOutputSpeech();
+      speech.Ssml = string.Format("<speak>Hey {0}, this app is really awesome.</speak>", "Sara");
+      
       // create the response using the ResponseBuilder
-      var finalResponse = ResponseBuilder.Tell(speech);
+      SkillResponse finalResponse = ResponseBuilder.Tell(speech);
       return finalResponse;
     }
   }

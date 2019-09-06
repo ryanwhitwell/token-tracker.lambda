@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
+                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
+                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
+                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -38,7 +38,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
+                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -49,16 +49,16 @@
             "args": [
                 "lambda",
                 "deploy-function",
-                "smartypants",
+                "token",
                 "--region",
                 "us-east-1",
                 "--profile",
-                "LambdaSmartyPants",
+                "TokenLambda",
                 "--function-role",
                 "LambdaService"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/points.lambda"
+                "cwd": "${workspaceFolder}/token.lambda"
             },
             "problemMatcher": []
         },
@@ -69,11 +69,11 @@
             "args": [
                 "lambda",
                 "invoke-function",
-                "smartypants",
+                "token",
                 "--region",
                 "us-east-1",
                 "--profile",
-                "LambdaSmartyPants",
+                "TokenLambda",
                 "--payload",
                 "Just Checking If Everything is OK"
             ],

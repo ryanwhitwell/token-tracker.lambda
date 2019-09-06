@@ -8,10 +8,10 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Alexa.NET.Response;
 
-using points.lambda;
+using token.lambda;
 using Alexa.NET.Request;
 
-namespace points.lambda.Tests
+namespace token.lambda.Tests
 {
     public class FunctionTest
     {

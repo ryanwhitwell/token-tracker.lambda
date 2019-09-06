@@ -1,5 +1,5 @@
 {
-  "dotnet-test-explorer.testProjectPath": "points.lambda.Tests",
+  "dotnet-test-explorer.testProjectPath": "token.lambda.Tests",
   "editor.tabSize": 2,
   "editor.insertSpaces": true
 }

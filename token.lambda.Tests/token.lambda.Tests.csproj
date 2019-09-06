@@ -11,6 +11,6 @@
     <PackageReference Include="Alexa.NET" Version="1.8.2"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\points.lambda\points.lambda.csproj" />
+    <ProjectReference Include="..\token.lambda\token.lambda.csproj" />
   </ItemGroup>
 </Project>
