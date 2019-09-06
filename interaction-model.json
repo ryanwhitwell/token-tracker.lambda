@@ -1,0 +1,87 @@
+{
+  "interactionModel": {
+      "languageModel": {
+          "invocationName": "token",
+          "intents": [
+              {
+                  "name": "AMAZON.FallbackIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AddPointsFixed",
+                  "slots": [
+                      {
+                          "name": "amount",
+                          "type": "AMAZON.NUMBER"
+                      },
+                      {
+                          "name": "player",
+                          "type": "AMAZON.FirstName"
+                      }
+                  ],
+                  "samples": [
+                      "give {player} {amount} points",
+                      "give {amount} points to {player}",
+                      "add {amount} points to {player}"
+                  ]
+              }
+          ],
+          "types": []
+      },
+      "dialog": {
+          "intents": [
+              {
+                  "name": "AddPointsFixed",
+                  "confirmationRequired": true,
+                  "prompts": {
+                      "confirmation": "Confirm.Intent.1118294551362"
+                  },
+                  "slots": [
+                      {
+                          "name": "amount",
+                          "type": "AMAZON.NUMBER",
+                          "confirmationRequired": false,
+                          "elicitationRequired": false,
+                          "prompts": {}
+                      },
+                      {
+                          "name": "player",
+                          "type": "AMAZON.FirstName",
+                          "confirmationRequired": false,
+                          "elicitationRequired": false,
+                          "prompts": {}
+                      }
+                  ]
+              }
+          ],
+          "delegationStrategy": "ALWAYS"
+      },
+      "prompts": [
+          {
+              "id": "Confirm.Intent.1118294551362",
+              "variations": [
+                  {
+                      "type": "PlainText",
+                      "value": "Are you sure you want to give {amount} points to {player} ?"
+                  }
+              ]
+          }
+      ]
+  }
+}
