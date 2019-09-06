@@ -8,11 +8,11 @@
     "All the command line options for the Lambda command can be specified in this file."
   ],
 
-  "profile":"",
-  "region" : "",
+  "profile":"LambdaSmartyPants",
+  "region" : "us-east-1",
   "configuration" : "Release",
   "framework" : "netcoreapp2.1",
-  "function-runtime":"provided",
+  "function-runtime":"dotnetcore2.1",
   "function-memory-size" : 256,
   "function-timeout" : 30,
   "function-handler" : "smarty-pants.lambda::smarty_pants.lambda.Function::FunctionHandler"
