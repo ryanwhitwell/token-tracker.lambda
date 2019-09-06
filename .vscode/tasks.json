@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -38,7 +38,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/smarty-pants.lambda.Tests/smarty-pants.lambda.Tests.csproj"
+                "${workspaceFolder}/points.lambda.Tests/points.lambda.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -58,7 +58,7 @@
                 "LambdaService"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/smarty-pants.lambda"
+                "cwd": "${workspaceFolder}/points.lambda"
             },
             "problemMatcher": []
         },

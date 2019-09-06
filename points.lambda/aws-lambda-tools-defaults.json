@@ -15,5 +15,5 @@
   "function-runtime":"dotnetcore2.1",
   "function-memory-size" : 256,
   "function-timeout" : 30,
-  "function-handler" : "smarty-pants.lambda::smarty_pants.lambda.Function::FunctionHandler"
+  "function-handler" : "points.lambda::points.lambda.Function::FunctionHandler"
   }

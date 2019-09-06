@@ -8,10 +8,10 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Alexa.NET.Response;
 
-using smarty_pants.lambda;
+using points.lambda;
 using Alexa.NET.Request;
 
-namespace smarty_pants.lambda.Tests
+namespace points.lambda.Tests
 {
     public class FunctionTest
     {
