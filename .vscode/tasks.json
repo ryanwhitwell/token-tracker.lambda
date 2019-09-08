@@ -86,7 +86,7 @@
             "args": [
                 "test",
                 "/p:CollectCoverage=true",
-                "/p:CoverletOutputFormat=\"json,lcov\"",
+                "/p:CoverletOutputFormat=lcov",
                 "/p:CoverletOutput=./",
                 "/p:Threshold=80",
                 "${workspaceFolder}/Tests/Tests.csproj"
