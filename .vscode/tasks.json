@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/UnitTests/UnitTests.csproj"
+                "${workspaceFolder}/Tests/Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/UnitTests/UnitTests.csproj"
+                "${workspaceFolder}/Tests/Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/UnitTests/UnitTests.csproj"
+                "${workspaceFolder}/Tests/Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -38,7 +38,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/UnitTests/UnitTests.csproj"
+                "${workspaceFolder}/Tests/Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         },

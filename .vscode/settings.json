@@ -1,5 +1,5 @@
 {
-  "dotnet-test-explorer.testProjectPath": "UnitTests",
+  "dotnet-test-explorer.testProjectPath": "Tests",
   "editor.tabSize": 2,
   "editor.insertSpaces": true
 }

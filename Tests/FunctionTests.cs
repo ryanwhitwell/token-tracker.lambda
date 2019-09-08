@@ -11,7 +11,7 @@ using Alexa.NET.Response;
 using Token;
 using Alexa.NET.Request;
 
-namespace UnitTests
+namespace Tests
 {
     public class FunctionTests
     {
