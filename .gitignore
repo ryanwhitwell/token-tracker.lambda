@@ -15,6 +15,7 @@
 # Build results
 coverage.json
 lcov.info
+coverage.info
 *.min.js
 *.min.css
 [Dd]ebug/
