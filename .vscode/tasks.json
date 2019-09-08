@@ -60,7 +60,12 @@
             "options": {
                 "cwd": "${workspaceFolder}/Token"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": [
+                "build",
+                "test with coverage"
+            ],
+            "dependsOrder": "sequence"
         },
         {
             "label": "invoke",
