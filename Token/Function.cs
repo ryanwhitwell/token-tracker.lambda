@@ -12,31 +12,29 @@ using System;
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace Token
 {
-  public class Function
-  {
-    public async Task<SkillResponse> FunctionHandler(SkillRequest input, ILambdaContext context)
+    public class Function
     {
-      // build the speech response 
-      SsmlOutputSpeech speech = new SsmlOutputSpeech();
-      speech.Ssml = string.Format("<speak>Hey {0}, this app is really awesome.</speak>", "Sara");
-      
-      // create the response using the ResponseBuilder
-      SkillResponse finalResponse = ResponseBuilder.Tell(speech);
+        public async Task<SkillResponse> FunctionHandler(SkillRequest input, ILambdaContext context)
+        {
+            SsmlOutputSpeech speech = new SsmlOutputSpeech();
+            speech.Ssml = string.Format("<speak>Hey {0}, this app is really awesome.</speak>", "Sara");
 
-      string tableName = "token";
-      int itemsCount = await this.GetAllItemsCount(tableName);
+            SkillResponse finalResponse = ResponseBuilder.Tell(speech);
 
-      Console.WriteLine("Found {0} item(s) in the table '{1}'.", itemsCount, tableName);
+            string tableName = "token";
+            int itemsCount = await this.GetAllItemsCount(tableName);
 
-      return finalResponse;
+            Console.WriteLine("Found {0} item(s) in the table '{1}'.", itemsCount, tableName);
+
+            return finalResponse;
+        }
+
+        public async Task<int> GetAllItemsCount(string tableName)
+        {
+            AmazonDynamoDBClient client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
+            ScanRequest req = new ScanRequest(tableName);
+            ScanResponse resp = await client.ScanAsync(req);
+            return resp.Count;
+        }
     }
-
-    public async Task<int> GetAllItemsCount(string tableName) 
-    {
-      AmazonDynamoDBClient client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
-      ScanRequest req = new ScanRequest(tableName);
-      ScanResponse resp = await client.ScanAsync(req);
-      return resp.Count;
-    }
-  }
 }
