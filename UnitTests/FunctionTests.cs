@@ -8,12 +8,12 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Alexa.NET.Response;
 
-using token.lambda;
+using Token;
 using Alexa.NET.Request;
 
-namespace token.lambda.Tests
+namespace UnitTests
 {
-    public class FunctionTest
+    public class FunctionTests
     {
         [Fact]
         public void TestFunction()

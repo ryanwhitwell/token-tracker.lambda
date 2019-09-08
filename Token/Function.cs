@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-namespace token.lambda
+namespace Token
 {
   public class Function
   {

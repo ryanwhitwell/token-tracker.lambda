@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
+                "${workspaceFolder}/UnitTests/UnitTests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
+                "${workspaceFolder}/UnitTests/UnitTests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
+                "${workspaceFolder}/UnitTests/UnitTests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -38,7 +38,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/token.lambda.Tests/token.lambda.Tests.csproj"
+                "${workspaceFolder}/UnitTests/UnitTests.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -58,7 +58,7 @@
                 "LambdaService"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/token.lambda"
+                "cwd": "${workspaceFolder}/Token"
             },
             "problemMatcher": []
         },

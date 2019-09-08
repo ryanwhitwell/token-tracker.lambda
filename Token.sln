@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "token.lambda", "token.lambda\token.lambda.csproj", "{4D232CD3-1427-476A-8B52-A45112CBBAC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Token", "Token\Token.csproj", "{4D232CD3-1427-476A-8B52-A45112CBBAC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "token.lambda.Tests", "token.lambda.Tests\token.lambda.Tests.csproj", "{7987DDBC-EC64-461C-A732-294961EE6F3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{7987DDBC-EC64-461C-A732-294961EE6F3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
