@@ -31,18 +31,10 @@ namespace Token.BusinessLogic
 
         public async Task<SkillResponse> HandleSkillRequest(SkillRequest input, ILambdaContext context)
         {
-            // Test Logging in business logic
-            this.logger.LogDebug("DI Container and logging are working in TokenBusinessLogic.");
-
-            // Ensure response functionality is working in business logic
             SsmlOutputSpeech speech = new SsmlOutputSpeech();
             speech.Ssml = string.Format("<speak>Hey {0}, this app is really awesome.</speak>", "Sara");
 
-            SkillResponse speechResponse = ResponseBuilder.Tell(speech);
-
-            int itemsCount = await this.userRepository.GetAllItemsCount();
-
-            this.logger.LogInformation("Found {0} item(s) in the table '{1}'.", itemsCount, this.userRepository.TableName);
+            SkillResponse speechResponse = await Task.Run(() => ResponseBuilder.Tell(speech));
 
             return speechResponse;
         }

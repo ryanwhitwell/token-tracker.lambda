@@ -24,8 +24,6 @@ namespace Token
         {
             SkillResponse response = await this.businessLogic.HandleSkillRequest(input, context);
 
-            LogManager.GetCurrentClassLogger().Log(NLog.LogLevel.Error, "This is an ERROR. Please help!");
-            
             return response;
         }
     }
