@@ -8,5 +8,7 @@ namespace Token.DataAccess.Interfaces
         Task Save(User user);
         Task<User> Load(string id);
         Task Delete(string id);
+        Task<int> GetAllItemsCount();
+        string TableName { get; }
     }
 }
