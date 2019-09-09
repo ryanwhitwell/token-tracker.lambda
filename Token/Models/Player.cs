@@ -1,13 +1,14 @@
 using System;
-using Token.Models.Interfaces;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace Token.Models
 {
-    public class Player: IItem
+    public class Player
     {
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        [DynamoDBProperty]
         public string   Name        { get; set; }
+        
+        [DynamoDBProperty]
         public int      Points      { get; set; }
     }
 }
