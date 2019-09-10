@@ -93,7 +93,7 @@
                 "/p:CollectCoverage=true",
                 "/p:CoverletOutputFormat=lcov",
                 "/p:CoverletOutput=./",
-                "/p:Threshold=30",
+                "/p:Threshold=1",
                 "${workspaceFolder}/Tests/Tests.csproj"
             ],
             "problemMatcher": "$msCompile",

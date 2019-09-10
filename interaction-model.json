@@ -1,87 +1,198 @@
 {
-  "interactionModel": {
-      "languageModel": {
-          "invocationName": "token",
-          "intents": [
-              {
-                  "name": "AMAZON.FallbackIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.CancelIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.HelpIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.StopIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.NavigateHomeIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AddPointsFixed",
-                  "slots": [
-                      {
-                          "name": "amount",
-                          "type": "AMAZON.NUMBER"
-                      },
-                      {
-                          "name": "player",
-                          "type": "AMAZON.FirstName"
-                      }
-                  ],
-                  "samples": [
-                      "give {player} {amount} points",
-                      "give {amount} points to {player}",
-                      "add {amount} points to {player}"
-                  ]
-              }
-          ],
-          "types": []
-      },
-      "dialog": {
-          "intents": [
-              {
-                  "name": "AddPointsFixed",
-                  "confirmationRequired": true,
-                  "prompts": {
-                      "confirmation": "Confirm.Intent.1118294551362"
-                  },
-                  "slots": [
-                      {
-                          "name": "amount",
-                          "type": "AMAZON.NUMBER",
-                          "confirmationRequired": false,
-                          "elicitationRequired": false,
-                          "prompts": {}
-                      },
-                      {
-                          "name": "player",
-                          "type": "AMAZON.FirstName",
-                          "confirmationRequired": false,
-                          "elicitationRequired": false,
-                          "prompts": {}
-                      }
-                  ]
-              }
-          ],
-          "delegationStrategy": "ALWAYS"
-      },
-      "prompts": [
-          {
-              "id": "Confirm.Intent.1118294551362",
-              "variations": [
-                  {
-                      "type": "PlainText",
-                      "value": "Are you sure you want to give {amount} points to {player} ?"
-                  }
-              ]
-          }
-      ]
-  }
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "token",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AddPoints",
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "add {amount} point to {player}",
+                        "give {amount} point to {player}",
+                        "give {player} {amount} point",
+                        "give {player} {amount} points",
+                        "give {amount} points to {player}",
+                        "add {amount} points to {player}"
+                    ]
+                },
+                {
+                    "name": "AddPlayer",
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "add {player}"
+                    ]
+                },
+                {
+                    "name": "RemovePlayer",
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "remove {player}"
+                    ]
+                },
+                {
+                    "name": "RemoveAllPlayers",
+                    "slots": [],
+                    "samples": [
+                        "remove all players"
+                    ]
+                },
+                {
+                    "name": "ListAllPlayers",
+                    "slots": [],
+                    "samples": [
+                        "list all players"
+                    ]
+                },
+                {
+                    "name": "GetPlayerPoints",
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "get {player} 's points"
+                    ]
+                },
+                {
+                    "name": "GetAllPoints",
+                    "slots": [],
+                    "samples": [
+                        "get all points"
+                    ]
+                },
+                {
+                    "name": "RemovePoints",
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "remove {amount} points from {player}"
+                    ]
+                },
+                {
+                    "name": "RemoveAllPoints",
+                    "slots": [],
+                    "samples": [
+                        "remove all points"
+                    ]
+                },
+                {
+                    "name": "GetPointsMax",
+                    "slots": [],
+                    "samples": [
+                        "who has the highest score"
+                    ]
+                },
+                {
+                    "name": "GetPointsMin",
+                    "slots": [],
+                    "samples": [
+                        "who has the lowest score"
+                    ]
+                },
+                {
+                    "name": "GetPointsAverage",
+                    "slots": [],
+                    "samples": [
+                        "what is the average score"
+                    ]
+                },
+                {
+                    "name": "ListAllPoints",
+                    "slots": [],
+                    "samples": [
+                        "get all points"
+                    ]
+                }
+            ],
+            "types": []
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "AddPoints",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1118294551362"
+                    },
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Confirm.Intent.1118294551362",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Are you sure you want to give {amount} points to {player} ?"
+                    }
+                ]
+            }
+        ]
+    }
 }

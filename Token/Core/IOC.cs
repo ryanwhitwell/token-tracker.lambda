@@ -7,6 +7,7 @@ using NLog.Extensions.Logging;
 using Token.BusinessLogic;
 using NLog.Config;
 using NLog;
+using Token.BusinessLogic.RequestHandlers;
 
 namespace Token.Core
 {
@@ -23,8 +24,10 @@ namespace Token.Core
                     loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                     loggingBuilder.AddNLog();
                 })
-                .AddTransient(typeof(ITokenBusinessLogic), typeof(TokenBusinessLogic))
-                .AddTransient(typeof(IUserRepository), typeof(UserRepository))
+                .AddTransient(typeof(IRequestBusinessLogic),    typeof(RequestBusinessLogic))
+                .AddTransient(typeof(IRequestHandler),          typeof(IntentRequestHandler))
+                .AddTransient(typeof(ITokenUserData),           typeof(TokenUserData))
+                .AddTransient(typeof(ITokenUserRepository),     typeof(TokenUserRepository))
                 .BuildServiceProvider();
 
             LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));

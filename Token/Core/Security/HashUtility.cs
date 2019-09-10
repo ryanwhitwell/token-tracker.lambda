@@ -20,7 +20,7 @@ namespace Token.Core.Security
 
     private static string InitializePepperValue()
     {
-      string pepperValue = Configuration.File.GetSection("Security")["PepperValue"];
+      string pepperValue = Configuration.File.GetSection("Application")["PepperValue"];
 
       if (string.IsNullOrWhiteSpace(pepperValue))
       {
