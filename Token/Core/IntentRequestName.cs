@@ -15,5 +15,18 @@ namespace Token.Core
         public const string GetPointsAverage   = "GetPointsAverage";
         public const string ListAllPoints      = "ListAllPoints";
         public const string GetAllPlayersCount = "GetAllPlayersCount";
+
+        /* TODO: 
+        Add the following IntentRequestNames and handlers: 
+        - AddSinglePoint
+        - AddAllSinglePoint
+        - RemoveAllSinglePoint
+        - RemoveSinglePoint
+        - AddAllPoints
+        - RemoveAllPoints
+        Add the following features:
+        - Add password via Card
+        - Check for Password via Card when removing data
+        */
     }
 }

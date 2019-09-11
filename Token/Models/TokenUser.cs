@@ -9,24 +9,24 @@ namespace Token.Models
     public class TokenUser
     {
         [DynamoDBHashKey]   
-        public string        Id                   { get; set; }
+        public string Id { get; set; }
 
         [DynamoDBProperty]
-        public DateTime?     CreateDate           { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         [DynamoDBProperty]
-        public DateTime?     UpdateDate           { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         [DynamoDBProperty]
-        public List<Player>  Players              { get; set; }
+        public List<Player> Players { get; set; }
 
         [DynamoDBProperty]
-        public string        PasswordHash         { get; set; }
-
-        public bool          HasPointsPersistence { get; set; }
+        public string PasswordHash { get; set; }
         
         [DynamoDBProperty]
-        public long?        TTL                  { get; set; }
+        public long? TTL { get; set; }
+
+        public bool HasPointsPersistence { get; set; }
 
         public static TokenUser GetCleansedTokenUser(TokenUser tokenUser)
         {

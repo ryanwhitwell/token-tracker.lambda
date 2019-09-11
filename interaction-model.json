@@ -34,8 +34,10 @@
                             "name": "player",
                             "type": "AMAZON.Color",
                             "samples": [
-                                "they're called {player}",
-                                "their name is {player}",
+                                "their favorite color is {player}",
+                                "their color token is {player}",
+                                "their color is {player}",
+                                "their token color is {player}",
                                 "{player}"
                             ]
                         }
@@ -56,8 +58,10 @@
                             "name": "player",
                             "type": "AMAZON.Color",
                             "samples": [
-                                "they're called {player}",
-                                "their name is {player}",
+                                "their color token is {player}",
+                                "their token color is {player}",
+                                "they're {player}",
+                                "their color is {player}",
                                 "{player}"
                             ]
                         }
@@ -79,7 +83,8 @@
                             "name": "player",
                             "type": "AMAZON.Color",
                             "samples": [
-                                "their name is {player}",
+                                "their token color token is {player}",
+                                "their color token is {player}",
                                 "{player}"
                             ]
                         }
@@ -108,7 +113,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Actor"
+                            "type": "AMAZON.Color"
                         }
                     ],
                     "samples": [
@@ -241,6 +246,20 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "GetPlayerPoints",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.Color",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -264,11 +283,11 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "what's the name of the player"
+                        "value": "what's the color of the player's token"
                     },
                     {
                         "type": "PlainText",
-                        "value": "please tell me the player's name"
+                        "value": "please tell me the player's token color"
                     }
                 ]
             },
@@ -277,11 +296,11 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "what is the name of the player"
+                        "value": "what color token does the player want to be"
                     },
                     {
                         "type": "PlainText",
-                        "value": "what's the player's name"
+                        "value": "what's the player's token color"
                     }
                 ]
             },
@@ -290,15 +309,15 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "who sdo you want to add"
+                        "value": "who color token do want to add"
                     },
                     {
                         "type": "PlainText",
-                        "value": "what's the name of the player"
+                        "value": "what token color does the player want to be"
                     },
                     {
                         "type": "PlainText",
-                        "value": "what's the player's name"
+                        "value": "what's the player's token color"
                     }
                 ]
             }
