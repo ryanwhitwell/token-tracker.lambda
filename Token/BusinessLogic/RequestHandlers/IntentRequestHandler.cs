@@ -18,13 +18,13 @@ namespace Token.BusinessLogic.RequestHandlers
 {
     public class IntentRequestHandler : IRequestHandler, IIntentRequestHandler
     {
-        private static readonly TextInfo TEXT_INFO = new CultureInfo("en-US",false).TextInfo;
-        
+        private static readonly TextInfo TEXT_INFO = new CultureInfo("en-US", false).TextInfo;
+
         private ILogger<IntentRequestHandler> logger;
 
         private ITokenUserData tokenUserData;
 
-        public IntentRequestHandler (ILogger<IntentRequestHandler> logger, ITokenUserData tokenUserData)
+        public IntentRequestHandler(ILogger<IntentRequestHandler> logger, ITokenUserData tokenUserData)
         {
             if (logger is null)
             {
@@ -43,22 +43,27 @@ namespace Token.BusinessLogic.RequestHandlers
         public async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             if (skillRequest is null)
             {
                 throw new ArgumentNullException("skillRequest");
             }
-            
+
             if (tokenUser is null)
             {
                 throw new ArgumentNullException("tokenUser");
             }
-            
+
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+
+            if (intentRequest.Intent.ConfirmationStatus == "DENIED")
+            {
+                return string.Format("Okay").Tell();
+            }
 
             SkillResponse speechResponse = null;
 
-            switch(intentRequest.Intent.Name) 
+            switch (intentRequest.Intent.Name)
             {
                 case IntentRequestName.AddPoints:
                     speechResponse = await Task.Run(() => this.AddPoints(skillRequest, tokenUser));
@@ -66,14 +71,14 @@ namespace Token.BusinessLogic.RequestHandlers
                 case IntentRequestName.AddPlayer:
                     speechResponse = await Task.Run(() => this.AddPlayer(skillRequest, tokenUser));
                     break;
-                case IntentRequestName.RemovePlayer:
-                    speechResponse = await Task.Run(() => this.RemovePlayer(skillRequest, tokenUser));
+                case IntentRequestName.DeletePlayer:
+                    speechResponse = await Task.Run(() => this.DeletePlayer(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.RemovePoints:
                     speechResponse = await Task.Run(() => this.RemovePoints(skillRequest, tokenUser));
                     break;
-                case IntentRequestName.RemoveAllPlayers:
-                    speechResponse = await Task.Run(() => this.RemoveAllPlayers(skillRequest, tokenUser));
+                case IntentRequestName.DeleteAllPlayers:
+                    speechResponse = await Task.Run(() => this.DeleteAllPlayers(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.ListAllPlayers:
                     speechResponse = await Task.Run(() => this.ListAllPlayers(skillRequest, tokenUser));
@@ -81,8 +86,8 @@ namespace Token.BusinessLogic.RequestHandlers
                 case IntentRequestName.GetPlayerPoints:
                     speechResponse = await Task.Run(() => this.GetPlayerPoints(skillRequest, tokenUser));
                     break;
-                case IntentRequestName.RemoveAllPoints:
-                    speechResponse = await Task.Run(() => this.RemoveAllPoints(skillRequest, tokenUser));
+                case IntentRequestName.ResetAllPoints:
+                    speechResponse = await Task.Run(() => this.ResetAllPoints(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.GetPointsMax:
                     speechResponse = await Task.Run(() => this.GetPointsMax(skillRequest, tokenUser));
@@ -99,6 +104,18 @@ namespace Token.BusinessLogic.RequestHandlers
                 case IntentRequestName.GetAllPlayersCount:
                     speechResponse = await Task.Run(() => this.GetAllPlayersCount(skillRequest, tokenUser));
                     break;
+                case IntentRequestName.AddAllPoints:
+                    speechResponse = await Task.Run(() => this.AddAllPoints(skillRequest, tokenUser));
+                    break;
+                case IntentRequestName.AddSinglePoint:
+                    speechResponse = await Task.Run(() => this.AddSinglePoint(skillRequest, tokenUser));
+                    break;
+                case IntentRequestName.RemoveSinglePoint:
+                    speechResponse = await Task.Run(() => this.RemoveSinglePoint(skillRequest, tokenUser));
+                    break;
+                case IntentRequestName.RemoveAllPoints:
+                    speechResponse = await Task.Run(() => this.RemoveAllPoints(skillRequest, tokenUser));
+                    break;
                 default:
                     break;
             }
@@ -107,7 +124,7 @@ namespace Token.BusinessLogic.RequestHandlers
 
             return speechResponse;
         }
-        
+
         public SkillResponse AddPlayer(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN AddPlayer. RequestId: {0}.", skillRequest.Request.RequestId);
@@ -121,16 +138,16 @@ namespace Token.BusinessLogic.RequestHandlers
             SkillResponse response;
             if (existingPlayer != null)
             {
-               // Don't update any data
-               response = string.Format("{0} is already in your list of players.", existingPlayer.Name).Tell();
+                // Don't update any data
+                response = string.Format("{0} is already in your list of players.", existingPlayer.Name).Tell();
             }
-            else 
+            else
             {
                 // Add new Player data
-                tokenUser.Players.Add(new Player() { Name = playerName});
+                tokenUser.Players.Add(new Player() { Name = playerName });
                 response = string.Format("Alright, I added {0} to your list of players.", playerName).Tell();
             }
-            
+
             this.logger.LogTrace("END AddPlayer. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
@@ -139,15 +156,15 @@ namespace Token.BusinessLogic.RequestHandlers
         public SkillResponse AddPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN AddPoints. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
-            
+
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
             int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
 
             Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
-            string pointsResponseWord = points != Math.Abs(1) ? "points": "point";
+            string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
 
             SkillResponse response = null;
             if (existingPlayer != null)
@@ -161,10 +178,10 @@ namespace Token.BusinessLogic.RequestHandlers
 
                 response = string.Format("Okay, I added {0} {1} to {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
             }
-            else 
+            else
             {
-                 // Add new Player data
-                tokenUser.Players.Add(new Player() { Name = playerName, Points = points});
+                // Add new Player data
+                tokenUser.Players.Add(new Player() { Name = playerName, Points = points });
                 response = string.Format("Alright, I added {0} to your list of players and gave them {1} {2}.", playerName, points, pointsResponseWord).Tell();
             }
 
@@ -173,18 +190,18 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public SkillResponse RemovePlayer(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse DeletePlayer(SkillRequest skillRequest, TokenUser tokenUser)
         {
-            this.logger.LogTrace("BEGIN RemovePlayer. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+            this.logger.LogTrace("BEGIN DeletePlayer. RequestId: {0}.", skillRequest.Request.RequestId);
+
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
-            
+
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
 
             Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             StringBuilder responsePhraseBuilder = new StringBuilder();
-           
+
             SkillResponse response = null;
             if (existingPlayer == null)
             {
@@ -192,13 +209,13 @@ namespace Token.BusinessLogic.RequestHandlers
             }
             else
             {
-                 // Remove Player from list
+                // Remove Player from list
                 tokenUser.Players = tokenUser.Players.Where(x => x.Name != existingPlayer.Name).ToList();
 
                 response = string.Format("Okay, I removed {0} from your list of players.", playerName).Tell();
             }
 
-            this.logger.LogTrace("END RemovePlayer. RequestId: {0}.", skillRequest.Request.RequestId);
+            this.logger.LogTrace("END DeletePlayer. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
         }
@@ -206,9 +223,9 @@ namespace Token.BusinessLogic.RequestHandlers
         public SkillResponse RemovePoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN RemovePoints. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
-            
+
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
             int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
 
@@ -224,10 +241,10 @@ namespace Token.BusinessLogic.RequestHandlers
                 existingPlayer.Points -= points;
                 tokenUser.Players.Add(existingPlayer);
 
-                string pointsResponseWord = points != Math.Abs(1) ? "points": "point";
+                string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
                 response = string.Format("Okay, I removed {0} {1} from {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
             }
-            else 
+            else
             {
                 response = string.Format("Hmm, I don't see {0} in your list of players.", playerName).Tell();
             }
@@ -240,18 +257,19 @@ namespace Token.BusinessLogic.RequestHandlers
         public SkillResponse ListAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN ListAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             SkillResponse response = null;
             if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
             {
                 response = string.Format("Hmm, you don't have any players yet.").Tell();
             }
-            else 
+            else
             {
                 StringBuilder responsePhraseBuilder = new StringBuilder();
                 responsePhraseBuilder.Append("Okay, here we go. From highest to lowest.");
 
-                tokenUser.Players.OrderByDescending(x => x.Points).ToList().ForEach(x => {
+                tokenUser.Players.OrderByDescending(x => x.Points).ToList().ForEach(x =>
+                {
                     string pointsWord = Math.Abs(x.Points) != 1 ? "points" : "point";
                     responsePhraseBuilder.AppendFormat(" {0} has {1} {2}.", x.Name, x.Points, pointsWord);
                 });
@@ -269,13 +287,13 @@ namespace Token.BusinessLogic.RequestHandlers
         public SkillResponse ListAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN ListAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             SkillResponse response = null;
             if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
             {
                 response = string.Format("Hmm, you don't have any players yet.").Tell();
             }
-            else 
+            else
             {
                 StringBuilder responsePhraseBuilder = new StringBuilder();
 
@@ -289,13 +307,13 @@ namespace Token.BusinessLogic.RequestHandlers
                         responsePhraseBuilder.AppendFormat(" {0}", arrayOfPlayersNames[i]);
                         continue;
                     }
-                    
+
                     if (i == arrayOfPlayersNames.Length - 1)
                     {
                         responsePhraseBuilder.AppendFormat(" and {0}.", arrayOfPlayersNames[i]);
                         continue;
                     }
-                    
+
                     responsePhraseBuilder.AppendFormat(", {0}", arrayOfPlayersNames[i]);
                 }
 
@@ -322,14 +340,14 @@ namespace Token.BusinessLogic.RequestHandlers
             SkillResponse response;
             if (existingPlayer != null)
             {
-               string pointsWord = Math.Abs(existingPlayer.Points) != 1 ? "points" : "point";
-               response = string.Format("{0} has {1} {2}.", existingPlayer.Name, existingPlayer.Points, pointsWord).Tell();
+                string pointsWord = Math.Abs(existingPlayer.Points) != 1 ? "points" : "point";
+                response = string.Format("{0} has {1} {2}.", existingPlayer.Name, existingPlayer.Points, pointsWord).Tell();
             }
-            else 
+            else
             {
                 response = string.Format("Hmm, I don't see {0} in your list of players.", playerName).Tell();
             }
-            
+
             this.logger.LogTrace("END GetPlayerPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
@@ -342,12 +360,12 @@ namespace Token.BusinessLogic.RequestHandlers
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
 
-            double[] allPoints = tokenUser.Players.Select(x =>(double)x.Points).ToArray();
+            double[] allPoints = tokenUser.Players.Select(x => (double)x.Points).ToArray();
             double averagePoints = allPoints.Average();
 
             string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
             SkillResponse response = string.Format("The average score for all players is {0} {1}.", averagePoints, pointsWord).Tell();
-            
+
             this.logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
@@ -371,7 +389,7 @@ namespace Token.BusinessLogic.RequestHandlers
             {
                 int highScore = playersScoreDescending[0].Points;
                 Player[] highScorePlayers = playersScoreDescending.Where(x => x.Points == highScore).ToArray();
-                
+
                 if (highScorePlayers.Length == playersScoreDescending.Count())
                 {
                     string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
@@ -380,7 +398,7 @@ namespace Token.BusinessLogic.RequestHandlers
                 else if (highScorePlayers.Length > 1)
                 {
                     StringBuilder responsePhraseBuilder = new StringBuilder();
-                    
+
                     for (int i = 0; i < highScorePlayers.Count(); i++)
                     {
                         Player currentPlayer = highScorePlayers[i];
@@ -404,7 +422,7 @@ namespace Token.BusinessLogic.RequestHandlers
                     response = string.Format("{0} has the highest score with {1} {2}.", highScorePlayers[0].Name, highScore, pointsWord).Tell();
                 }
             }
-            
+
             this.logger.LogTrace("END GetPointsMax. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
@@ -428,7 +446,7 @@ namespace Token.BusinessLogic.RequestHandlers
             {
                 int lowScore = playersScoreAscending[0].Points;
                 Player[] lowScorePlayers = playersScoreAscending.Where(x => x.Points == lowScore).ToArray();
-                
+
                 if (lowScorePlayers.Length == playersScoreAscending.Count())
                 {
                     string pointsWord = Math.Abs(lowScore) != 1 ? "points" : "point";
@@ -437,7 +455,7 @@ namespace Token.BusinessLogic.RequestHandlers
                 else if (lowScorePlayers.Length > 1)
                 {
                     StringBuilder responsePhraseBuilder = new StringBuilder();
-                    
+
                     for (int i = 0; i < lowScorePlayers.Count(); i++)
                     {
                         Player currentPlayer = lowScorePlayers[i];
@@ -467,9 +485,9 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public SkillResponse RemoveAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse DeleteAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
         {
-            this.logger.LogTrace("BEGIN RemoveAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
+            this.logger.LogTrace("BEGIN DeleteAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 
             SkillResponse response;
 
@@ -477,14 +495,14 @@ namespace Token.BusinessLogic.RequestHandlers
 
             response = string.Format("Alright, I removed everyone from your list of players.").Tell();
 
-            this.logger.LogTrace("END RemoveAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
+            this.logger.LogTrace("END DeleteAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
         }
 
-        public SkillResponse RemoveAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse ResetAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
-            this.logger.LogTrace("BEGIN RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+            this.logger.LogTrace("BEGIN ResetAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
             SkillResponse response;
 
@@ -492,7 +510,7 @@ namespace Token.BusinessLogic.RequestHandlers
 
             response = string.Format("Okay, I reset all of the players' points to zero.").Tell();
 
-            this.logger.LogTrace("END RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+            this.logger.LogTrace("END ResetAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
         }
@@ -500,7 +518,7 @@ namespace Token.BusinessLogic.RequestHandlers
         public SkillResponse GetAllPlayersCount(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetAllPlayersCount. RequestId: {0}.", skillRequest.Request.RequestId);
-            
+
             SkillResponse response;
             if (tokenUser.Players == null)
             {
@@ -512,6 +530,124 @@ namespace Token.BusinessLogic.RequestHandlers
             }
 
             this.logger.LogTrace("END GetAllPlayersCount. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            return response;
+        }
+
+        public SkillResponse AddAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        {
+            this.logger.LogTrace("BEGIN AddAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+
+            int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
+
+            SkillResponse response = null;
+            if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
+            {
+                response = string.Format("Hmm, I don't see anyone in your list of players.").Tell();
+            }
+            else
+            {
+                tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = x.Points + points }).ToList();
+
+                string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
+                response = string.Format("Okay, I gave all players {0} {1}.", points, pointsResponseWord).Tell();
+            }
+
+            this.logger.LogTrace("END AddAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            return response;
+        }
+
+        public SkillResponse RemoveAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        {
+            this.logger.LogTrace("BEGIN RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+
+            int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
+
+            SkillResponse response = null;
+            if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
+            {
+                response = string.Format("Hmm, I don't see anyone in your list of players.").Tell();
+            }
+            else
+            {
+                tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = x.Points - points }).ToList(); ;
+
+                string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
+                response = string.Format("Okay, I removed {0} {1} from all players.", points, pointsResponseWord).Tell();
+            }
+
+            this.logger.LogTrace("END RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            return response;
+        }
+
+        public SkillResponse AddSinglePoint(SkillRequest skillRequest, TokenUser tokenUser)
+        {
+            this.logger.LogTrace("BEGIN AddSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+
+            string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
+
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
+
+            SkillResponse response = null;
+            if (existingPlayer != null)
+            {
+                // Remove old Player data
+                tokenUser.Players = tokenUser.Players.Where(x => x.Name != existingPlayer.Name).ToList();
+
+                // Add updated Player data
+                existingPlayer.Points += 1;
+                tokenUser.Players.Add(existingPlayer);
+
+                response = string.Format("Okay, I added one point to {0}.", existingPlayer.Name).Tell();
+            }
+            else
+            {
+                // Add new Player data
+                tokenUser.Players.Add(new Player() { Name = playerName, Points = 1 });
+                response = string.Format("Alright, I added {0} to your list of players and gave them one point.", playerName).Tell();
+            }
+
+            this.logger.LogTrace("END AddSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            return response;
+        }
+
+        public SkillResponse RemoveSinglePoint(SkillRequest skillRequest, TokenUser tokenUser)
+        {
+            this.logger.LogTrace("BEGIN RemoveSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+
+            string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
+
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
+
+            SkillResponse response = null;
+            if (existingPlayer != null)
+            {
+                // Remove old Player data
+                tokenUser.Players = tokenUser.Players.Where(x => x.Name != existingPlayer.Name).ToList();
+
+                // Add updated Player data
+                existingPlayer.Points -= 1;
+                tokenUser.Players.Add(existingPlayer);
+
+                response = string.Format("Okay, I removed one point from {0}.", existingPlayer.Name).Tell();
+            }
+            else
+            {
+                response = string.Format("Hmm, I don't see {0} in your list of players.", playerName).Tell();
+            }
+
+            this.logger.LogTrace("END RemoveSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);
 
             return response;
         }

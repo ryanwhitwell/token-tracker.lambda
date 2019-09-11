@@ -67,6 +67,7 @@
                         }
                     ],
                     "samples": [
+                        "add {player} to the game",
                         "include {player} in the list of players",
                         "add {player} to the list of players",
                         "include {player} in my list of players",
@@ -77,7 +78,7 @@
                     ]
                 },
                 {
-                    "name": "RemovePlayer",
+                    "name": "DeletePlayer",
                     "slots": [
                         {
                             "name": "player",
@@ -95,7 +96,7 @@
                     ]
                 },
                 {
-                    "name": "RemoveAllPlayers",
+                    "name": "DeleteAllPlayers",
                     "slots": [],
                     "samples": [
                         "remove all players"
@@ -140,9 +141,10 @@
                     ]
                 },
                 {
-                    "name": "RemoveAllPoints",
+                    "name": "ResetAllPoints",
                     "slots": [],
                     "samples": [
+                        "reset all points",
                         "remove all points"
                     ]
                 },
@@ -183,6 +185,69 @@
                         "how many players",
                         "how many player do I have",
                         "how many players are there"
+                    ]
+                },
+                {
+                    "name": "AddAllPoints",
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{amount} points",
+                                "{amount}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "give everyone {amount} point",
+                        "give everyone {amount} points"
+                    ]
+                },
+                {
+                    "name": "AddSinglePoint",
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.Color"
+                        }
+                    ],
+                    "samples": [
+                        "add one to {player}",
+                        "give a point to {player}",
+                        "add a point to {player}"
+                    ]
+                },
+                {
+                    "name": "RemoveSinglePoint",
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.Color"
+                        }
+                    ],
+                    "samples": [
+                        "remove one from {player}",
+                        "take one from {player}",
+                        "take a point away from {player}",
+                        "remove a point from {player}"
+                    ]
+                },
+                {
+                    "name": "RemoveAllPoints",
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "samples": [
+                                "{amount} points",
+                                "{amount}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "take {amount} away from everyone",
+                        "remove {amount} points from everyone"
                     ]
                 }
             ],
@@ -230,7 +295,7 @@
                     ]
                 },
                 {
-                    "name": "RemovePlayer",
+                    "name": "DeletePlayer",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1501884991038"
@@ -260,6 +325,58 @@
                             "prompts": {}
                         }
                     ]
+                },
+                {
+                    "name": "AddAllPoints",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1160332779911"
+                    },
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1160332779911.911689315608"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ResetAllPoints",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.264720803003"
+                    },
+                    "slots": []
+                },
+                {
+                    "name": "RemoveAllPoints",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.939523654694"
+                    },
+                    "slots": [
+                        {
+                            "name": "amount",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.939523654694.1487315397461"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "DeleteAllPlayers",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.372361820960"
+                    },
+                    "slots": []
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -318,6 +435,64 @@
                     {
                         "type": "PlainText",
                         "value": "what's the player's token color"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1160332779911.911689315608",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "how many points do you want to give everyone?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1160332779911",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to give everyone {amount} points"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to give everyone {amount} point"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.264720803003",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to reset everyone's points back to zero?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.939523654694",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to take {amount} points away from everyone?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.939523654694.1487315397461",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "how many points do you want to take away from everyone?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.372361820960",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to remove everyone from your list of players?"
                     }
                 ]
             }
