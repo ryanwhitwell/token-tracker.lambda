@@ -32,7 +32,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "samples": [
                                 "they're called {player}",
                                 "their name is {player}",
@@ -54,7 +54,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "samples": [
                                 "they're called {player}",
                                 "their name is {player}",
@@ -77,7 +77,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "samples": [
                                 "their name is {player}",
                                 "{player}"
@@ -108,7 +108,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName"
+                            "type": "AMAZON.Actor"
                         }
                     ],
                     "samples": [
@@ -126,7 +126,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName"
+                            "type": "AMAZON.Color"
                         }
                     ],
                     "samples": [
@@ -199,7 +199,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
@@ -215,7 +215,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
@@ -233,7 +233,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName",
+                            "type": "AMAZON.Color",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {

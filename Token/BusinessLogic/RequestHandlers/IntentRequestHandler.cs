@@ -279,10 +279,27 @@ namespace Token.BusinessLogic.RequestHandlers
             {
                 StringBuilder responsePhraseBuilder = new StringBuilder();
 
-                string[] arrayOfPlayers = tokenUser.Players.Select(x => x.Name).ToArray();
+                responsePhraseBuilder.Append("Okay, here we go. The players in your list are");
 
-                responsePhraseBuilder.AppendFormat("Okay, here we go. The players in your list are {0}.", string.Join(", ", arrayOfPlayers));
-                responsePhraseBuilder.AppendFormat(" I think that's everybody.");
+                string[] arrayOfPlayersNames = tokenUser.Players.Select(x => x.Name).ToArray();
+                for (int i = 0; i < arrayOfPlayersNames.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        responsePhraseBuilder.AppendFormat(" {0}", arrayOfPlayersNames[i]);
+                        continue;
+                    }
+                    
+                    if (i == arrayOfPlayersNames.Length - 1)
+                    {
+                        responsePhraseBuilder.AppendFormat(" and {0}.", arrayOfPlayersNames[i]);
+                        continue;
+                    }
+                    
+                    responsePhraseBuilder.AppendFormat(", {0}", arrayOfPlayersNames[i]);
+                }
+
+                responsePhraseBuilder.Append(" I think that's everybody.");
 
                 response = responsePhraseBuilder.ToString().Tell();
             }
