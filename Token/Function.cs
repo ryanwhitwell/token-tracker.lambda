@@ -25,6 +25,13 @@ namespace Token
         {
             // Skill ID verified by AWS Lambda service
             Logger logger = LogManager.GetCurrentClassLogger();
+
+            if (skillRequest.Version == "WARMING")
+            {
+                logger.Log(LogLevel.Info, "Keeping warm.");
+                
+                return null;
+            }
             
             SkillResponse response;
 

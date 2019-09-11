@@ -41,10 +41,6 @@
                         }
                     ],
                     "samples": [
-                        "take {amount} point away from {player}",
-                        "take {amount} points away from {player}",
-                        "remove {amount} point from {player}",
-                        "remove {amount} points from {player}",
                         "add {amount} point to {player}",
                         "give {amount} point to {player}",
                         "give {player} {amount} point",

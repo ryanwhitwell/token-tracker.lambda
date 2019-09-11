@@ -148,8 +148,6 @@ namespace Token.BusinessLogic.RequestHandlers
             Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             string pointsResponseWord = points != Math.Abs(1) ? "points": "point";
-            string pointsAdjustmentWord = points > 0 ? "added" : "removed";
-            string pointDirectionWord = points > 0 ? "to" : "from";
 
             SkillResponse response = null;
             if (existingPlayer != null)
@@ -161,7 +159,7 @@ namespace Token.BusinessLogic.RequestHandlers
                 existingPlayer.Points += points;
                 tokenUser.Players.Add(existingPlayer);
 
-                response = string.Format("Okay, I {0} {1} {2} {3} {4}.", pointsAdjustmentWord, points, pointsResponseWord, pointDirectionWord, existingPlayer.Name).Tell();
+                response = string.Format("Okay, I added {0} {1} to {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
             }
             else 
             {
@@ -212,6 +210,7 @@ namespace Token.BusinessLogic.RequestHandlers
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
             
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
+            int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
 
             Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
@@ -221,11 +220,12 @@ namespace Token.BusinessLogic.RequestHandlers
                 // Remove old Player data
                 tokenUser.Players = tokenUser.Players.Where(x => x.Name != existingPlayer.Name).ToList();
 
-                // Add updated Player data, set points to 0
-                existingPlayer.Points = 0;
+                // Add updated Player data, remove points
+                existingPlayer.Points -= points;
                 tokenUser.Players.Add(existingPlayer);
 
-                response = string.Format("Okay, I reset {0} to zero points.", existingPlayer.Name).Tell();
+                string pointsResponseWord = points != Math.Abs(1) ? "points": "point";
+                response = string.Format("Okay, I removed {0} {1} from {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
             }
             else 
             {
@@ -249,14 +249,14 @@ namespace Token.BusinessLogic.RequestHandlers
             else 
             {
                 StringBuilder responsePhraseBuilder = new StringBuilder();
-                responsePhraseBuilder.Append("Okay,here we go. From highest to lowest.");
+                responsePhraseBuilder.Append("Okay, here we go. From highest to lowest.");
 
                 tokenUser.Players.OrderByDescending(x => x.Points).ToList().ForEach(x => {
                     string pointsWord = Math.Abs(x.Points) != 1 ? "points" : "point";
-                    responsePhraseBuilder.AppendFormat("{0} has {1} {2}.", x.Name, x.Points, pointsWord);
+                    responsePhraseBuilder.AppendFormat(" {0} has {1} {2}.", x.Name, x.Points, pointsWord);
                 });
 
-                responsePhraseBuilder.AppendFormat("I think that's everybody.");
+                responsePhraseBuilder.AppendFormat(" I think that's everybody.");
 
                 response = responsePhraseBuilder.ToString().Tell();
             }
@@ -281,8 +281,8 @@ namespace Token.BusinessLogic.RequestHandlers
 
                 string[] arrayOfPlayers = tokenUser.Players.Select(x => x.Name).ToArray();
 
-                responsePhraseBuilder.AppendFormat("Okay, here we go. The players in your list are {0}.", string.Join(",", arrayOfPlayers));
-                responsePhraseBuilder.AppendFormat("I think that's everybody.");
+                responsePhraseBuilder.AppendFormat("Okay, here we go. The players in your list are {0}.", string.Join(", ", arrayOfPlayers));
+                responsePhraseBuilder.AppendFormat(" I think that's everybody.");
 
                 response = responsePhraseBuilder.ToString().Tell();
             }
@@ -329,7 +329,7 @@ namespace Token.BusinessLogic.RequestHandlers
             double averagePoints = allPoints.Average();
 
             string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
-            SkillResponse response = string.Format("The average score for all players is {0}. {1}", averagePoints, pointsWord).Tell();
+            SkillResponse response = string.Format("The average score for all players is {0} {1}.", averagePoints, pointsWord).Tell();
             
             this.logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
 
@@ -346,7 +346,6 @@ namespace Token.BusinessLogic.RequestHandlers
 
             SkillResponse response;
 
-            Player highScorePlayer = null;
             if (playersScoreDescending == null)
             {
                 response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
@@ -356,7 +355,12 @@ namespace Token.BusinessLogic.RequestHandlers
                 int highScore = playersScoreDescending[0].Points;
                 Player[] highScorePlayers = playersScoreDescending.Where(x => x.Points == highScore).ToArray();
                 
-                if (highScorePlayers.Length > 1)
+                if (highScorePlayers.Length == playersScoreDescending.Count())
+                {
+                    string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
+                    response = string.Format("All players are tied with a score of {0} {1}.", highScore, pointsWord).Tell();
+                }
+                else if (highScorePlayers.Length > 1)
                 {
                     StringBuilder responsePhraseBuilder = new StringBuilder();
                     
@@ -369,24 +373,18 @@ namespace Token.BusinessLogic.RequestHandlers
                             continue;
                         }
 
-                        if (i == 1)
-                        {
-                            responsePhraseBuilder.AppendFormat("and {0}", currentPlayer.Name);
-                            continue;
-                        }
-
-                        responsePhraseBuilder.AppendFormat(", {0}", currentPlayer.Name);
+                        responsePhraseBuilder.AppendFormat("and {0}", currentPlayer.Name);
                     }
 
                     string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
-                    responsePhraseBuilder.AppendFormat(" are tied for the high score with {1} {2}.", highScorePlayer.Points, pointsWord);
+                    responsePhraseBuilder.AppendFormat(" are tied for the high score with {0} {1}.", highScore, pointsWord);
 
                     response = responsePhraseBuilder.ToString().Tell();
                 }
                 else
                 {
-                    string pointsWord = Math.Abs(highScorePlayer.Points) != 1 ? "points" : "point";
-                    response = string.Format("{0} has the highest score with {1} {2}", highScorePlayer.Name, highScorePlayer.Points, pointsWord).Tell();
+                    string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
+                    response = string.Format("{0} has the highest score with {1} {2}.", highScorePlayers[0].Name, highScore, pointsWord).Tell();
                 }
             }
             
@@ -405,7 +403,6 @@ namespace Token.BusinessLogic.RequestHandlers
 
             SkillResponse response;
 
-            Player lowScorePlayer = null;
             if (playersScoreAscending == null)
             {
                 response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
@@ -415,7 +412,12 @@ namespace Token.BusinessLogic.RequestHandlers
                 int lowScore = playersScoreAscending[0].Points;
                 Player[] lowScorePlayers = playersScoreAscending.Where(x => x.Points == lowScore).ToArray();
                 
-                if (lowScorePlayers.Length > 1)
+                if (lowScorePlayers.Length == playersScoreAscending.Count())
+                {
+                    string pointsWord = Math.Abs(lowScore) != 1 ? "points" : "point";
+                    response = string.Format("All players are tied with a score of {0} {1}.", lowScore, pointsWord).Tell();
+                }
+                else if (lowScorePlayers.Length > 1)
                 {
                     StringBuilder responsePhraseBuilder = new StringBuilder();
                     
@@ -428,24 +430,18 @@ namespace Token.BusinessLogic.RequestHandlers
                             continue;
                         }
 
-                        if (i == 1)
-                        {
-                            responsePhraseBuilder.AppendFormat("and {0}", currentPlayer.Name);
-                            continue;
-                        }
-
-                        responsePhraseBuilder.AppendFormat(", {0}", currentPlayer.Name);
+                        responsePhraseBuilder.AppendFormat("and {0}", currentPlayer.Name);
                     }
 
                     string pointsWord = Math.Abs(lowScore) != 1 ? "points" : "point";
-                    responsePhraseBuilder.AppendFormat(" are tied for the lowest score with {1} {2}.", lowScorePlayer.Points, pointsWord);
+                    responsePhraseBuilder.AppendFormat(" are tied for the lowest score with {0} {1}.", lowScore, pointsWord);
 
                     response = responsePhraseBuilder.ToString().Tell();
                 }
                 else
                 {
-                    string pointsWord = Math.Abs(lowScorePlayer.Points) != 1 ? "points" : "point";
-                    response = string.Format("{0} has the lowest score with {1} {2}", lowScorePlayer.Name, lowScorePlayer.Points, pointsWord).Tell();
+                    string pointsWord = Math.Abs(lowScore) != 1 ? "points" : "point";
+                    response = string.Format("{0} has the lowest score with {1} {2}.", lowScorePlayers[0].Name, lowScore, pointsWord).Tell();
                 }
             }
 
@@ -477,7 +473,7 @@ namespace Token.BusinessLogic.RequestHandlers
 
             tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = 0 }).ToList();
 
-            response = string.Format("Okay, I reest all of the players' points to zero.").Tell();
+            response = string.Format("Okay, I reset all of the players' points to zero.").Tell();
 
             this.logger.LogTrace("END RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
