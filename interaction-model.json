@@ -32,10 +32,19 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName"
+                            "type": "AMAZON.FirstName",
+                            "samples": [
+                                "they're called {player}",
+                                "their name is {player}",
+                                "{player}"
+                            ]
                         }
                     ],
                     "samples": [
+                        "take {amount} point away from {player}",
+                        "take {amount} points away from {player}",
+                        "remove {amount} point from {player}",
+                        "remove {amount} points from {player}",
                         "add {amount} point to {player}",
                         "give {amount} point to {player}",
                         "give {player} {amount} point",
@@ -49,10 +58,21 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName"
+                            "type": "AMAZON.FirstName",
+                            "samples": [
+                                "they're called {player}",
+                                "their name is {player}",
+                                "{player}"
+                            ]
                         }
                     ],
                     "samples": [
+                        "include {player} in the list of players",
+                        "add {player} to the list of players",
+                        "include {player} in my list of players",
+                        "include {player}",
+                        "include {player} in the game",
+                        "add {player} to my list of players",
                         "add {player}"
                     ]
                 },
@@ -61,10 +81,15 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.FirstName"
+                            "type": "AMAZON.FirstName",
+                            "samples": [
+                                "their name is {player}",
+                                "{player}"
+                            ]
                         }
                     ],
                     "samples": [
+                        "delete {player}",
                         "remove {player}"
                     ]
                 },
@@ -91,14 +116,9 @@
                         }
                     ],
                     "samples": [
-                        "get {player} 's points"
-                    ]
-                },
-                {
-                    "name": "GetAllPoints",
-                    "slots": [],
-                    "samples": [
-                        "get all points"
+                        "get the points for {player}",
+                        "tell me {player} score",
+                        "get {player} points"
                     ]
                 },
                 {
@@ -114,6 +134,7 @@
                         }
                     ],
                     "samples": [
+                        "take {amount} points away from {player}",
                         "remove {amount} points from {player}"
                     ]
                 },
@@ -151,6 +172,17 @@
                     "samples": [
                         "get all points"
                     ]
+                },
+                {
+                    "name": "GetAllPlayersCount",
+                    "slots": [],
+                    "samples": [
+                        "get me the number of players",
+                        "what is the player count",
+                        "how many players",
+                        "how many player do I have",
+                        "how many players are there"
+                    ]
                 }
             ],
             "types": []
@@ -159,10 +191,8 @@
             "intents": [
                 {
                     "name": "AddPoints",
-                    "confirmationRequired": true,
-                    "prompts": {
-                        "confirmation": "Confirm.Intent.1118294551362"
-                    },
+                    "confirmationRequired": false,
+                    "prompts": {},
                     "slots": [
                         {
                             "name": "amount",
@@ -175,8 +205,44 @@
                             "name": "player",
                             "type": "AMAZON.FirstName",
                             "confirmationRequired": false,
-                            "elicitationRequired": false,
-                            "prompts": {}
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.185969148480.1322191848251"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "AddPlayer",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.993571989655.1260685028240"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "RemovePlayer",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1501884991038"
+                    },
+                    "slots": [
+                        {
+                            "name": "player",
+                            "type": "AMAZON.FirstName",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1501884991038.341232485437"
+                            }
                         }
                     ]
                 }
@@ -185,11 +251,58 @@
         },
         "prompts": [
             {
-                "id": "Confirm.Intent.1118294551362",
+                "id": "Confirm.Intent.1501884991038",
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "Are you sure you want to give {amount} points to {player} ?"
+                        "value": "are you sure you want to remove {player}"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "are you sure you want to get rid of {player}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1501884991038.341232485437",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "what's the name of the player"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "please tell me the player's name"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.185969148480.1322191848251",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "what is the name of the player"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "what's the player's name"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.993571989655.1260685028240",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "who sdo you want to add"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "what's the name of the player"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "what's the player's name"
                     }
                 ]
             }

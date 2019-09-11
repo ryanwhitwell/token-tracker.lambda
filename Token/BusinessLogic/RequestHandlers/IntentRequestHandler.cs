@@ -61,40 +61,43 @@ namespace Token.BusinessLogic.RequestHandlers
             switch(intentRequest.Intent.Name) 
             {
                 case IntentRequestName.AddPoints:
-                    speechResponse = await this.AddPoints(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.AddPoints(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.AddPlayer:
-                    speechResponse = await this.AddPlayer(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.AddPlayer(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.RemovePlayer:
-                    speechResponse = await this.RemovePlayer(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.RemovePlayer(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.RemovePoints:
-                    speechResponse = await this.RemovePoints(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.RemovePoints(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.RemoveAllPlayers:
-                    speechResponse = await this.RemoveAllPlayers(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.RemoveAllPlayers(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.ListAllPlayers:
-                    speechResponse = await this.ListAllPlayers(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.ListAllPlayers(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.GetPlayerPoints:
-                    speechResponse = await this.GetPlayerPoints(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.GetPlayerPoints(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.RemoveAllPoints:
-                    speechResponse = await this.RemoveAllPoints(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.RemoveAllPoints(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.GetPointsMax:
-                    speechResponse = await this.GetPointsMax(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.GetPointsMax(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.GetPointsMin:
-                    speechResponse = await this.GetPointsMin(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.GetPointsMin(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.GetPointsAverage:
-                    speechResponse = await this.GetPointsAverage(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.GetPointsAverage(skillRequest, tokenUser));
                     break;
                 case IntentRequestName.ListAllPoints:
-                    speechResponse = await this.ListAllPoints(skillRequest, tokenUser);
+                    speechResponse = await Task.Run(() => this.ListAllPoints(skillRequest, tokenUser));
+                    break;
+                case IntentRequestName.GetAllPlayersCount:
+                    speechResponse = await Task.Run(() => this.GetAllPlayersCount(skillRequest, tokenUser));
                     break;
                 default:
                     break;
@@ -105,7 +108,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return speechResponse;
         }
         
-        public async Task<SkillResponse> AddPlayer(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse AddPlayer(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN AddPlayer. RequestId: {0}.", skillRequest.Request.RequestId);
 
@@ -113,7 +116,7 @@ namespace Token.BusinessLogic.RequestHandlers
 
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
 
-            Player existingPlayer = await Task.Run(() => tokenUser.Players.FirstOrDefault(x => x.Name == playerName));
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             SkillResponse response;
             if (existingPlayer != null)
@@ -133,7 +136,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> AddPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse AddPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN AddPoints. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -142,7 +145,7 @@ namespace Token.BusinessLogic.RequestHandlers
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
             int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
 
-            Player existingPlayer = await Task.Run(() => tokenUser.Players.FirstOrDefault(x => x.Name == playerName));
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             string pointsResponseWord = points != Math.Abs(1) ? "points": "point";
             string pointsAdjustmentWord = points > 0 ? "added" : "removed";
@@ -172,7 +175,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> RemovePlayer(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse RemovePlayer(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN RemovePlayer. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -180,7 +183,7 @@ namespace Token.BusinessLogic.RequestHandlers
             
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
 
-            Player existingPlayer = await Task.Run(() => tokenUser.Players.FirstOrDefault(x => x.Name == playerName));
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             StringBuilder responsePhraseBuilder = new StringBuilder();
            
@@ -202,7 +205,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> RemovePoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse RemovePoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN RemovePoints. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -210,7 +213,7 @@ namespace Token.BusinessLogic.RequestHandlers
             
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
 
-            Player existingPlayer = await Task.Run(() => tokenUser.Players.FirstOrDefault(x => x.Name == playerName));
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             SkillResponse response = null;
             if (existingPlayer != null)
@@ -234,7 +237,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> ListAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse ListAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN ListAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -248,10 +251,10 @@ namespace Token.BusinessLogic.RequestHandlers
                 StringBuilder responsePhraseBuilder = new StringBuilder();
                 responsePhraseBuilder.Append("Okay,here we go. From highest to lowest.");
 
-                await Task.Run(() => tokenUser.Players.OrderByDescending(x => x.Points).ToList().ForEach(x => {
+                tokenUser.Players.OrderByDescending(x => x.Points).ToList().ForEach(x => {
                     string pointsWord = Math.Abs(x.Points) != 1 ? "points" : "point";
                     responsePhraseBuilder.AppendFormat("{0} has {1} {2}.", x.Name, x.Points, pointsWord);
-                }));
+                });
 
                 responsePhraseBuilder.AppendFormat("I think that's everybody.");
 
@@ -263,7 +266,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> ListAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse ListAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN ListAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -276,7 +279,7 @@ namespace Token.BusinessLogic.RequestHandlers
             {
                 StringBuilder responsePhraseBuilder = new StringBuilder();
 
-                string[] arrayOfPlayers = await Task.Run(() => tokenUser.Players.Select(x => x.Name).ToArray());
+                string[] arrayOfPlayers = tokenUser.Players.Select(x => x.Name).ToArray();
 
                 responsePhraseBuilder.AppendFormat("Okay, here we go. The players in your list are {0}.", string.Join(",", arrayOfPlayers));
                 responsePhraseBuilder.AppendFormat("I think that's everybody.");
@@ -289,7 +292,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> GetPlayerPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse GetPlayerPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetPlayerPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
@@ -297,7 +300,7 @@ namespace Token.BusinessLogic.RequestHandlers
 
             string playerName = IntentRequestHandler.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
 
-            Player existingPlayer = await Task.Run(() => tokenUser.Players.FirstOrDefault(x => x.Name == playerName));
+            Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
             SkillResponse response;
             if (existingPlayer != null)
@@ -315,14 +318,14 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> GetPointsAverage(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse GetPointsAverage(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
 
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
 
-            double[] allPoints = await Task.Run(() => tokenUser.Players.Select(x =>(double)x.Points).ToArray());
+            double[] allPoints = tokenUser.Players.Select(x =>(double)x.Points).ToArray();
             double averagePoints = allPoints.Average();
 
             string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
@@ -333,13 +336,13 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> GetPointsMax(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse GetPointsMax(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetPointsMax. RequestId: {0}.", skillRequest.Request.RequestId);
 
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
-            Player[] playersScoreDescending = await Task.Run(() => tokenUser.Players.OrderByDescending(x => x.Points).ToArray());
+            Player[] playersScoreDescending = tokenUser.Players.OrderByDescending(x => x.Points).ToArray();
 
             SkillResponse response;
 
@@ -392,13 +395,13 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> GetPointsMin(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse GetPointsMin(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetPointsMin. RequestId: {0}.", skillRequest.Request.RequestId);
 
             IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
-            Player[] playersScoreAscending = await Task.Run(() => tokenUser.Players.OrderBy(x => x.Points).ToArray());
+            Player[] playersScoreAscending = tokenUser.Players.OrderBy(x => x.Points).ToArray();
 
             SkillResponse response;
 
@@ -451,13 +454,13 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> RemoveAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse RemoveAllPlayers(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN RemoveAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 
             SkillResponse response;
 
-            await Task.Run(() => tokenUser.Players = new List<Player>());
+            tokenUser.Players = new List<Player>();
 
             response = string.Format("Alright, I removed everyone from your list of players.").Tell();
 
@@ -466,13 +469,13 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> RemoveAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse RemoveAllPoints(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
             SkillResponse response;
 
-            tokenUser.Players = await Task.Run(() => tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = 0 }).ToList());
+            tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = 0 }).ToList();
 
             response = string.Format("Okay, I reest all of the players' points to zero.").Tell();
 
@@ -481,7 +484,7 @@ namespace Token.BusinessLogic.RequestHandlers
             return response;
         }
 
-        public async Task<SkillResponse> GetAllPlayersCount(SkillRequest skillRequest, TokenUser tokenUser)
+        public SkillResponse GetAllPlayersCount(SkillRequest skillRequest, TokenUser tokenUser)
         {
             this.logger.LogTrace("BEGIN GetAllPlayersCount. RequestId: {0}.", skillRequest.Request.RequestId);
             
@@ -499,6 +502,5 @@ namespace Token.BusinessLogic.RequestHandlers
 
             return response;
         }
-
     }
 }
