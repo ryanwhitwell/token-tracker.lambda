@@ -26,8 +26,6 @@ namespace Token
             // Skill ID verified by AWS Lambda service
             Logger logger = LogManager.GetCurrentClassLogger();
             
-            logger.Log(LogLevel.Debug, JsonConvert.SerializeObject(skillRequest));
-            
             SkillResponse response;
 
             try

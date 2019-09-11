@@ -1,9 +1,19 @@
 using System;
+using Alexa.NET;
+using Alexa.NET.Response;
 
 namespace Token.Core.StringExtensions
 {
     public static class StringExtensions
     {
+        public static SkillResponse Tell(this string phrase)
+        {
+            SsmlOutputSpeech speech = new SsmlOutputSpeech();
+            speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
+            SkillResponse speechResponse = ResponseBuilder.Tell(speech);
+            return speechResponse;
+        }
+        
         public static string Mask(this string source)
         {
             return source.Mask('*');

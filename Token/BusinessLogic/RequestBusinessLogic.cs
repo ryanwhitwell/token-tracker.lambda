@@ -132,66 +132,64 @@ namespace Token.BusinessLogic
             return response;
         }
 
-        public IRequestHandler GetRequestHandler(SkillRequest input)
+        public IRequestHandler GetRequestHandler(SkillRequest skillRequest)
         {
-            this.logger.LogTrace("BEGIN GetRequestHandler. RequestId: {0}.", input.Request.RequestId);
+            this.logger.LogTrace("BEGIN GetRequestHandler. RequestId: {0}.", skillRequest.Request.RequestId);
+
+            this.logger.LogDebug(JsonConvert.SerializeObject(skillRequest));
             
             IRequestHandler requestHandler = null;
             
-            if (input.Request is IntentRequest)
+            if (skillRequest.Request is IntentRequest)
             {
                 requestHandler = this.requestHandlers.FirstOrDefault(x => x is IntentRequestHandler);
             }
-            else if (input.Request is ConnectionResponseRequest)
+            else if (skillRequest.Request is ConnectionResponseRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is AccountLinkSkillEventRequest)
+            else if (skillRequest.Request is AccountLinkSkillEventRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is AudioPlayerRequest)
+            else if (skillRequest.Request is AudioPlayerRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is DisplayElementSelectedRequest)
+            else if (skillRequest.Request is DisplayElementSelectedRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is IntentRequest)
+            else if (skillRequest.Request is LaunchRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is LaunchRequest)
+            else if (skillRequest.Request is PermissionSkillEventRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is PermissionSkillEventRequest)
+            else if (skillRequest.Request is PlaybackControllerRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is PlaybackControllerRequest)
+            else if (skillRequest.Request is SessionEndedRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is SessionEndedRequest)
+            else if (skillRequest.Request is SkillEventRequest)
             {
                 throw new NotSupportedException();
             }
-            else if (input.Request is SkillEventRequest)
-            {
-                throw new NotSupportedException();
-            }
-            else if (input.Request is SystemExceptionRequest)
+            else if (skillRequest.Request is SystemExceptionRequest)
             {
                 throw new NotSupportedException();
             }
             else
             {
-                this.logger.LogWarning("Unidentified request type detected. Cannot route request type '{0}'.", input.Request.Type);
+                this.logger.LogWarning("Unidentified request type detected. Cannot route request type '{0}'.", skillRequest.Request.Type);
             }
 
-            this.logger.LogTrace("END GetRequestHandler. RequestId: {0}. RequestHandler Type: '{1}'.", input.Request.RequestId, requestHandler.GetType().Name);
+            this.logger.LogTrace("END GetRequestHandler. RequestId: {0}. RequestHandler Type: '{1}'.", skillRequest.Request.RequestId, requestHandler.GetType().Name);
 
             return requestHandler;
         }
@@ -209,7 +207,7 @@ namespace Token.BusinessLogic
             // Save the user's application state
             await this.tokenUserData.Save(appUser);
              
-            this.logger.LogTrace("END Handling request type '{0}'. RequestId: {1}.", skillRequest.Request.Type, skillRequest.Request.RequestId);
+            this.logger.LogTrace("END Handling request type '{0}'. RequestId: {1}. Response: {2}", skillRequest.Request.Type, skillRequest.Request.RequestId, JsonConvert.SerializeObject(response));
 
             return response;
         }
