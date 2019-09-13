@@ -22,22 +22,14 @@ namespace Token.BusinessLogic.RequestHandlers
 
         private ILogger<IntentRequestHandler> logger;
 
-        private ITokenUserData tokenUserData;
-
-        public IntentRequestHandler(ILogger<IntentRequestHandler> logger, ITokenUserData tokenUserData)
+        public IntentRequestHandler(ILogger<IntentRequestHandler> logger)
         {
             if (logger is null)
             {
                 throw new ArgumentNullException("logger");
             }
 
-            if (tokenUserData is null)
-            {
-                throw new ArgumentNullException("tokenUserData");
-            }
-
             this.logger = logger;
-            this.tokenUserData = tokenUserData;
         }
 
         public async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
