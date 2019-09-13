@@ -7,12 +7,12 @@ namespace Token.Core.Security
 {
   public static class HashUtility
   {
-    private const int SaltByteSize   = 24;
-    private const int HashByteSize   = 24;
+    private const int SaltByteSize = 24;
+    private const int HashByteSize = 24;
 
     private const int IterationIndex = 0;
-    private const int SaltIndex      = 1;
-    private const int HashIndex      = 2;
+    private const int SaltIndex = 1;
+    private const int HashIndex = 2;
 
     private const int HashSectionCount = 3;
 
@@ -64,7 +64,7 @@ namespace Token.Core.Security
       {
         throw new ArgumentNullException("hashedValue");
       }
-      
+
       char[] delimiter = { ':' };
 
       string[] hashSections = hashedValue.Split(delimiter);

@@ -1,6 +1,6 @@
 {
   "dotnet-test-explorer.testProjectPath": "Tests",
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "coverage-gutters.coverageFileNames": [
     "./coverage.info"

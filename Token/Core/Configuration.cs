@@ -11,23 +11,23 @@ using NLog.Extensions.Logging;
 
 namespace Token.Core
 {
-    public static class Configuration
+  public static class Configuration
+  {
+    private static string CONFIG_FILE_NAME = "appsettings.json";
+    public static readonly IConfigurationRoot File = LoadConfigurationFile();
+
+    private static IConfigurationRoot LoadConfigurationFile()
     {
-        private static string CONFIG_FILE_NAME = "appsettings.json";
-        public static readonly IConfigurationRoot File = LoadConfigurationFile();
+      IConfigurationBuilder builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile(Configuration.CONFIG_FILE_NAME, optional: false, reloadOnChange: false);
 
-        private static IConfigurationRoot LoadConfigurationFile()
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(Configuration.CONFIG_FILE_NAME, optional: false, reloadOnChange: false);
+      IConfigurationRoot configurationRoot = builder.Build();
 
-            IConfigurationRoot configurationRoot = builder.Build();
+      PaymentDirective.AddSupport();
+      ConnectionResponseHandler.AddToRequestConverter();
 
-            PaymentDirective.AddSupport();
-            ConnectionResponseHandler.AddToRequestConverter();
-
-            return configurationRoot;
-        }
+      return configurationRoot;
     }
+  }
 }

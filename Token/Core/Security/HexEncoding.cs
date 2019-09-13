@@ -14,7 +14,7 @@ namespace Token.Core.Security
       char[] c = new char[bytes.Length * 2];
 
       byte b;
-      int  offset = 0;
+      int offset = 0;
 
       for (int idx = 0; idx < bytes.Length; idx++)
       {
@@ -61,7 +61,7 @@ namespace Token.Core.Security
         return new byte[0];
       }
 
-      int    offset = 0;
+      int offset = 0;
       byte[] buffer = new byte[value.Length / 2];
 
       for (int idx = 0; idx < buffer.Length; idx++)
