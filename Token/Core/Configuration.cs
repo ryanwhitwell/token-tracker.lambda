@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using Alexa.NET.InSkillPricing.Directives;
 using Alexa.NET.InSkillPricing.Responses;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NLog;
-using NLog.Extensions.Logging;
 
 namespace Token.Core
 {
@@ -15,6 +10,7 @@ namespace Token.Core
   {
     private static string CONFIG_FILE_NAME = "appsettings.json";
     public static readonly IConfigurationRoot File = LoadConfigurationFile();
+    public static readonly TextInfo TEXT_INFO = new CultureInfo("en-US", false).TextInfo;
 
     private static IConfigurationRoot LoadConfigurationFile()
     {
