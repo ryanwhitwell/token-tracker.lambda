@@ -27,11 +27,11 @@ namespace Token.Core
             loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             loggingBuilder.AddNLog();
           })
-          .AddTransient(typeof(IRequestBusinessLogic), typeof(RequestBusinessLogic))
-          .AddTransient(typeof(IRequestRouter), typeof(IntentRequestRouter))
-          .AddTransient(typeof(ITokenUserData), typeof(TokenUserData))
-          .AddTransient(typeof(ITokenUserRepository), typeof(TokenUserRepository))
-          .AddSingleton(typeof(IDynamoDBContext), new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
+          .AddTransient<IRequestBusinessLogic, RequestBusinessLogic>()
+          .AddTransient<IRequestRouter, IntentRequestRouter>()
+          .AddTransient<ITokenUserData, TokenUserData>()
+          .AddTransient<ITokenUserRepository, TokenUserRepository>()
+          .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
           .BuildServiceProvider();
 
       LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));
