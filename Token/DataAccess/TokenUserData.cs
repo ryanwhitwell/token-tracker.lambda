@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Token.Core;
@@ -12,39 +11,31 @@ namespace Token.DataAccess
   {
     private static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
     private static readonly int TTL_MINUTES = Int32.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
-    private ILogger<TokenUserData> logger;
-    private ITokenUserRepository tokenUserRepository;
+
+    private ILogger<TokenUserData> _logger;
+    private ITokenUserRepository _tokenUserRepository;
+
     public TokenUserData(ILogger<TokenUserData> logger, ITokenUserRepository tokenUserRepository)
     {
-      if (logger is null)
-      {
-        throw new ArgumentNullException("logger");
-      }
-
-      if (tokenUserRepository is null)
-      {
-        throw new ArgumentNullException("tokenUserRepository");
-      }
-
-      this.logger = logger;
-      this.tokenUserRepository = tokenUserRepository;
+      _logger = logger ?? throw new ArgumentNullException("logger");
+      _tokenUserRepository = tokenUserRepository ?? throw new ArgumentNullException("tokenUserRepository"); ;
     }
 
     public async Task Delete(string id)
     {
-      await this.tokenUserRepository.Delete(id);
+      await _tokenUserRepository.Delete(id);
     }
 
     public async Task<bool> Exists(string id)
     {
-      TokenUser tokenUser = await this.tokenUserRepository.Load(id);
+      TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
       return tokenUser != null;
     }
 
     public async Task<TokenUser> Get(string id)
     {
-      TokenUser tokenUser = await this.tokenUserRepository.Load(id);
+      TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
       return tokenUser;
     }
@@ -58,7 +49,7 @@ namespace Token.DataAccess
 
       tokenUser.TTL = tokenUser.HasPointsPersistence ? (long?)null : TokenUserData.GetTTL(tokenUser.CreateDate);
 
-      await this.tokenUserRepository.Save(tokenUser);
+      await _tokenUserRepository.Save(tokenUser);
     }
 
     private static long GetTTL(DateTime? dateTime)

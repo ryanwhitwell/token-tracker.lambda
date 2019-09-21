@@ -1,106 +1,107 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Tests/Tests.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/Tests/Tests.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/Tests/Tests.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Tests/Tests.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "deploy",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "lambda",
-                "deploy-function",
-                "token",
-                "--region",
-                "us-east-1",
-                "--profile",
-                "TokenLambda",
-                "--function-role",
-                "LambdaService"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/Token"
-            },
-            "problemMatcher": [],
-            "dependsOn": [
-                "build",
-                "test with coverage"
-            ],
-            "dependsOrder": "sequence"
-        },
-        {
-            "label": "invoke",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "lambda",
-                "invoke-function",
-                "token",
-                "--region",
-                "us-east-1",
-                "--profile",
-                "TokenLambda",
-                "--payload",
-                "Just Checking If Everything is OK"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "test with coverage",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "test",
-                "/p:CollectCoverage=true",
-                "/p:CoverletOutputFormat=lcov",
-                "/p:CoverletOutput=./",
-                "/p:Threshold=1",
-                "${workspaceFolder}/Tests/Tests.csproj"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Tests/Tests.csproj"
+      ],
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/Tests/Tests.csproj"
+      ],
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "watch",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "${workspaceFolder}/Tests/Tests.csproj"
+      ],
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Tests/Tests.csproj"
+      ],
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "deploy",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "lambda",
+        "deploy-function",
+        "token",
+        "--region",
+        "us-east-1",
+        "--profile",
+        "TokenLambda",
+        "--function-role",
+        "LambdaService"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Token"
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "build",
+        "test with coverage"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "invoke",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "lambda",
+        "invoke-function",
+        "token",
+        "--region",
+        "us-east-1",
+        "--profile",
+        "TokenLambda",
+        "--payload",
+        "Just Checking If Everything is OK"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "test with coverage",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "test",
+        "/p:CollectCoverage=true",
+        "/p:CoverletOutputFormat=\"lcov\"",
+        "/p:CoverletOutput=../coverage/",
+        "/p:Threshold=1",
+        "/p:ExcludeByFile=\"../Token/Core/IOC.cs,../Token/Core/IntentRequestName.cs\"",
+        "${workspaceFolder}/Tests/Tests.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
 }

@@ -8,6 +8,9 @@ using Token.BusinessLogic;
 using NLog.Config;
 using NLog;
 using Token.BusinessLogic.Interfaces;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon;
+using Amazon.DynamoDBv2;
 
 namespace Token.Core
 {
@@ -28,6 +31,7 @@ namespace Token.Core
           .AddTransient(typeof(IRequestRouter), typeof(IntentRequestRouter))
           .AddTransient(typeof(ITokenUserData), typeof(TokenUserData))
           .AddTransient(typeof(ITokenUserRepository), typeof(TokenUserRepository))
+          .AddSingleton(typeof(IDynamoDBContext), new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
           .BuildServiceProvider();
 
       LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));
