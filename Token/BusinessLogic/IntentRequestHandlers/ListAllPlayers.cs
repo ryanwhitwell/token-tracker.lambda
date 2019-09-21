@@ -4,7 +4,7 @@ using Alexa.NET.Response;
 using Microsoft.Extensions.Logging;
 using Token.BusinessLogic.Interfaces;
 using Token.Models;
-using Token.Core.StringExtensions;
+using Token.Core;
 using System.Text;
 
 namespace Token.BusinessLogic.IntentRequestHandlers

@@ -21,9 +21,11 @@ namespace Token.BusinessLogic
   public class RequestBusinessLogic : IRequestBusinessLogic
   {
     private static readonly string POINTS_PERSISTENCE_PRODUCT_ID = Configuration.File.GetSection("InSkillProducts")["PointsPersistence"];
+
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IEnumerable<IRequestRouter> requestHandlers;
+
     public RequestBusinessLogic(ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData)
     {
       if (logger is null)
@@ -86,16 +88,15 @@ namespace Token.BusinessLogic
         InSkillProductsResponse response = await client.GetProducts();
         userProducts = response.Products;
         hasPointsPersistence = userProducts.Any(x =>
-{
-  return x.ProductId == RequestBusinessLogic.POINTS_PERSISTENCE_PRODUCT_ID &&
-                x.Entitled == Entitlement.Entitled;
-});
+        {
+          return x.ProductId == RequestBusinessLogic.POINTS_PERSISTENCE_PRODUCT_ID &&
+                 x.Entitled == Entitlement.Entitled;
+        });
       }
       catch (Exception e)
       {
         this.logger.LogError(e, "Unable to determine HasPointsPersistence. Setting value to false. RequestId: {0}, UserId: {1}.", skillRequest.Request.RequestId, skillRequest.Context.System.User.UserId);
       }
-
 
       this.logger.LogTrace("END HasPointsPersistence. RequestId: {0}, UserId: {1}, Products: {2}.", skillRequest.Request.RequestId, skillRequest.Context.System.User.UserId, userProducts == null ? "UNKNOWN" : JsonConvert.SerializeObject(userProducts));
 
@@ -113,7 +114,7 @@ namespace Token.BusinessLogic
 
       tokenUser.HasPointsPersistence = await this.HasPointsPersistence(input);
 
-      this.logger.LogTrace("END GetUserApplicationState. RequestId: {0}, TokenUser: {1}.", input.Request.RequestId, JsonConvert.SerializeObject(TokenUser.GetCleansedTokenUser(tokenUser)));
+      this.logger.LogTrace("END GetUserApplicationState. RequestId: {0}, TokenUser: {1}.", input.Request.RequestId, JsonConvert.SerializeObject(tokenUser.Clean()));
 
       return tokenUser;
     }

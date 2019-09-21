@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
-using Token.Core.StringExtensions;
 
 namespace Token.Models
 {
@@ -27,19 +26,5 @@ namespace Token.Models
     public long? TTL { get; set; }
 
     public bool HasPointsPersistence { get; set; }
-
-    public static TokenUser GetCleansedTokenUser(TokenUser tokenUser)
-    {
-      return new TokenUser()
-      {
-        Id = tokenUser.Id,
-        CreateDate = tokenUser.CreateDate,
-        UpdateDate = tokenUser.UpdateDate,
-        Players = tokenUser.Players,
-        PasswordHash = tokenUser.PasswordHash != null ? tokenUser.PasswordHash.Mask() : null,
-        HasPointsPersistence = tokenUser.HasPointsPersistence,
-        TTL = tokenUser.TTL
-      };
-    }
   }
 }

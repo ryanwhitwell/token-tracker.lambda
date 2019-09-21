@@ -9,7 +9,6 @@ using Token.Models;
 using Token.Core;
 using System.Collections.Generic;
 using System.Linq;
-using Token.Core.StringExtensions;
 using Token.BusinessLogic.Interfaces;
 using Token.BusinessLogic.IntentRequestHandlers;
 

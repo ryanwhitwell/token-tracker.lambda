@@ -1,10 +1,11 @@
 using System;
 using Alexa.NET;
 using Alexa.NET.Response;
+using Token.Models;
 
-namespace Token.Core.StringExtensions
+namespace Token.Core
 {
-  public static class StringExtensions
+  public static class Extensions
   {
     public static SkillResponse Tell(this string phrase)
     {
@@ -45,6 +46,20 @@ namespace Token.Core.StringExtensions
       string unMaskStart = source.Substring(0, start);
 
       return unMaskStart + mask;
+    }
+
+    public static TokenUser Clean(this TokenUser tokenUser)
+    {
+      return new TokenUser()
+      {
+        Id = tokenUser.Id,
+        CreateDate = tokenUser.CreateDate,
+        UpdateDate = tokenUser.UpdateDate,
+        Players = tokenUser.Players,
+        PasswordHash = tokenUser.PasswordHash != null ? tokenUser.PasswordHash.Mask() : null,
+        HasPointsPersistence = tokenUser.HasPointsPersistence,
+        TTL = tokenUser.TTL
+      };
     }
   }
 }
