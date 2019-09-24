@@ -2,10 +2,10 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Token.Core;
-using Token.DataAccess.Interfaces;
+using Token.Data.Interfaces;
 using Token.Models;
 
-namespace Token.DataAccess
+namespace Token.Data
 {
   public class TokenUserData : ITokenUserData
   {

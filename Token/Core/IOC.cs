@@ -1,7 +1,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
-using Token.DataAccess;
-using Token.DataAccess.Interfaces;
+using Token.Data;
+using Token.Data.Interfaces;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Token.BusinessLogic;

@@ -2,7 +2,7 @@
 using Token.Core.Security;
 using Xunit;
 
-namespace Tests
+namespace Token.Tests.Core.Security
 {
   public class HashUtilityTests
   {

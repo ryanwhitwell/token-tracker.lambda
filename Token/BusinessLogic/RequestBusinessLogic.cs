@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Token.BusinessLogic.Interfaces;
 using Token.Core;
-using Token.DataAccess.Interfaces;
+using Token.Data.Interfaces;
 using Token.Models;
 
 namespace Token.BusinessLogic

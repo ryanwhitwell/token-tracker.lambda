@@ -4,7 +4,7 @@ using System.Linq;
 using Token.Models;
 using Xunit;
 
-namespace Tests
+namespace Token.Tests.Models
 {
   public class TokenUserTests
   {

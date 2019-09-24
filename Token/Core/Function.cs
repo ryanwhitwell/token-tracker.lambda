@@ -10,7 +10,7 @@ using Alexa.NET.Response;
 using Token.BusinessLogic.Interfaces;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-namespace Token
+namespace Token.Core
 {
   public class Function
   {

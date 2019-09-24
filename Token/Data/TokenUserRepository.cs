@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
-using Token.DataAccess.Interfaces;
+using Token.Data.Interfaces;
 using Token.Models;
 
-namespace Token.DataAccess
+namespace Token.Data
 {
   public class TokenUserRepository : ITokenUserRepository
   {

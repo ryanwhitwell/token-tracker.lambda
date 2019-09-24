@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Token.Models;
 
-namespace Token.DataAccess.Interfaces
+namespace Token.Data.Interfaces
 {
   public interface ITokenUserRepository
   {

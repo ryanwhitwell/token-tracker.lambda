@@ -5,7 +5,7 @@ using Token.Models;
 using System;
 using System.Linq;
 
-namespace Tests
+namespace Token.Tests.Core
 {
   public class ExtensionsTests
   {

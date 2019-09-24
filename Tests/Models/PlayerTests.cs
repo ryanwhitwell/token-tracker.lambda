@@ -2,7 +2,7 @@ using System;
 using Token.Models;
 using Xunit;
 
-namespace Tests
+namespace Token.Tests.Models
 {
   public class PlayerTests
   {
@@ -11,7 +11,7 @@ namespace Tests
     {
       string expectedName = "TestUser";
       int expectedPoints = 3;
-      
+
       Player player = new Player();
       player.Name = expectedName;
       player.Points = expectedPoints;

@@ -1,4 +1,4 @@
-﻿namespace Tests
+﻿namespace Token.Tests
 {
   public static class TestAssets
   {
