@@ -76,7 +76,7 @@ namespace Token.Core.Security
       return buffer;
     }
 
-    private static byte ConvertCharToByte(char c)
+    public static byte ConvertCharToByte(char c)
     {
       if (c > '9')
       {

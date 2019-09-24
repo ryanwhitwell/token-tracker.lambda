@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Token.Models;
 using System;
 using System.Linq;
+using Alexa.NET;
+using Alexa.NET.Response;
 
 namespace Token.Tests.Core
 {
@@ -52,6 +54,21 @@ namespace Token.Tests.Core
 
       Assert.NotEqual(tokenUser.PasswordHash, cleansedTokenUser.PasswordHash);
     }
-  }
 
+    [Fact]
+    public void Tell_ShouldReturnSkillResponse_WhenInputIsValid()
+    {
+      string phrase = "This is a test";
+      SkillResponse response = phrase.Tell();
+
+      string expectedSpeechText = string.Format("<speak>{0}</speak>", phrase);
+
+      SsmlOutputSpeech outputSpeech = response.Response.OutputSpeech as SsmlOutputSpeech;
+
+      Assert.IsType<SkillResponse>(response);
+      Assert.IsType<SsmlOutputSpeech>(response.Response.OutputSpeech);
+      Console.WriteLine(response);
+      Assert.Equal(expectedSpeechText, outputSpeech.Ssml);
+    }
+  }
 }

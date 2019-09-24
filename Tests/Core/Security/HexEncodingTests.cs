@@ -66,5 +66,56 @@ namespace Token.Tests.Core.Security
 
       Assert.Equal("aaaaaaaa", value);
     }
+
+    [Fact]
+    public void GetBytes_ShouldThrowArgumentNullException_WhenInputIsNull()
+    {
+      Assert.Throws<ArgumentNullException>(() => HexEncoding.GetBytes(null));
+    }
+
+    [Theory]
+    [InlineData("ab", false)]
+    [InlineData("abc", true)]
+    [InlineData("", false)]
+    public void GetBytes_ShouldThrowArgumentNullException_WhenInputIsNotDivisibleByTwo(string value, bool throwsException)
+    {
+      if (throwsException)
+      {
+        Assert.Throws<ArgumentException>(() => HexEncoding.GetBytes(value));
+      }
+      else
+      {
+        Assert.IsType<byte[]>(HexEncoding.GetBytes(value));
+      }
+    }
+
+    [Theory]
+    [InlineData('A', false)]
+    [InlineData('B', false)]
+    [InlineData('C', false)]
+    [InlineData('D', false)]
+    [InlineData('E', false)]
+    [InlineData('F', false)]
+    [InlineData('G', true)]
+    [InlineData('a', false)]
+    [InlineData('b', false)]
+    [InlineData('c', false)]
+    [InlineData('d', false)]
+    [InlineData('e', false)]
+    [InlineData('f', false)]
+    [InlineData('g', true)]
+    [InlineData('0', false)]
+    [InlineData('1', false)]
+    public void ConvertCharToByte_ShouldThrowArgumentOutOfRangeException_WhenInputIsNotValid(char c, bool throwsException)
+    {
+      if (throwsException)
+      {
+        Assert.Throws<ArgumentOutOfRangeException>(() => HexEncoding.ConvertCharToByte(c));
+      }
+      else
+      {
+        Assert.IsType<byte>(HexEncoding.ConvertCharToByte(c));
+      }
+    }
   }
 }

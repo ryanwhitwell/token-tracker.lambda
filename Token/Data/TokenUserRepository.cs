@@ -17,16 +17,31 @@ namespace Token.Data
 
     public async Task Save(TokenUser user)
     {
+      if (user == null)
+      {
+        throw new ArgumentNullException("user");
+      }
+
       await _context.SaveAsync<TokenUser>(user);
     }
 
     public async Task Delete(string id)
     {
+      if (String.IsNullOrWhiteSpace(id))
+      {
+        throw new ArgumentNullException("id");
+      }
+
       await _context.DeleteAsync<TokenUser>(id);
     }
 
     public async Task<TokenUser> Load(string id)
     {
+      if (String.IsNullOrWhiteSpace(id))
+      {
+        throw new ArgumentNullException("id");
+      }
+
       TokenUser user = await _context.LoadAsync<TokenUser>(id);
 
       return user;
