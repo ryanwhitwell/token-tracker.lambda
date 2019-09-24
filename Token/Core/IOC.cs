@@ -11,6 +11,7 @@ using Token.BusinessLogic.Interfaces;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon;
 using Amazon.DynamoDBv2;
+using Token.BusinessLogic.IntentRequestHandlers;
 
 namespace Token.Core
 {
@@ -32,6 +33,23 @@ namespace Token.Core
           .AddTransient<ITokenUserData, TokenUserData>()
           .AddTransient<ITokenUserRepository, TokenUserRepository>()
           .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
+          .AddTransient<IIntentRequestHandler, AddAllPoints>()
+          .AddTransient<IIntentRequestHandler, AddPlayer>()
+          .AddTransient<IIntentRequestHandler, AddPoints>()
+          .AddTransient<IIntentRequestHandler, AddSinglePoint>()
+          .AddTransient<IIntentRequestHandler, DeleteAllPlayers>()
+          .AddTransient<IIntentRequestHandler, DeletePlayer>()
+          .AddTransient<IIntentRequestHandler, GetAllPlayersCount>()
+          .AddTransient<IIntentRequestHandler, GetPlayerPoints>()
+          .AddTransient<IIntentRequestHandler, GetPointsAverage>()
+          .AddTransient<IIntentRequestHandler, GetPointsMax>()
+          .AddTransient<IIntentRequestHandler, GetPointsMin>()
+          .AddTransient<IIntentRequestHandler, ListAllPlayers>()
+          .AddTransient<IIntentRequestHandler, ListAllPoints>()
+          .AddTransient<IIntentRequestHandler, RemoveAllPoints>()
+          .AddTransient<IIntentRequestHandler, RemovePoints>()
+          .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
+          .AddTransient<IIntentRequestHandler, ResetAllPoints>()
           .BuildServiceProvider();
 
       LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));

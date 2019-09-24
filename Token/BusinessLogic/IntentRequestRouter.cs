@@ -16,18 +16,18 @@ namespace Token.BusinessLogic
 {
   public class IntentRequestRouter : IRequestRouter
   {
-    private List<IIntentRequestHandler> intentRequestHandlers;
+    private IEnumerable<IIntentRequestHandler> intentRequestHandlers;
 
     private ILogger<IntentRequestRouter> logger;
 
-    public IntentRequestRouter(ILogger<IntentRequestRouter> logger, List<IIntentRequestHandler> intentRequestHandlers)
+    public IntentRequestRouter(ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers)
     {
       if (logger is null)
       {
         throw new ArgumentNullException("logger");
       }
 
-      if (intentRequestHandlers is null || intentRequestHandlers.Count <= 0)
+      if (intentRequestHandlers is null || intentRequestHandlers.Count() <= 0)
       {
         throw new ArgumentNullException("intentRequestHandlers");
       }
@@ -64,52 +64,52 @@ namespace Token.BusinessLogic
       switch (intentRequest.Intent.Name)
       {
         case IntentRequestName.AddPoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is AddPoints).FirstOrDefault();
           break;
         case IntentRequestName.AddPlayer:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is AddPlayer).FirstOrDefault();
           break;
         case IntentRequestName.DeletePlayer:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is DeletePlayer).FirstOrDefault();
           break;
         case IntentRequestName.RemovePoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is RemovePoints).FirstOrDefault();
           break;
         case IntentRequestName.DeleteAllPlayers:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is DeleteAllPlayers).FirstOrDefault();
           break;
         case IntentRequestName.ListAllPlayers:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is ListAllPlayers).FirstOrDefault();
           break;
         case IntentRequestName.GetPlayerPoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is GetPlayerPoints).FirstOrDefault();
           break;
         case IntentRequestName.ResetAllPoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is ResetAllPoints).FirstOrDefault();
           break;
         case IntentRequestName.GetPointsMax:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is GetPointsMax).FirstOrDefault();
           break;
         case IntentRequestName.GetPointsMin:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is GetPointsMin).FirstOrDefault();
           break;
         case IntentRequestName.GetPointsAverage:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is GetPointsAverage).FirstOrDefault();
           break;
         case IntentRequestName.ListAllPoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is ListAllPoints).FirstOrDefault();
           break;
         case IntentRequestName.GetAllPlayersCount:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is GetAllPlayersCount).FirstOrDefault();
           break;
         case IntentRequestName.AddAllPoints:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is AddAllPoints).FirstOrDefault();
           break;
         case IntentRequestName.AddSinglePoint:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is AddSinglePoint).FirstOrDefault();
           break;
         case IntentRequestName.RemoveSinglePoint:
-          requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();
+          requestHandler = intentRequestHandlers.Where(x => x is RemoveSinglePoint).FirstOrDefault();
           break;
         case IntentRequestName.RemoveAllPoints:
           requestHandler = intentRequestHandlers.Where(x => x is RemoveAllPoints).FirstOrDefault();

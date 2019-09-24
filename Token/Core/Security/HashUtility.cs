@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Globalization;
 using System.Security.Cryptography;
 
@@ -9,26 +8,13 @@ namespace Token.Core.Security
   {
     private const int SaltByteSize = 24;
     private const int HashByteSize = 24;
-
     private const int IterationIndex = 0;
     private const int SaltIndex = 1;
     private const int HashIndex = 2;
 
     private const int HashSectionCount = 3;
 
-    private static readonly string PepperValue = InitializePepperValue();
-
-    private static string InitializePepperValue()
-    {
-      string pepperValue = Configuration.File.GetSection("Application")["PepperValue"];
-
-      if (string.IsNullOrWhiteSpace(pepperValue))
-      {
-        Console.WriteLine("No value found for application setting 'PepperValue'.");
-      }
-
-      return pepperValue;
-    }
+    private static readonly string PepperValue = Configuration.File.GetSection("Application")["PepperValue"] ?? "";
 
     public static string CreateHash(string value)
     {
@@ -71,9 +57,7 @@ namespace Token.Core.Security
 
       if (hashSections.Length != HashSectionCount)
       {
-        Console.WriteLine("Hash Sections length was found to be {0} and can only be {1}.", hashSections.Length, HashSectionCount);
-
-        throw new InvalidOperationException("Hash Sections length does not equal the required Hash Section Count.");
+        throw new InvalidOperationException("Hash Sections length does not equal the required Hash Section Count. Hash Sections length was found to be {0} and can only be {1}.");
       }
 
       int iterationCount = 0;
