@@ -2,7 +2,11 @@
   "dotnet-test-explorer.testProjectPath": "Tests",
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "coverage-gutters.coverageFileNames": [
-    "coverage/coverage.info"
-  ]
+  "coverage-gutters.coverageReportFileName": "coverage/coverage.info",
+  "dotnet-test-explorer.autoWatch": true,
+  "dotnet-test-explorer.enableTelemetry": false,
+  "dotnet-test-explorer.runInParallel": true,
+  "omnisharp.loggingLevel": "trace",
+  "csharp.format.enable": false,
+  "editor.foldingStrategy": "indentation"
 }
