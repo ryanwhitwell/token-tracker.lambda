@@ -49,6 +49,11 @@ namespace Token.BusinessLogic
 
     public static TokenUser GenerateEmptyTokenUser(string id)
     {
+      if (String.IsNullOrWhiteSpace(id))
+      {
+        throw new ArgumentNullException("id");
+      }
+
       TokenUser tokenUser = new TokenUser()
       {
         Id = id,
