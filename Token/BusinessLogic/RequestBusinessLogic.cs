@@ -21,7 +21,6 @@ namespace Token.BusinessLogic
   public class RequestBusinessLogic : IRequestBusinessLogic
   {
     private static readonly string POINTS_PERSISTENCE_PRODUCT_ID = Configuration.File.GetSection("InSkillProducts")["PointsPersistence"];
-
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IEnumerable<IRequestRouter> requestHandlers;
@@ -48,7 +47,7 @@ namespace Token.BusinessLogic
       this.tokenUserData = tokenUserData;
     }
 
-    private static TokenUser GenerateEmptyTokenUser(string id)
+    public static TokenUser GenerateEmptyTokenUser(string id)
     {
       TokenUser tokenUser = new TokenUser()
       {

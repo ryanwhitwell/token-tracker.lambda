@@ -3,6 +3,7 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "coverage-gutters.coverageReportFileName": "coverage/coverage.info",
+  "coverage-gutters.lcovname": "coverage.info",
   "dotnet-test-explorer.autoWatch": true,
   "dotnet-test-explorer.enableTelemetry": false,
   "dotnet-test-explorer.runInParallel": true,
