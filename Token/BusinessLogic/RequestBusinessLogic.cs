@@ -24,8 +24,9 @@ namespace Token.BusinessLogic
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IEnumerable<IRequestRouter> requestHandlers;
+    private ISkillProductsClientFactory skillProductsClientFactory;
 
-    public RequestBusinessLogic(ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData)
+    public RequestBusinessLogic(ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData, SkillProductsClientFactory skillProductsClientFactory)
     {
       if (logger is null)
       {
@@ -42,9 +43,15 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("tokenUserData");
       }
 
+      if (skillProductsClientFactory is null)
+      {
+        throw new ArgumentNullException("skillProductsClientFactory");
+      }
+
       this.logger = logger;
       this.requestHandlers = requestHandlers;
       this.tokenUserData = tokenUserData;
+      this.skillProductsClientFactory = skillProductsClientFactory;
     }
 
     public static TokenUser GenerateEmptyTokenUser(string id)
@@ -88,7 +95,7 @@ namespace Token.BusinessLogic
       // If unable to talk to InSkillProductClient, then set the HasPointsPersistence value to false and log the error.
       try
       {
-        InSkillProductsClient client = new InSkillProductsClient(skillRequest);
+        InSkillProductsClient client = this.skillProductsClientFactory.Create(skillRequest);
         InSkillProductsResponse response = await client.GetProducts();
         userProducts = response.Products;
         hasPointsPersistence = userProducts.Any(x =>
