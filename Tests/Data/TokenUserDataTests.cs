@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Token.Models;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using Token.Core;
 
 namespace Token.Tests.Data
 {
@@ -132,6 +133,100 @@ namespace Token.Tests.Data
       TokenUserData sut = new TokenUserData(mockLogger.Object, mockTokenUserRepository.Object);
 
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Exists(id));
+    }
+
+    [Fact]
+    public async Task Get_ShouldReturnTokenUser_WhenUserExists()
+    {
+      TokenUser expectedTokenUser = new TokenUser()
+      {
+        Id = "TestId"
+      };
+      
+      Mock<ILogger<TokenUserData>> mockLogger = new Mock<ILogger<TokenUserData>>();
+      Mock<ITokenUserRepository> mockTokenUserRepository = new Mock<ITokenUserRepository>();
+      mockTokenUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(Task.FromResult(expectedTokenUser));
+      
+      TokenUserData sut = new TokenUserData(mockLogger.Object, mockTokenUserRepository.Object);
+
+      TokenUser tokenUser = await sut.Get(expectedTokenUser.Id);
+
+      mockTokenUserRepository.Verify(x => x.Load(expectedTokenUser.Id), Times.Once());
+      Assert.Equal(expectedTokenUser, tokenUser);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public async Task Get_ShouldThrowArgumentNullException_WhenIdIsInvalid(string id)
+    {
+      TokenUser expectedTokenUser = new TokenUser()
+      {
+        Id = "TestId"
+      };
+      
+      Mock<ILogger<TokenUserData>> mockLogger = new Mock<ILogger<TokenUserData>>();
+      Mock<ITokenUserRepository> mockTokenUserRepository = new Mock<ITokenUserRepository>();
+      mockTokenUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(Task.FromResult(expectedTokenUser));
+      
+      TokenUserData sut = new TokenUserData(mockLogger.Object, mockTokenUserRepository.Object);
+
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(id));
+    }
+
+    [Fact]
+    public async Task Save_ShouldThrowArgumentNullException_WhenTokenUserIsNull()
+    {
+      TokenUser expectedTokenUser = new TokenUser()
+      {
+        Id = "TestId"
+      };
+      
+      Mock<ILogger<TokenUserData>> mockLogger = new Mock<ILogger<TokenUserData>>();
+      Mock<ITokenUserRepository> mockTokenUserRepository = new Mock<ITokenUserRepository>();
+      mockTokenUserRepository.Setup(x => x.Save(It.IsAny<TokenUser>())).Returns(Task.FromResult(true));
+      
+      TokenUserData sut = new TokenUserData(mockLogger.Object, mockTokenUserRepository.Object);
+
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Save(null));
+    }
+
+    [Fact]
+    public async Task Save_ShouldReturn_WhenTokenUserUsValid()
+    {
+      TokenUser expectedTokenUser = new TokenUser()
+      {
+        Id = "TestId"
+      };
+      
+      Mock<ILogger<TokenUserData>> mockLogger = new Mock<ILogger<TokenUserData>>();
+      Mock<ITokenUserRepository> mockTokenUserRepository = new Mock<ITokenUserRepository>();
+      mockTokenUserRepository.Setup(x => x.Save(It.IsAny<TokenUser>())).Returns(Task.FromResult(true));
+      
+      TokenUserData sut = new TokenUserData(mockLogger.Object, mockTokenUserRepository.Object);
+      await sut.Save(expectedTokenUser);
+
+      mockTokenUserRepository.Verify(x => x.Save(expectedTokenUser), Times.Once());
+    }
+
+    [Fact]
+    public void GetTTL_ShouldReturnCorrectValue_WhenCalledWithValidDate()
+    {
+      DateTime? dateTime = DateTime.UtcNow;
+      DateTime epoch = new DateTime(1970, 1, 1);
+
+      long ttlSeconds = TokenUserData.GetTTL(dateTime);
+      long expectedTtlSeconds = (long)(dateTime.Value.AddMinutes(30) - epoch).TotalSeconds;
+
+      
+      Assert.Equal(expectedTtlSeconds, ttlSeconds);
+    }
+
+    [Fact]
+    public void GetTTL_ShouldThrowArgumentNullException_WhenDateIsNull()
+    {
+      Assert.Throws<ArgumentNullException>(() => TokenUserData.GetTTL(null));
     }
   }
 }
