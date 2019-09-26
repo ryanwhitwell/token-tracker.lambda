@@ -20,6 +20,8 @@ namespace Token.BusinessLogic
 
     private ILogger<IntentRequestRouter> logger;
 
+    public RequestType RequestType { get { return RequestType.IntentRequest; }}
+
     public IntentRequestRouter(ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers)
     {
       if (logger is null)

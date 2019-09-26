@@ -14,8 +14,10 @@ namespace Token.BusinessLogic
         || String.IsNullOrWhiteSpace(skillRequest.Context.System.ApiAccessToken)
         || skillRequest.Request == null
         || String.IsNullOrWhiteSpace(skillRequest.Request.RequestId)
+        || String.IsNullOrWhiteSpace(skillRequest.Request.Type)
         || skillRequest.Context.System.User == null
         || String.IsNullOrWhiteSpace(skillRequest.Context.System.User.UserId))
+       
       {
         return false;
       }

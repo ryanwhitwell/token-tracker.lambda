@@ -22,10 +22,10 @@ namespace Token.BusinessLogic
     private static readonly string POINTS_PERSISTENCE_PRODUCT_ID = Configuration.File.GetSection("InSkillProducts")["PointsPersistence"];
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
-    private IEnumerable<IRequestRouter> requestHandlers;
+    private IRequestMapper requestMapper;
     private ISkillProductsAdapter skillProductsAdapter;
     ISkillRequestValidator skillRequestValidator;
-    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsAdapter skillProductsAdapter, ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData)
+    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsAdapter skillProductsAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
     {
       if (skillRequestValidator is null)
       {
@@ -42,9 +42,9 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("logger");
       }
 
-      if (requestHandlers is null || requestHandlers.Count() <= 0)
+      if (requestMapper is null)
       {
-        throw new ArgumentNullException("requestHandlers");
+        throw new ArgumentNullException("requestMapper");
       }
 
       if (tokenUserData is null)
@@ -55,7 +55,7 @@ namespace Token.BusinessLogic
       this.skillRequestValidator = skillRequestValidator;
       this.skillProductsAdapter = skillProductsAdapter;
       this.logger = logger;
-      this.requestHandlers = requestHandlers;
+      this.requestMapper = requestMapper;
       this.tokenUserData = tokenUserData;
     }
 
@@ -115,100 +115,61 @@ namespace Token.BusinessLogic
       return hasPointsPersistence;
     }
 
-    public async Task<TokenUser> GetUserApplicationState(SkillRequest input)
+    public async Task<TokenUser> GetUserApplicationState(SkillRequest skillRequest)
     {
-      this.logger.LogTrace("BEGIN GetUserApplicationState. RequestId: {0}.", input.Request.RequestId);
+      if (!this.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      this.logger.LogTrace("BEGIN GetUserApplicationState. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      string userId = input.Context.System.User.UserId;
+      string userId = skillRequest.Context.System.User.UserId;
 
       TokenUser tokenUser = await this.tokenUserData.Get(userId);
       tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(userId);
 
-      tokenUser.HasPointsPersistence = await this.HasPointsPersistence(input);
+      tokenUser.HasPointsPersistence = await this.HasPointsPersistence(skillRequest);
 
-      this.logger.LogTrace("END GetUserApplicationState. RequestId: {0}, TokenUser: {1}.", input.Request.RequestId, JsonConvert.SerializeObject(tokenUser.Clean()));
+      this.logger.LogTrace("END GetUserApplicationState. RequestId: {0}, TokenUser: {1}.", skillRequest.Request.RequestId, JsonConvert.SerializeObject(tokenUser.Clean()));
 
       return tokenUser;
     }
 
-    public async Task<SkillResponse> GetSkillResponse(SkillRequest input, TokenUser appUser)
+    public async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
     {
-      this.logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", input.Request.RequestId);
+      if (!this.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
 
-      SkillResponse response = null;
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
+      this.logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      IRequestRouter requestHandler = this.GetRequestHandler(input);
-      response = await requestHandler.GetSkillResponse(input, appUser);
+      IRequestRouter requestHandler = this.requestMapper.GetRequestHandler(skillRequest);
+      SkillResponse response = response = await requestHandler.GetSkillResponse(skillRequest, tokenUser);
 
-      this.logger.LogTrace("END GetSkillResponse. RequestId: {0}.", input.Request.RequestId);
+      this.logger.LogTrace("END GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
       return response;
     }
 
-    public IRequestRouter GetRequestHandler(SkillRequest skillRequest)
+    public async Task<SkillResponse> HandleSkillRequest(SkillRequest skillRequest, ILambdaContext lambdaContext)
     {
-      this.logger.LogTrace("BEGIN GetRequestHandler. RequestId: {0}.", skillRequest.Request.RequestId);
-
-      this.logger.LogDebug(JsonConvert.SerializeObject(skillRequest));
-
-      IRequestRouter requestHandler = null;
-
-      if (skillRequest.Request is IntentRequest)
+      if (!this.skillRequestValidator.IsValid(skillRequest))
       {
-        requestHandler = this.requestHandlers.FirstOrDefault(x => x is IntentRequestRouter);
-      }
-      else if (skillRequest.Request is ConnectionResponseRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is AccountLinkSkillEventRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is AudioPlayerRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is DisplayElementSelectedRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is LaunchRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is PermissionSkillEventRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is PlaybackControllerRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is SessionEndedRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is SkillEventRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else if (skillRequest.Request is SystemExceptionRequest)
-      {
-        throw new NotSupportedException();
-      }
-      else
-      {
-        this.logger.LogWarning("Unidentified request type detected. Cannot route request type '{0}'.", skillRequest.Request.Type);
+        throw new ArgumentNullException("skillRequest");
       }
 
-      this.logger.LogTrace("END GetRequestHandler. RequestId: {0}. RequestHandler Type: '{1}'.", skillRequest.Request.RequestId, requestHandler.GetType().Name);
-
-      return requestHandler;
-    }
-
-    public async Task<SkillResponse> HandleSkillRequest(SkillRequest skillRequest, ILambdaContext context)
-    {
+      if (lambdaContext == null)
+      {
+        throw new ArgumentNullException("lambdaContext");
+      }
+      
       this.logger.LogTrace("BEGIN Handling request type '{0}'. RequestId: {1}.", skillRequest.Request.Type, skillRequest.Request.RequestId);
 
       // Load the user's application state
