@@ -50,7 +50,7 @@ namespace Token.Core
           .AddTransient<IIntentRequestHandler, RemovePoints>()
           .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
           .AddTransient<IIntentRequestHandler, ResetAllPoints>()
-          .AddTransient<ISkillProductsAdapter, SkillProductsAdapter>()
+          .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
           .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
           .AddTransient<IRequestMapper, RequestMapper>()
           .BuildServiceProvider();

@@ -23,16 +23,16 @@ namespace Token.BusinessLogic
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IRequestMapper requestMapper;
-    private ISkillProductsAdapter skillProductsAdapter;
+    private ISkillProductsClientAdapter skillProductsClientAdapter;
     ISkillRequestValidator skillRequestValidator;
-    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsAdapter skillProductsAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
+    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsClientAdapter skillProductsClientAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
     {
       if (skillRequestValidator is null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }
       
-      if (skillProductsAdapter is null)
+      if (skillProductsClientAdapter is null)
       {
         throw new ArgumentNullException("skillProductsAdapter");
       }
@@ -53,7 +53,7 @@ namespace Token.BusinessLogic
       }
 
       this.skillRequestValidator = skillRequestValidator;
-      this.skillProductsAdapter = skillProductsAdapter;
+      this.skillProductsClientAdapter = skillProductsClientAdapter;
       this.logger = logger;
       this.requestMapper = requestMapper;
       this.tokenUserData = tokenUserData;
@@ -90,7 +90,7 @@ namespace Token.BusinessLogic
       // If unable to talk to InSkillProductClient, then set the HasPointsPersistence value to false and log the error.
       try
       {
-        ISkillProductsClient client = this.skillProductsAdapter.GetClient(skillRequest);
+        ISkillProductsClient client = this.skillProductsClientAdapter.GetClient(skillRequest);
         InSkillProductsResponse response = await client.GetProducts();
 
         if (response == null || response.Products == null)

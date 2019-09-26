@@ -26,6 +26,8 @@ namespace Token.Tests.BusinessLogic
       {
         System = new AlexaSystem()
         {
+          ApiEndpoint = "http://localhost",
+          ApiAccessToken = "TestApiAccessToken",
           User = new User()
           {
             UserId = "TestUserId"
@@ -43,7 +45,7 @@ namespace Token.Tests.BusinessLogic
     public void Ctor_ShouldReturnInstanceOfClass_WhenInputIsValid()
     {
       Mock<ISkillRequestValidator>        mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
-      Mock<ISkillProductsAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsAdapter>();
+      Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();
@@ -66,7 +68,7 @@ namespace Token.Tests.BusinessLogic
     [Fact]
     public void Ctor_ShouldThrowArgumentNullException_WhenSkillRequestValidatorIsNull()
     {
-      Mock<ISkillProductsAdapter>         mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>();
+      Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger               = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper        = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData        = new Mock<ITokenUserData>();
@@ -78,7 +80,7 @@ namespace Token.Tests.BusinessLogic
     public void Ctor_ShouldThrowArgumentNullException_WhenLoggerIsNull()
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
-      Mock<ISkillProductsAdapter>  mockSkillProductsAdapter  = new Mock<ISkillProductsAdapter>();
+      Mock<ISkillProductsClientAdapter>  mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<IRequestMapper>         mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>         mockTokenUserData         = new Mock<ITokenUserData>();
 
@@ -89,7 +91,7 @@ namespace Token.Tests.BusinessLogic
     public void Ctor_ShouldThrowArgumentNullException_WhenREquestMapperIsEmpty()
     {
       Mock<ISkillRequestValidator>        mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
-      Mock<ISkillProductsAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsAdapter>();
+      Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();
 
@@ -100,7 +102,7 @@ namespace Token.Tests.BusinessLogic
     public void Ctor_ShouldThrowArgumentNullException_WhenTokenDataIsNull()
     {
       Mock<ISkillRequestValidator>        mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
-      Mock<ISkillProductsAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsAdapter>();
+      Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
 
@@ -139,7 +141,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
         new InSkillProductsResponse()
         {
@@ -147,7 +149,7 @@ namespace Token.Tests.BusinessLogic
         }
       ));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger        = new Mock<ILogger<RequestBusinessLogic>>();
@@ -168,7 +170,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
         new InSkillProductsResponse()
         {
@@ -176,7 +178,7 @@ namespace Token.Tests.BusinessLogic
         }
       ));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -195,7 +197,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
         new InSkillProductsResponse()
         {
@@ -203,7 +205,7 @@ namespace Token.Tests.BusinessLogic
         }
       ));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -222,7 +224,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
         new InSkillProductsResponse()
         {
@@ -230,7 +232,7 @@ namespace Token.Tests.BusinessLogic
         }
       ));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -249,10 +251,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(null));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -272,10 +274,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(null));
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -293,10 +295,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Throws(new Exception());
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -321,10 +323,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -352,10 +354,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -383,10 +385,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -422,10 +424,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -453,10 +455,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -483,10 +485,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -506,10 +508,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
@@ -537,10 +539,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
-      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
 
-      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
