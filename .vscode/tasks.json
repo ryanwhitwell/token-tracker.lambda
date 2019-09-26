@@ -94,7 +94,7 @@
         "/p:CoverletOutputFormat=\"lcov\"",
         "/p:CoverletOutput=../coverage/",
         "/p:Threshold=1",
-        "/p:ExcludeByFile=\"../Token/Core/IOC.cs,../Token/Core/IntentRequestName.cs\"",
+        "/p:Exclude=\"[xunit.*]*,[*]Token.Core.IOC,[*]Token.Core.IntentRequestName,[*]Token.Core.RequestType\"",
         "${workspaceFolder}/Tests/Tests.csproj"
       ],
       "problemMatcher": "$msCompile",
