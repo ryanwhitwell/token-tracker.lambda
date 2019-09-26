@@ -39,7 +39,7 @@ namespace Token.Data
 
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
-      return tokenUser != null;
+      return tokenUser.Id == id;
     }
 
     public async Task<TokenUser> Get(string id)
