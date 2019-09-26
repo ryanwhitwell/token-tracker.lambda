@@ -14,6 +14,7 @@ using Alexa.NET;
 using Alexa.NET.InSkillPricing;
 using Alexa.NET.Response;
 using Token.Core;
+using Amazon.Lambda.Core;
 
 namespace Token.Tests.BusinessLogic
 {
@@ -475,10 +476,64 @@ namespace Token.Tests.BusinessLogic
     }
 
     [Fact]
-    public async Task GetRequestHandler_ShouldThrowArgumentNullException_WhenTokenUserIsNull()
+    public async Task HandleSkillRequest_ShouldThrowArgumentNullException_WhenSkillRequestIsInvalid()
     {
-      SkillResponse expectedSkillResponse = new SkillResponse();
+      Mock<ILambdaContext> mockLambdaContext = new Mock<ILambdaContext>();
+
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
+
+      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
+
+      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
       
+      Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
+      
+      Mock<IRequestMapper> mockRequestMapper = new Mock<IRequestMapper>();
+
+      Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.HandleSkillRequest(ValidSkillRequest, mockLambdaContext.Object));
+    }
+
+    [Fact]
+    public async Task HandleSkillRequest_ShouldThrowArgumentNullException_WhenLambdaContextIsNull()
+    {
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<ISkillProductsClient> mockInSkillProductsClient = new Mock<ISkillProductsClient>(MockBehavior.Loose);
+      mockInSkillProductsClient.Setup(x => x.GetProducts()).ReturnsAsync(new InSkillProductsResponse(){ Products = new InSkillProduct[0] });
+
+      Mock<ISkillProductsAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsAdapter>(MockBehavior.Loose);
+      mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
+      
+      Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
+      
+      Mock<IRequestMapper> mockRequestMapper = new Mock<IRequestMapper>();
+
+      Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.HandleSkillRequest(ValidSkillRequest, null));
+    }
+
+    [Fact]
+    public async Task HandleSkillRequest_ShouldReturnSkillResponse_WhenInputIsValid()
+    {
+      SkillResponse expectedSkillResponse = new SkillResponse()
+      {
+        Version = "TestVersion",
+        Response = new ResponseBody()
+      };
+
+      Mock<ILambdaContext> mockLambdaContext = new Mock<ILambdaContext>();
+
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
 
@@ -498,10 +553,13 @@ namespace Token.Tests.BusinessLogic
       mockRequestMapper.Setup(x => x.GetRequestHandler(It.IsAny<SkillRequest>())).Returns(mockIntentRequestRouter.Object);
 
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
+      mockTokenUserData.Setup(x => x.Save(It.IsAny<TokenUser>())).Returns(Task.FromResult(true));
 
       RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
-      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetSkillResponse(ValidSkillRequest, null));
+      SkillResponse skillResponse = await sut.HandleSkillRequest(ValidSkillRequest, mockLambdaContext.Object);
+
+      Assert.IsType<SkillResponse>(skillResponse);
     }
   }
 }

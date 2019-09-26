@@ -173,13 +173,13 @@ namespace Token.BusinessLogic
       this.logger.LogTrace("BEGIN Handling request type '{0}'. RequestId: {1}.", skillRequest.Request.Type, skillRequest.Request.RequestId);
 
       // Load the user's application state
-      TokenUser appUser = await this.GetUserApplicationState(skillRequest);
+      TokenUser tokenUser = await this.GetUserApplicationState(skillRequest);
 
       // Handle the request
-      SkillResponse response = await this.GetSkillResponse(skillRequest, appUser);
+      SkillResponse response = await this.GetSkillResponse(skillRequest, tokenUser);
 
       // Save the user's application state
-      await this.tokenUserData.Save(appUser);
+      await this.tokenUserData.Save(tokenUser);
 
       this.logger.LogTrace("END Handling request type '{0}'. RequestId: {1}. Response: {2}", skillRequest.Request.Type, skillRequest.Request.RequestId, JsonConvert.SerializeObject(response));
 
