@@ -50,6 +50,8 @@ namespace Token.Core
           .AddTransient<IIntentRequestHandler, RemovePoints>()
           .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
           .AddTransient<IIntentRequestHandler, ResetAllPoints>()
+          .AddTransient<ISkillProductsAdapter, SkillProductsAdapter>()
+          .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
           .BuildServiceProvider();
 
       LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Alexa.NET;
 using Alexa.NET.InSkillPricing;
 using Alexa.NET.InSkillPricing.Responses;
 using Alexa.NET.Request;
@@ -24,9 +23,20 @@ namespace Token.BusinessLogic
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IEnumerable<IRequestRouter> requestHandlers;
-
-    public RequestBusinessLogic(ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData)
+    private ISkillProductsAdapter skillProductsAdapter;
+    ISkillRequestValidator skillRequestValidator;
+    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsAdapter skillProductsAdapter, ILogger<RequestBusinessLogic> logger, IEnumerable<IRequestRouter> requestHandlers, ITokenUserData tokenUserData)
     {
+      if (skillRequestValidator is null)
+      {
+        throw new ArgumentNullException("skillRequestValidator");
+      }
+      
+      if (skillProductsAdapter is null)
+      {
+        throw new ArgumentNullException("skillProductsAdapter");
+      }
+
       if (logger is null)
       {
         throw new ArgumentNullException("logger");
@@ -42,6 +52,8 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("tokenUserData");
       }
 
+      this.skillRequestValidator = skillRequestValidator;
+      this.skillProductsAdapter = skillProductsAdapter;
       this.logger = logger;
       this.requestHandlers = requestHandlers;
       this.tokenUserData = tokenUserData;
@@ -65,22 +77,12 @@ namespace Token.BusinessLogic
 
     public async Task<bool> HasPointsPersistence(SkillRequest skillRequest)
     {
-      this.logger.LogTrace("BEGIN HasPointsPersistence. RequestId: {0}, UserId: {1}.", skillRequest.Request.RequestId, skillRequest.Context.System.User.UserId);
-
-      if (skillRequest == null)
+      if (!this.skillRequestValidator.IsValid(skillRequest))
       {
         throw new ArgumentNullException("skillRequest");
       }
 
-      if (skillRequest.Context.System.ApiEndpoint == null)
-      {
-        throw new ArgumentNullException("apiEndpoint");
-      }
-
-      if (skillRequest.Context.System.ApiAccessToken == null)
-      {
-        throw new ArgumentNullException("apiAccessToken");
-      }
+      this.logger.LogTrace("BEGIN HasPointsPersistence. RequestId: {0}, UserId: {1}.", skillRequest.Request.RequestId, skillRequest.Context.System.User.UserId);
 
       bool hasPointsPersistence = false;
       InSkillProduct[] userProducts = null;
@@ -88,8 +90,14 @@ namespace Token.BusinessLogic
       // If unable to talk to InSkillProductClient, then set the HasPointsPersistence value to false and log the error.
       try
       {
-        InSkillProductsClient client = new InSkillProductsClient(skillRequest);
+        ISkillProductsClient client = this.skillProductsAdapter.GetClient(skillRequest);
         InSkillProductsResponse response = await client.GetProducts();
+
+        if (response == null || response.Products == null)
+        {
+          return false;
+        }
+
         userProducts = response.Products;
         hasPointsPersistence = userProducts.Any(x =>
         {
