@@ -35,7 +35,7 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
 
       return skillRequest;
     }
-    
+
     [Fact]
     public void Ctor_ShouldReturnInstanceOfClass_WhenDependenciesAreValid()
     {
@@ -65,7 +65,7 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
     }
 
     [Fact]
-    public void Handle_ShouldReturnSkillResponse_WhenCalled()
+    public void Handle_ShouldReturnSkillResponse_WhenCalledWithValidInputs()
     {
       Mock<ILogger<AddPlayer>> mockLogger = new Mock<ILogger<AddPlayer>>();
       
@@ -74,7 +74,35 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
       
       AddPlayer sut = new AddPlayer(mockLogger.Object, mockSkillRequestValidator.Object);
 
-      Assert.IsType<AddPlayer>(sut);
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest()
+      { 
+        RequestId ="TestRequestId", 
+        Locale = "en-US", 
+        Type = "IntentRequest", 
+        Intent = new Intent() 
+        { 
+          ConfirmationStatus = "CONFIRMED",
+          Name = "AddPlayer",
+          Slots = new Dictionary<string, Slot>()
+          {
+            {
+              "player", 
+              new Slot()
+              {
+                Name = "player",
+                Value = "blue",
+                ConfirmationStatus = "NONE"
+              }
+            }
+          }
+        } 
+      });
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillResponse skillResponse = sut.Handle(skillRequest, tokenUser);
+
+      Assert.IsType<SkillResponse>(skillResponse);
     }
   }
 }

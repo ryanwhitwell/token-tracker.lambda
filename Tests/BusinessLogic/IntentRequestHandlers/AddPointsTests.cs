@@ -74,6 +74,43 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
       
       AddPoints sut = new AddPoints(mockLogger.Object, mockSkillRequestValidator.Object);
 
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest()
+      { 
+        RequestId ="TestRequestId", 
+        Locale = "en-US", 
+        Type = "IntentRequest", 
+        Intent = new Intent() 
+        { 
+          ConfirmationStatus = "CONFIRMED",
+          Name = "AddPoints",
+          Slots = new Dictionary<string, Slot>()
+          {
+            {
+              "player", 
+              new Slot()
+              {
+                Name = "player",
+                Value = "blue",
+                ConfirmationStatus = "NONE"
+              }
+            },
+             {
+              "amount", 
+              new Slot()
+              {
+                Name = "amount",
+                Value = "3",
+                ConfirmationStatus = "NONE"
+              }
+            }
+          }
+        } 
+      });
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillResponse skillResponse = sut.Handle(skillRequest, tokenUser);
+
       Assert.IsType<AddPoints>(sut);
     }
   }

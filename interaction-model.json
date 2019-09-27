@@ -144,8 +144,8 @@
                     "name": "ResetAllPoints",
                     "slots": [],
                     "samples": [
-                        "reset all points",
-                        "remove all points"
+                        "to delete all points",
+                        "to remove all points"
                     ]
                 },
                 {
@@ -173,6 +173,13 @@
                     "name": "ListAllPoints",
                     "slots": [],
                     "samples": [
+                        "read all points",
+                        "read everyone's points",
+                        "tell everyone their points",
+                        "list off all points",
+                        "list everyone's points",
+                        "tell me everyone's points",
+                        " list all points",
                         "get all points"
                     ]
                 },
