@@ -12,10 +12,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsAverage : BaseRequestHandler<GetPointsAverage>, IIntentRequestHandler
   {
-    public GetPointsAverage(ILogger<GetPointsAverage> logger) : base(logger) { }
+    public GetPointsAverage(ILogger<GetPointsAverage> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;

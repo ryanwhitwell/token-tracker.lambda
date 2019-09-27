@@ -13,10 +13,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsMin : BaseRequestHandler<GetPointsMin>, IIntentRequestHandler
   {
-    public GetPointsMin(ILogger<GetPointsMin> logger) : base(logger) { }
+    public GetPointsMin(ILogger<GetPointsMin> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN GetPointsMin. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;

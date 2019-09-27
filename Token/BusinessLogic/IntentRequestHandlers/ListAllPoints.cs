@@ -12,10 +12,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class ListAllPoints : BaseRequestHandler<ListAllPoints>, IIntentRequestHandler
   {
-    public ListAllPoints(ILogger<ListAllPoints> logger) : base(logger) { }
+    public ListAllPoints(ILogger<ListAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN ListAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
       SkillResponse response = null;

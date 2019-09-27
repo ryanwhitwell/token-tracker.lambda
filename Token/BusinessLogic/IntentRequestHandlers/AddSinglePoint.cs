@@ -6,15 +6,26 @@ using Microsoft.Extensions.Logging;
 using Token.BusinessLogic.Interfaces;
 using Token.Models;
 using Token.Core;
+using System;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class AddSinglePoint : BaseRequestHandler<AddSinglePoint>, IIntentRequestHandler
   {
-    public AddSinglePoint(ILogger<AddSinglePoint> logger) : base(logger) { }
+    public AddSinglePoint(ILogger<AddSinglePoint> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN AddSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;

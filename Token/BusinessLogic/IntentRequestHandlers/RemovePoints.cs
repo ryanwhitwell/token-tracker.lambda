@@ -12,10 +12,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class RemovePoints : BaseRequestHandler<RemovePoints>, IIntentRequestHandler
   {
-    public RemovePoints(ILogger<RemovePoints> logger) : base(logger) { }
+    public RemovePoints(ILogger<RemovePoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN RemovePoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;

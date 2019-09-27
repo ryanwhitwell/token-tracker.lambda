@@ -13,10 +13,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsMax : BaseRequestHandler<GetPointsMax>, IIntentRequestHandler
   {
-    public GetPointsMax(ILogger<GetPointsMax> logger) : base(logger) { }
+    public GetPointsMax(ILogger<GetPointsMax> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN GetPointsMax. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;

@@ -5,15 +5,26 @@ using Token.BusinessLogic.Interfaces;
 using Token.Models;
 using Token.Core;
 using System.Collections.Generic;
+using System;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class DeleteAllPlayers : BaseRequestHandler<DeleteAllPlayers>, IIntentRequestHandler
   {
-    public DeleteAllPlayers(ILogger<DeleteAllPlayers> logger) : base(logger) { }
+    public DeleteAllPlayers(ILogger<DeleteAllPlayers> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN DeleteAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 
       SkillResponse response;

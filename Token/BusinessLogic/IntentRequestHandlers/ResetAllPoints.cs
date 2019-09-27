@@ -5,15 +5,26 @@ using Microsoft.Extensions.Logging;
 using Token.BusinessLogic.Interfaces;
 using Token.Models;
 using Token.Core;
+using System;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class ResetAllPoints : BaseRequestHandler<ResetAllPoints>, IIntentRequestHandler
   {
-    public ResetAllPoints(ILogger<ResetAllPoints> logger) : base(logger) { }
+    public ResetAllPoints(ILogger<ResetAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN ResetAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 
       SkillResponse response;

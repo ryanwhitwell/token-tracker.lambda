@@ -4,15 +4,26 @@ using Microsoft.Extensions.Logging;
 using Token.BusinessLogic.Interfaces;
 using Token.Models;
 using Token.Core;
+using System;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetAllPlayersCount : BaseRequestHandler<GetAllPlayersCount>, IIntentRequestHandler
   {
-    public GetAllPlayersCount(ILogger<GetAllPlayersCount> logger) : base(logger) { }
+    public GetAllPlayersCount(ILogger<GetAllPlayersCount> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN GetAllPlayersCount. RequestId: {0}.", skillRequest.Request.RequestId);
 
       SkillResponse response;

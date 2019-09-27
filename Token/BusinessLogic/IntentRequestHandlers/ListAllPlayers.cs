@@ -6,15 +6,26 @@ using Token.BusinessLogic.Interfaces;
 using Token.Models;
 using Token.Core;
 using System.Text;
+using System;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class ListAllPlayers : BaseRequestHandler<ListAllPlayers>, IIntentRequestHandler
   {
-    public ListAllPlayers(ILogger<ListAllPlayers> logger) : base(logger) { }
+    public ListAllPlayers(ILogger<ListAllPlayers> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
+      if (!base.skillRequestValidator.IsValid(skillRequest))
+      {
+        throw new ArgumentNullException("skillRequest");
+      }
+      
+      if (tokenUser == null)
+      {
+        throw new ArgumentNullException("tokenUser");
+      }
+      
       logger.LogTrace("BEGIN ListAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 
       SkillResponse response = null;
