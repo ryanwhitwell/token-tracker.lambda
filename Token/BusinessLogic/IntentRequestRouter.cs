@@ -75,11 +75,11 @@ namespace Token.BusinessLogic
       }
 
       // Handle the request
-      SkillResponse speechResponse = await Task.Run(() => requestHandler.Handle(skillRequest, tokenUser));
+      SkillResponse skillResponse = await Task.Run(() => requestHandler.Handle(skillRequest, tokenUser));
 
       this.logger.LogTrace("END GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      return speechResponse;
+      return skillResponse;
     }
   }
 }

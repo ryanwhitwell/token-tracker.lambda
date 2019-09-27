@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Extensions.Logging;
-using Token.Core;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {

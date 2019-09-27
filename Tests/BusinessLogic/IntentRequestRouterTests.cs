@@ -10,6 +10,9 @@ using System.Linq;
 using System;
 using Token.Core;
 using Alexa.NET.InSkillPricing.Responses;
+using System.Threading.Tasks;
+using Token.Models;
+using Alexa.NET.Response;
 
 namespace Token.Tests.BusinessLogic
 {
@@ -77,8 +80,91 @@ namespace Token.Tests.BusinessLogic
       List<Mock<IIntentRequestHandler>>  mockRequestHandlers       = new List<Mock<IIntentRequestHandler>>();
       mockRequestHandlers.Add(new Mock<IIntentRequestHandler>());
 
-
       Assert.Throws<ArgumentNullException>(() => new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, null));
+    }
+
+    [Fact]
+    public async Task GetSkillResponse_ShouldReturnSkillResponse_WhenSkillRequestIsInvalid()
+    {
+      Mock<ISkillRequestValidator>       mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      Mock<ILogger<IntentRequestRouter>> mockLogger                = new Mock<ILogger<IntentRequestRouter>>();
+      List<Mock<IIntentRequestHandler>>  mockRequestHandlers       = new List<Mock<IIntentRequestHandler>>();
+      mockRequestHandlers.Add(new Mock<IIntentRequestHandler>());
+
+      IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
+      SkillRequest skillRequest = GenerateValidSkillRequest(null);
+      TokenUser tokenUser = new TokenUser();
+
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetSkillResponse(skillRequest, tokenUser));
+    }
+
+    [Fact]
+    public async Task GetSkillResponse_ShouldReturnSkillResponse_WhenTokenUserIsInvalid()
+    {
+      Mock<ISkillRequestValidator>       mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<ILogger<IntentRequestRouter>> mockLogger                = new Mock<ILogger<IntentRequestRouter>>();
+      List<Mock<IIntentRequestHandler>>  mockRequestHandlers       = new List<Mock<IIntentRequestHandler>>();
+      mockRequestHandlers.Add(new Mock<IIntentRequestHandler>());
+
+      IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest" });
+
+      await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetSkillResponse(skillRequest, null));
+    }
+
+    [Fact]
+    public async Task GetSkillResponse_ShouldReturnSkillResponse_WhenInputsAreInvalid()
+    {
+      SkillResponse expectedSkillResponse = new SkillResponse();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
+      
+      Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
+      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
+      
+      List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();
+      mockRequestHandlers.Add(mockIntentRequestHandler);
+
+      IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest", Intent = new Intent() { ConfirmationStatus = "CONFIRMED", Name = "AddPoints" } });
+      TokenUser tokenUser = new TokenUser();
+
+      SkillResponse skillResponse = await sut.GetSkillResponse(skillRequest, tokenUser);
+
+      Assert.IsType<SkillResponse>(skillResponse);
+    }
+
+    [Fact]
+    public async Task GetSkillResponse_ShouldReturnSkillResponse_WhenIntentConfirmationStatusIsDenied()
+    {
+      SkillResponse expectedSkillResponse = string.Format("Okay").Tell();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
+      
+      Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
+      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
+      
+      List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();
+      mockRequestHandlers.Add(mockIntentRequestHandler);
+
+      IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest", Intent = new Intent() { ConfirmationStatus = "CONFIRMED", Name = "AddPoints" } });
+      TokenUser tokenUser = new TokenUser();
+
+      SkillResponse skillResponse = await sut.GetSkillResponse(skillRequest, tokenUser);
+
+      Assert.IsType<SkillResponse>(skillResponse);
+      Assert.Equal(expectedSkillResponse, skillResponse);
     }
   }
 }
