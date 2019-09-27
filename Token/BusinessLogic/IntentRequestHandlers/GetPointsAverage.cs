@@ -12,7 +12,9 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsAverage : BaseRequestHandler<GetPointsAverage>, IIntentRequestHandler
   {
-    public GetPointsAverage(ILogger<GetPointsAverage> logger, ISkillRequestValidator skillRequestValidator) : base(IntentRequestName.GetPointsAverage, logger, skillRequestValidator) { }
+    public string IntentRequestHandlerName { get { return IntentRequestName.GetPointsAverage; } }
+    
+    public GetPointsAverage(ILogger<GetPointsAverage> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {

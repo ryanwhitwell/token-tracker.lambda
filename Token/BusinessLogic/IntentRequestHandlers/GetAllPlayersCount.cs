@@ -10,7 +10,9 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetAllPlayersCount : BaseRequestHandler<GetAllPlayersCount>, IIntentRequestHandler
   {
-    public GetAllPlayersCount(ILogger<GetAllPlayersCount> logger, ISkillRequestValidator skillRequestValidator) : base(IntentRequestName.GetAllPlayersCount, logger, skillRequestValidator) { }
+    public string IntentRequestHandlerName { get { return IntentRequestName.GetAllPlayersCount; } }
+    
+    public GetAllPlayersCount(ILogger<GetAllPlayersCount> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {

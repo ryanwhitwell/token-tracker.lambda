@@ -7,17 +7,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
   {
     private ILogger<T> _logger;
     private ISkillRequestValidator _skillRequestValidator;
-    private string _intentRequestName;
 
-    public string IntentRequestHandlerName { get { return _intentRequestName; } }
+    
 
-    public BaseRequestHandler(string intentRequestHandlerName, ILogger<T> logger, ISkillRequestValidator skillRequestValidator)
+    public BaseRequestHandler(ILogger<T> logger, ISkillRequestValidator skillRequestValidator)
     {
-      if (String.IsNullOrWhiteSpace(intentRequestHandlerName))
-      {
-        throw new ArgumentNullException("intentRequestHandlerName");
-      }
-      
       if (logger == null)
       {
         throw new ArgumentNullException("logger");

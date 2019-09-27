@@ -10,6 +10,7 @@ using Token.Core;
 using System.Collections.Generic;
 using System.Linq;
 using Token.BusinessLogic.Interfaces;
+using Newtonsoft.Json;
 
 namespace Token.BusinessLogic
 {
@@ -65,6 +66,8 @@ namespace Token.BusinessLogic
       {
         return string.Format("Okay").Tell();
       }
+
+      logger.LogInformation(JsonConvert.SerializeObject(intentRequestHandlers.Select(x => x.IntentRequestHandlerName)));
 
       // Get the right handler for the IntentRequest based on the name of the intent
       IIntentRequestHandler requestHandler = intentRequestHandlers.Where(x => x.IntentRequestHandlerName == intentRequest.Intent.Name).FirstOrDefault();

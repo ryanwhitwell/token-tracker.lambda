@@ -43,10 +43,8 @@
                         }
                     ],
                     "samples": [
-                        "add {amount} point to {player}",
                         "give {amount} point to {player}",
-                        "give {player} {amount} point",
-                        "give {player} {amount} points",
+                        "add {amount} point to {player}",
                         "give {amount} points to {player}",
                         "add {amount} points to {player}"
                     ]
@@ -67,10 +65,11 @@
                         }
                     ],
                     "samples": [
+                        "add a {player} player",
+                        "add a {player} token",
                         "add {player} to the game",
                         "include {player} in the list of players",
                         "add {player} to the list of players",
-                        "include {player} in my list of players",
                         "include {player}",
                         "include {player} in the game",
                         "add {player} to my list of players",
@@ -118,9 +117,10 @@
                         }
                     ],
                     "samples": [
+                        "tell me the score for {player}",
                         "get the points for {player}",
-                        "tell me {player} score",
-                        "get {player} points"
+                        "tell me the points for {player}",
+                        "get the score for {player}"
                     ]
                 },
                 {

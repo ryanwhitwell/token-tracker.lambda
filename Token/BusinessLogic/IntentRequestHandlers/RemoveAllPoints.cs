@@ -12,7 +12,9 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class RemoveAllPoints : BaseRequestHandler<RemoveAllPoints>, IIntentRequestHandler
   {
-    public RemoveAllPoints(ILogger<RemoveAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(IntentRequestName.RemoveAllPoints, logger, skillRequestValidator) { }
+    public string IntentRequestHandlerName { get { return IntentRequestName.RemoveAllPoints; } }
+    
+    public RemoveAllPoints(ILogger<RemoveAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
