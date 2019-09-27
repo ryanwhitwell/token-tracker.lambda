@@ -67,8 +67,7 @@
                         }
                     ],
                     "samples": [
-                        "add a {player} player",
-                        "add a {player} token"
+                        "add a {player} token "
                     ]
                 },
                 {
@@ -85,20 +84,16 @@
                         }
                     ],
                     "samples": [
-                        "remove token {player}",
-                        "remove player {player}",
-                        "delete token {player}",
-                        "delete player {player}"
+                        "delete the {player} token",
+                        "remove the {player} token"
                     ]
                 },
                 {
                     "name": "DeleteAllPlayers",
                     "slots": [],
                     "samples": [
-                        "delete all tokens",
-                        "remove all tokens",
-                        "delete all players",
-                        "remove all players"
+                        "delete all of the tokens",
+                        "remove all of the tokens"
                     ]
                 },
                 {
@@ -106,8 +101,7 @@
                     "slots": [],
                     "samples": [
                         "who is playing",
-                        "list all tokens",
-                        "list all players"
+                        "list all tokens"
                     ]
                 },
                 {
@@ -146,7 +140,7 @@
                     "name": "ResetAllPoints",
                     "slots": [],
                     "samples": [
-                        "reset all players",
+                        "reset all tokens",
                         "reset the game"
                     ]
                 },
@@ -189,11 +183,8 @@
                     "slots": [],
                     "samples": [
                         "what is the token count",
-                        "what is the player count",
                         "how many tokens there are",
-                        "how many tokens are there",
-                        "how many players are there",
-                        "how many players threre are"
+                        "how many tokens are there"
                     ]
                 },
                 {
@@ -209,8 +200,10 @@
                         }
                     ],
                     "samples": [
+                        "give everyone {amount} points",
                         "give everyone {amount} point",
-                        "give everyone {amount} points"
+                        "give all tokens {amount} point",
+                        "give all tokens {amount} points"
                     ]
                 },
                 {
@@ -398,11 +391,11 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "are you sure you want to remove {player}"
+                        "value": "are you sure you want to remove the {player} token"
                     },
                     {
                         "type": "PlainText",
-                        "value": "are you sure you want to get rid of {player}"
+                        "value": "are you sure you want to get rid of the {player} token"
                     }
                 ]
             },
