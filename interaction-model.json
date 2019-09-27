@@ -43,6 +43,8 @@
                         }
                     ],
                     "samples": [
+                        "assign {amount} points to {player}",
+                        "assign {amount} point to {player}",
                         "give {amount} point to {player}",
                         "add {amount} point to {player}",
                         "give {amount} points to {player}",
@@ -66,14 +68,7 @@
                     ],
                     "samples": [
                         "add a {player} player",
-                        "add a {player} token",
-                        "add {player} to the game",
-                        "include {player} in the list of players",
-                        "add {player} to the list of players",
-                        "include {player}",
-                        "include {player} in the game",
-                        "add {player} to my list of players",
-                        "add {player}"
+                        "add a {player} token"
                     ]
                 },
                 {
@@ -90,14 +85,19 @@
                         }
                     ],
                     "samples": [
-                        "delete {player}",
-                        "remove {player}"
+                        "remove token {player}",
+                        "remove player {player}",
+                        "delete token {player}",
+                        "delete player {player}"
                     ]
                 },
                 {
                     "name": "DeleteAllPlayers",
                     "slots": [],
                     "samples": [
+                        "delete all tokens",
+                        "remove all tokens",
+                        "delete all players",
                         "remove all players"
                     ]
                 },
@@ -105,6 +105,8 @@
                     "name": "ListAllPlayers",
                     "slots": [],
                     "samples": [
+                        "who is playing",
+                        "list all tokens",
                         "list all players"
                     ]
                 },
@@ -144,14 +146,15 @@
                     "name": "ResetAllPoints",
                     "slots": [],
                     "samples": [
-                        "to delete all points",
-                        "to remove all points"
+                        "reset all players",
+                        "reset the game"
                     ]
                 },
                 {
                     "name": "GetPointsMax",
                     "slots": [],
                     "samples": [
+                        "who has the most points",
                         "who has the highest score"
                     ]
                 },
@@ -159,6 +162,7 @@
                     "name": "GetPointsMin",
                     "slots": [],
                     "samples": [
+                        "who has the least points",
                         "who has the lowest score"
                     ]
                 },
@@ -166,6 +170,7 @@
                     "name": "GetPointsAverage",
                     "slots": [],
                     "samples": [
+                        "what is the points average",
                         "what is the average score"
                     ]
                 },
@@ -173,25 +178,22 @@
                     "name": "ListAllPoints",
                     "slots": [],
                     "samples": [
-                        "read all points",
-                        "read everyone's points",
-                        "tell everyone their points",
-                        "list off all points",
-                        "list everyone's points",
-                        "tell me everyone's points",
-                        " list all points",
-                        "get all points"
+                        "read everyones points",
+                        "read everyones score",
+                        "read all the score",
+                        "read all the points"
                     ]
                 },
                 {
                     "name": "GetAllPlayersCount",
                     "slots": [],
                     "samples": [
-                        "get me the number of players",
+                        "what is the token count",
                         "what is the player count",
-                        "how many players",
-                        "how many player do I have",
-                        "how many players are there"
+                        "how many tokens there are",
+                        "how many tokens are there",
+                        "how many players are there",
+                        "how many players threre are"
                     ]
                 },
                 {
@@ -234,6 +236,7 @@
                         }
                     ],
                     "samples": [
+                        "subtract a point from {player}",
                         "remove one from {player}",
                         "take one from {player}",
                         "take a point away from {player}",
@@ -253,6 +256,7 @@
                         }
                     ],
                     "samples": [
+                        "subtract {amount} points from everyone",
                         "take {amount} away from everyone",
                         "remove {amount} points from everyone"
                     ]
