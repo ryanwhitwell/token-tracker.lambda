@@ -158,13 +158,39 @@ namespace Token.Tests.BusinessLogic
       mockRequestHandlers.Add(mockIntentRequestHandler);
 
       IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
-      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest", Intent = new Intent() { ConfirmationStatus = "CONFIRMED", Name = "AddPoints" } });
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest", Intent = new Intent() { ConfirmationStatus = "DENIED", Name = "AddPoints" } });
       TokenUser tokenUser = new TokenUser();
 
       SkillResponse skillResponse = await sut.GetSkillResponse(skillRequest, tokenUser);
+      SsmlOutputSpeech speechResponse = skillResponse.Response.OutputSpeech as SsmlOutputSpeech;
 
       Assert.IsType<SkillResponse>(skillResponse);
-      Assert.Equal(expectedSkillResponse, skillResponse);
+      Assert.IsType<SsmlOutputSpeech>(skillResponse.Response.OutputSpeech);
+      Assert.Equal("<speak>Okay</speak>", speechResponse.Ssml);
+    }
+    
+    [Fact]
+    public async Task GetSkillResponse_ShouldThrowNotSupportedException_WhenIntentNameIsUnknown()
+    {
+      SkillResponse expectedSkillResponse = string.Format("Okay").Tell();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
+      
+      Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
+      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
+      
+      List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();
+      mockRequestHandlers.Add(mockIntentRequestHandler);
+
+      IntentRequestRouter sut = new IntentRequestRouter(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestHandlers.Select(x => x.Object));
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest() { RequestId ="TestRequestId", Locale = "en-US", Type = "IntentRequest", Intent = new Intent() { ConfirmationStatus = "CONFIRMED", Name = "UnknownIntentName" } });
+      TokenUser tokenUser = new TokenUser();
+
+      await Assert.ThrowsAsync<NotSupportedException>(() => sut.GetSkillResponse(skillRequest, tokenUser));
     }
   }
 }

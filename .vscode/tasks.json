@@ -97,6 +97,9 @@
         "/p:Exclude=\"[xunit.*]*,[*]Token.Core.IOC,[*]Token.Core.IntentRequestName,[*]Token.Core.RequestType,[*]Token.Function\"",
         "${workspaceFolder}/Tests/Tests.csproj"
       ],
+      "dependsOn": [
+        "build"
+      ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test",
