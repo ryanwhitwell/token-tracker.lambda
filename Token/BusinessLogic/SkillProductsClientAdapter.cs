@@ -11,7 +11,7 @@ namespace Token.BusinessLogic
     
     public SkillProductsClientAdapter(ISkillRequestValidator skillRequestValidator)
     {
-      if (skillRequestValidator is null)
+      if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }

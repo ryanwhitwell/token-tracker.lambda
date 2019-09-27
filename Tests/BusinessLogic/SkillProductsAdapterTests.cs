@@ -50,6 +50,12 @@ namespace Token.Tests.BusinessLogic
 
       Assert.IsType<SkillProductsClientAdapter>(sut);
     }
+
+    [Fact]
+    public void Ctor_ShouldThrowArgumentNullException_WhenSkillRequestValidatorIsNull()
+    {
+      Assert.Throws<ArgumentNullException>(() => new SkillProductsClientAdapter(null));
+    }
     
     [Fact]
     public void GetClient_ShouldReturnInstanceOfISkillProductsClient_WhenSkillRequestIsValid()
@@ -62,6 +68,17 @@ namespace Token.Tests.BusinessLogic
       ISkillProductsClient client = sut.GetClient(ValidSkillRequest);
 
       Assert.IsAssignableFrom<ISkillProductsClient>(client);
+    }
+
+    [Fact]
+    public void GetClient_ShouldThrowArgumentNullException_WhenSkillRequestIsNotValid()
+    {
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
+
+      SkillProductsClientAdapter sut = new SkillProductsClientAdapter(mockSkillRequestValidator.Object);
+      
+      Assert.Throws<ArgumentNullException>(() => sut.GetClient(new SkillRequest()));
     }
   }
 }
