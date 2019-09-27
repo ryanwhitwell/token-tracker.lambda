@@ -21,17 +21,17 @@ namespace Token.BusinessLogic
     
     public RequestMapper(ISkillRequestValidator skillRequestValidator, ILogger<RequestMapper> logger, IEnumerable<IRequestRouter> requestHandlers)
     {
-      if (skillRequestValidator is null)
+      if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }
       
-      if (logger is null)
+      if (logger == null)
       {
         throw new ArgumentNullException("logger");
       }
 
-      if (requestHandlers is null || requestHandlers.Count() <= 0)
+      if (requestHandlers == null || requestHandlers.Count() <= 0)
       {
         throw new ArgumentNullException("requestHandlers");
       }

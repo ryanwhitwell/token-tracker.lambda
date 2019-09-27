@@ -27,27 +27,27 @@ namespace Token.BusinessLogic
     ISkillRequestValidator skillRequestValidator;
     public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsClientAdapter skillProductsClientAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
     {
-      if (skillRequestValidator is null)
+      if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }
       
-      if (skillProductsClientAdapter is null)
+      if (skillProductsClientAdapter == null)
       {
         throw new ArgumentNullException("skillProductsAdapter");
       }
 
-      if (logger is null)
+      if (logger == null)
       {
         throw new ArgumentNullException("logger");
       }
 
-      if (requestMapper is null)
+      if (requestMapper == null)
       {
         throw new ArgumentNullException("requestMapper");
       }
 
-      if (tokenUserData is null)
+      if (tokenUserData == null)
       {
         throw new ArgumentNullException("tokenUserData");
       }

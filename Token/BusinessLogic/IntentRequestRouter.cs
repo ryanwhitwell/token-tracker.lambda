@@ -25,17 +25,17 @@ namespace Token.BusinessLogic
 
     public IntentRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers)
     {
-      if (skillRequestValidator is null)
+      if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }
       
-      if (logger is null)
+      if (logger == null)
       {
         throw new ArgumentNullException("logger");
       }
 
-      if (intentRequestHandlers is null || intentRequestHandlers.Count() <= 0)
+      if (intentRequestHandlers == null || intentRequestHandlers.Count() <= 0)
       {
         throw new ArgumentNullException("intentRequestHandlers");
       }
@@ -52,7 +52,7 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("skillRequest");
       }
 
-      if (tokenUser is null)
+      if (tokenUser == null)
       {
         throw new ArgumentNullException("tokenUser");
       }

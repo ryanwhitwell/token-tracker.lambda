@@ -19,12 +19,12 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         throw new ArgumentNullException("intentRequestHandlerName");
       }
       
-      if (logger is null)
+      if (logger == null)
       {
         throw new ArgumentNullException("logger");
       }
 
-      if (skillRequestValidator is null)
+      if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
       }
