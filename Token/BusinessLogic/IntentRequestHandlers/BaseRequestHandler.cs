@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Extensions.Logging;
+using Token.Core;
 
 namespace Token.BusinessLogic.IntentRequestHandlers
 {
@@ -7,9 +8,17 @@ namespace Token.BusinessLogic.IntentRequestHandlers
   {
     private ILogger<T> _logger;
     private ISkillRequestValidator _skillRequestValidator;
+    private string _intentRequestName;
 
-    public BaseRequestHandler(ILogger<T> logger, ISkillRequestValidator skillRequestValidator)
+    public string IntentRequestHandlerName { get { return _intentRequestName; } }
+
+    public BaseRequestHandler(string intentRequestHandlerName, ILogger<T> logger, ISkillRequestValidator skillRequestValidator)
     {
+      if (String.IsNullOrWhiteSpace(intentRequestHandlerName))
+      {
+        throw new ArgumentNullException("intentRequestHandlerName");
+      }
+      
       if (logger is null)
       {
         throw new ArgumentNullException("logger");

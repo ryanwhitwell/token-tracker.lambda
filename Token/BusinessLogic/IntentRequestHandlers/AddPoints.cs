@@ -12,7 +12,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class AddPoints : BaseRequestHandler<AddPoints>, IIntentRequestHandler
   {
-    public AddPoints(ILogger<AddPoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
+    public AddPoints(ILogger<AddPoints> logger, ISkillRequestValidator skillRequestValidator) : base(IntentRequestName.AddPoints, logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {

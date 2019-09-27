@@ -11,7 +11,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class ResetAllPoints : BaseRequestHandler<ResetAllPoints>, IIntentRequestHandler
   {
-    public ResetAllPoints(ILogger<ResetAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
+    public ResetAllPoints(ILogger<ResetAllPoints> logger, ISkillRequestValidator skillRequestValidator) : base(IntentRequestName.ResetAllPoints, logger, skillRequestValidator) { }
 
     public SkillResponse Handle(SkillRequest skillRequest, TokenUser tokenUser)
     {
