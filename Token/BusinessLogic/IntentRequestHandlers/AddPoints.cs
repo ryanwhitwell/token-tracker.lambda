@@ -30,8 +30,27 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
+      string rawPlayerName = intentRequest.Intent.Slots["player"].Value;
+
+      if (string.IsNullOrWhiteSpace(rawPlayerName))
+      {
+        throw new ArgumentException("Player cannot be null or whitespace.");
+      }
+
       string playerName = Configuration.TEXT_INFO.ToTitleCase(intentRequest.Intent.Slots["player"].Value);
-      int points = Int32.Parse(intentRequest.Intent.Slots["amount"].Value);
+
+      string rawAmount = intentRequest.Intent.Slots["amount"].Value;
+
+      if (string.IsNullOrWhiteSpace(rawAmount))
+      {
+        throw new ArgumentException("Amount cannot be null or whitespace.");
+      }
+      
+      int points;
+      if (!Int32.TryParse(intentRequest.Intent.Slots["amount"].Value, out points))
+      {
+        throw new ArgumentException(string.Format("Amount {0} cannot be converted to an integer.", rawAmount));
+      }
 
       Player existingPlayer = tokenUser.Players.FirstOrDefault(x => x.Name == playerName);
 
