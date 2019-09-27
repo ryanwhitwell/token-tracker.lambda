@@ -14,12 +14,22 @@ namespace Token
 {
   public class Function
   {
-    // Initialize Configuration
-    private static IConfigurationRoot configurationFile = Configuration.File;
-    // Initialize DI Container
-    private static ServiceProvider container = IOC.Container;
-    private IRequestBusinessLogic businessLogic = container.GetService<IRequestBusinessLogic>();
+    private static readonly IConfigurationRoot configurationFile = Configuration.File;
+    
+    private static readonly ServiceProvider container = IOC.Container;
 
+    private IRequestBusinessLogic _requestBusinessLogic;
+    
+    public Function(IRequestBusinessLogic requestBusinessLogic)
+    {
+      if (requestBusinessLogic == null)
+      {
+        throw new ArgumentNullException("requestBusinessLogic");
+      }
+
+      _requestBusinessLogic = requestBusinessLogic;
+    }
+    
     public async Task<SkillResponse> FunctionHandler(SkillRequest skillRequest, ILambdaContext context)
     {
       // Skill ID verified by AWS Lambda service
@@ -36,7 +46,7 @@ namespace Token
 
       try
       {
-        response = await this.businessLogic.HandleSkillRequest(skillRequest, context);
+        response = await _requestBusinessLogic.HandleSkillRequest(skillRequest, context);
       }
       catch (Exception e)
       {
