@@ -60,13 +60,14 @@
                             "samples": [
                                 "their color token is {player}",
                                 "their token color is {player}",
-                                "they're {player}",
                                 "their color is {player}",
                                 "{player}"
                             ]
                         }
                     ],
                     "samples": [
+                        "add another token",
+                        "add a token",
                         "add a {player} token "
                     ]
                 },
@@ -92,6 +93,8 @@
                     "name": "DeleteAllPlayers",
                     "slots": [],
                     "samples": [
+                        "remove all tokens",
+                        "delete all tokens",
                         "delete all of the tokens",
                         "remove all of the tokens"
                     ]
@@ -113,6 +116,8 @@
                         }
                     ],
                     "samples": [
+                        "how many points does {player} have",
+                        "what is the score for {player}",
                         "tell me the score for {player}",
                         "get the points for {player}",
                         "tell me the points for {player}",
@@ -132,6 +137,7 @@
                         }
                     ],
                     "samples": [
+                        "subtract {amount} points from {player}",
                         "take {amount} points away from {player}",
                         "remove {amount} points from {player}"
                     ]
@@ -156,6 +162,7 @@
                     "name": "GetPointsMin",
                     "slots": [],
                     "samples": [
+                        "who has the fewest points",
                         "who has the least points",
                         "who has the lowest score"
                     ]
@@ -174,7 +181,7 @@
                     "samples": [
                         "read everyones points",
                         "read everyones score",
-                        "read all the score",
+                        "read all the scores",
                         "read all the points"
                     ]
                 },
@@ -215,6 +222,7 @@
                         }
                     ],
                     "samples": [
+                        "give one to {player}",
                         "add one to {player}",
                         "give a point to {player}",
                         "add a point to {player}"
@@ -261,6 +269,7 @@
             "intents": [
                 {
                     "name": "AddPoints",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -284,6 +293,7 @@
                 },
                 {
                     "name": "AddPlayer",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -300,6 +310,7 @@
                 },
                 {
                     "name": "DeletePlayer",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1501884991038"
@@ -332,6 +343,7 @@
                 },
                 {
                     "name": "AddAllPoints",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1160332779911"
@@ -350,6 +362,7 @@
                 },
                 {
                     "name": "ResetAllPoints",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.264720803003"
@@ -358,6 +371,7 @@
                 },
                 {
                     "name": "RemoveAllPoints",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.939523654694"
@@ -376,6 +390,7 @@
                 },
                 {
                     "name": "DeleteAllPlayers",
+                    "delegationStrategy": "SKILL_RESPONSE",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.372361820960"
@@ -392,10 +407,6 @@
                     {
                         "type": "PlainText",
                         "value": "are you sure you want to remove the {player} token"
-                    },
-                    {
-                        "type": "PlainText",
-                        "value": "are you sure you want to get rid of the {player} token"
                     }
                 ]
             },
@@ -431,14 +442,6 @@
                     {
                         "type": "PlainText",
                         "value": "who color token do want to add"
-                    },
-                    {
-                        "type": "PlainText",
-                        "value": "what token color does the player want to be"
-                    },
-                    {
-                        "type": "PlainText",
-                        "value": "what's the player's token color"
                     }
                 ]
             },
