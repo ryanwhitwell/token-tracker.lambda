@@ -32,12 +32,20 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
-
       double[] allPoints = tokenUser.Players.Select(x => (double)x.Points).ToArray();
-      double averagePoints = allPoints.Average();
 
-      string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
-      SkillResponse response = string.Format("The average score for all players is {0} {1}.", averagePoints, pointsWord).Tell();
+      SkillResponse response;
+      if (allPoints == null || allPoints.Length <= 0)
+      {
+        response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
+      }
+      else 
+      {
+        double averagePoints = allPoints.Average();
+
+        string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
+        response = string.Format("The average score for all players is {0} {1}.", averagePoints, pointsWord).Tell();
+      }
 
       logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
 

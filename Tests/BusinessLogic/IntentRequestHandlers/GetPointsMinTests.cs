@@ -76,5 +76,46 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
 
       Assert.IsType<GetPointsMin>(sut);
     }
+
+    [Fact]
+    public void Handle_ShouldReturnSkillResponse_WhenCalledWithValidInputs()
+    {
+      Mock<ILogger<GetPointsMin>> mockLogger = new Mock<ILogger<GetPointsMin>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+      
+      GetPointsMin sut = new GetPointsMin(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest()
+      { 
+        RequestId ="TestRequestId", 
+        Locale = "en-US", 
+        Type = "IntentRequest", 
+        Intent = new Intent() 
+        { 
+          ConfirmationStatus = "CONFIRMED",
+          Name = "GetPointsMin",
+          Slots = new Dictionary<string, Slot>()
+          {
+            {
+              "player", 
+              new Slot()
+              {
+                Name = "player",
+                Value = "blue",
+                ConfirmationStatus = "NONE"
+              }
+            }
+          }
+        } 
+      });
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillResponse skillResponse = sut.Handle(skillRequest, tokenUser);
+
+      Assert.IsType<SkillResponse>(skillResponse);
+    }
   }
 }

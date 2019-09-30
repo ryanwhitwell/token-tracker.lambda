@@ -37,7 +37,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       SkillResponse response;
 
-      if (playersScoreAscending == null)
+      if (playersScoreAscending == null || playersScoreAscending.Length <= 0)
       {
         response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
       }

@@ -76,5 +76,46 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
 
       Assert.IsType<DeleteAllPlayers>(sut);
     }
+
+    [Fact]
+    public void Handle_ShouldReturnSkillResponse_WhenCalledWithValidInputs()
+    {
+      Mock<ILogger<DeleteAllPlayers>> mockLogger = new Mock<ILogger<DeleteAllPlayers>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+      
+      DeleteAllPlayers sut = new DeleteAllPlayers(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      SkillRequest skillRequest = GenerateValidSkillRequest(new IntentRequest()
+      { 
+        RequestId ="TestRequestId", 
+        Locale = "en-US", 
+        Type = "IntentRequest", 
+        Intent = new Intent() 
+        { 
+          ConfirmationStatus = "CONFIRMED",
+          Name = "DeleteAllPlayers",
+          Slots = new Dictionary<string, Slot>()
+          {
+            {
+              "player", 
+              new Slot()
+              {
+                Name = "player",
+                Value = "blue",
+                ConfirmationStatus = "NONE"
+              }
+            }
+          }
+        } 
+      });
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillResponse skillResponse = sut.Handle(skillRequest, tokenUser);
+
+      Assert.IsType<SkillResponse>(skillResponse);
+    }
   }
 }
