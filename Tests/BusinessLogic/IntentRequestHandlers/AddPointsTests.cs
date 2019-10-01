@@ -113,5 +113,37 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
 
       Assert.IsType<AddPoints>(sut);
     }
+
+    [Fact]
+    public void Handle_ShouldThrowArgumentNullException_WhenCalledWithInvalidSkillRequest()
+    {
+      Mock<ILogger<AddPoints>> mockLogger = new Mock<ILogger<AddPoints>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
+      
+      AddPoints sut = new AddPoints(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillRequest skillRequest = new SkillRequest();
+
+      Assert.Throws<ArgumentNullException>(() => sut.Handle(skillRequest, tokenUser));
+    }
+
+    [Fact]
+    public void Handle_ShouldThrowArgumentNullException_WhenTokenUserIsNull()
+    {
+      Mock<ILogger<AddPoints>> mockLogger = new Mock<ILogger<AddPoints>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+      
+      AddPoints sut = new AddPoints(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      SkillRequest skillRequest = new SkillRequest();
+
+      Assert.Throws<ArgumentNullException>(() => sut.Handle(skillRequest, null));
+    }
   }
 }

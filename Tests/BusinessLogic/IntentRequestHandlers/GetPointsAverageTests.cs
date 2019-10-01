@@ -117,5 +117,37 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
 
       Assert.IsType<SkillResponse>(skillResponse);
     }
+
+    [Fact]
+    public void Handle_ShouldThrowArgumentNullException_WhenCalledWithInvalidSkillRequest()
+    {
+      Mock<ILogger<GetPointsAverage>> mockLogger = new Mock<ILogger<GetPointsAverage>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(false);
+      
+      GetPointsAverage sut = new GetPointsAverage(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      TokenUser tokenUser = new TokenUser() { Players = new List<Player>() };
+
+      SkillRequest skillRequest = new SkillRequest();
+
+      Assert.Throws<ArgumentNullException>(() => sut.Handle(skillRequest, tokenUser));
+    }
+
+    [Fact]
+    public void Handle_ShouldThrowArgumentNullException_WhenTokenUserIsNull()
+    {
+      Mock<ILogger<GetPointsAverage>> mockLogger = new Mock<ILogger<GetPointsAverage>>();
+      
+      Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
+      mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+      
+      GetPointsAverage sut = new GetPointsAverage(mockLogger.Object, mockSkillRequestValidator.Object);
+
+      SkillRequest skillRequest = new SkillRequest();
+
+      Assert.Throws<ArgumentNullException>(() => sut.Handle(skillRequest, null));
+    }
   }
 }
