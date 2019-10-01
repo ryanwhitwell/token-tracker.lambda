@@ -102,6 +102,11 @@ namespace Token.BusinessLogic
       {
         throw new Exception(string.Format("Unidentified request type detected. Cannot route request type '{0}'.", skillRequest.Request.Type));
       }
+      
+      if (requestHandler == null) 
+      {
+        throw new Exception(string.Format("Unable to assign request router. There is no router bound to the container for request type '{0}'.", skillRequest.Request.Type));
+      }
 
       this.logger.LogTrace("END GetRequestHandler. RequestId: {0}. RequestHandler Type: '{1}'.", skillRequest.Request.RequestId, requestHandler.GetType().Name);
 

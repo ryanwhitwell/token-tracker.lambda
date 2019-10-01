@@ -31,6 +31,7 @@ namespace Token.Core
           })
           .AddTransient<IRequestBusinessLogic, RequestBusinessLogic>()
           .AddTransient<IRequestRouter, IntentRequestRouter>()
+          .AddTransient<IRequestRouter, LaunchRequestRouter>()
           .AddTransient<ITokenUserData, TokenUserData>()
           .AddTransient<ITokenUserRepository, TokenUserRepository>()
           .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
