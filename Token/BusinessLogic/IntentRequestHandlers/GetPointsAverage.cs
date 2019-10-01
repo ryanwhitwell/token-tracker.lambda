@@ -37,14 +37,14 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response;
       if (allPoints == null || allPoints.Length <= 0)
       {
-        response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
+        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell();
       }
       else 
       {
         double averagePoints = allPoints.Average();
 
         string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
-        response = string.Format("The average score for all players is {0} {1}.", averagePoints, pointsWord).Tell();
+        response = string.Format("The average score for all tokens is {0} {1}.", averagePoints, pointsWord).Tell();
       }
 
       logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);

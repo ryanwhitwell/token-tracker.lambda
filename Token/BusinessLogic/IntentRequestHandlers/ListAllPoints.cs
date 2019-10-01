@@ -33,7 +33,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
       {
-        response = string.Format("Hmm, you don't have any players yet.").Tell();
+        response = string.Format("Hmm, you don't have any tokens yet.").Tell();
       }
       else
       {

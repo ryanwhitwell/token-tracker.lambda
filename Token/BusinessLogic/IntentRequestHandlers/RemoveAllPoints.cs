@@ -37,14 +37,14 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
       {
-        response = string.Format("Hmm, I don't see anyone in your list of players.").Tell();
+        response = string.Format("Hmm, I don't see anyone in your list of tokens.").Tell();
       }
       else
       {
         tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = x.Points - points }).ToList(); ;
 
         string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
-        response = string.Format("Okay, I removed {0} {1} from all players.", points, pointsResponseWord).Tell();
+        response = string.Format("Okay, I removed {0} {1} from all tokens.", points, pointsResponseWord).Tell();
       }
 
       logger.LogTrace("END RemoveAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);

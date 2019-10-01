@@ -74,7 +74,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       {
         // Add new Player data
         tokenUser.Players.Add(new Player() { Name = playerName, Points = points });
-        response = string.Format("Alright, I added {0} to your list of players and gave them {1} {2}.", playerName, points, pointsResponseWord).Tell();
+        response = string.Format("Alright, I added {0} to your list of tokens and gave them {1} {2}.", playerName, points, pointsResponseWord).Tell();
       }
 
       logger.LogTrace("END AddPoints. RequestId: {0}.", skillRequest.Request.RequestId);

@@ -42,14 +42,14 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (existingPlayer == null)
       {
-        response = string.Format("Hmm, I don't see {0} in your list of players.", playerName).Tell();
+        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell();
       }
       else
       {
         // Remove Player from list
         tokenUser.Players = tokenUser.Players.Where(x => x.Name != existingPlayer.Name).ToList();
 
-        response = string.Format("Okay, I removed {0} from your list of players.", playerName).Tell();
+        response = string.Format("Okay, I removed {0} from your list of tokens.", playerName).Tell();
       }
 
       logger.LogTrace("END DeletePlayer. RequestId: {0}.", skillRequest.Request.RequestId);

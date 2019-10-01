@@ -52,7 +52,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       {
         // Add new Player data
         tokenUser.Players.Add(new Player() { Name = playerName, Points = 1 });
-        response = string.Format("Alright, I added {0} to your list of players and gave them one point.", playerName).Tell();
+        response = string.Format("Alright, I added {0} to your list of tokens and gave them one point.", playerName).Tell();
       }
 
       logger.LogTrace("END AddSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);

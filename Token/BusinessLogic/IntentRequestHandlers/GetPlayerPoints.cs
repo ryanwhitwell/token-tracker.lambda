@@ -44,7 +44,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       }
       else
       {
-        response = string.Format("Hmm, I don't see {0} in your list of players.", playerName).Tell();
+        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell();
       }
 
       logger.LogTrace("END GetPlayerPoints. RequestId: {0}.", skillRequest.Request.RequestId);

@@ -499,7 +499,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "are you sure you want to remove everyone from your list of players?"
+                        "value": "are you sure you want to remove everyone from your list of tokens?"
                     }
                 ]
             }

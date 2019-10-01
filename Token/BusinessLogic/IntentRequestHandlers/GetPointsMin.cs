@@ -39,7 +39,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       if (playersScoreAscending == null || playersScoreAscending.Length <= 0)
       {
-        response = string.Format("Hmm, you don't see anyone in your list of players.").Tell();
+        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell();
       }
       else
       {
@@ -49,7 +49,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         if (lowScorePlayers.Length == playersScoreAscending.Count())
         {
           string pointsWord = Math.Abs(lowScore) != 1 ? "points" : "point";
-          response = string.Format("All players are tied with a score of {0} {1}.", lowScore, pointsWord).Tell();
+          response = string.Format("All tokens are tied with a score of {0} {1}.", lowScore, pointsWord).Tell();
         }
         else if (lowScorePlayers.Length > 1)
         {

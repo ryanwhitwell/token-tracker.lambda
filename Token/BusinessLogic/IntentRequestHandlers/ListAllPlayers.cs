@@ -33,13 +33,13 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
       {
-        response = string.Format("Hmm, you don't have any players yet.").Tell();
+        response = string.Format("Hmm, you don't have any tokens yet.").Tell();
       }
       else
       {
         StringBuilder responsePhraseBuilder = new StringBuilder();
 
-        responsePhraseBuilder.Append("Okay, here we go. The players in your list are");
+        responsePhraseBuilder.Append("Okay, here we go. The tokens in your list are");
 
         string[] arrayOfPlayersNames = tokenUser.Players.Select(x => x.Name).ToArray();
         for (int i = 0; i < arrayOfPlayersNames.Length; i++)
