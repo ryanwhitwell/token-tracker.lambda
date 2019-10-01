@@ -22,7 +22,7 @@ namespace Token.BusinessLogic
 
     ISkillRequestValidator skillRequestValidator;
 
-    public RequestType RequestType { get { return RequestType.IntentRequest; }}
+    public RequestType RequestType { get { return RequestType.LaunchRequest; }}
 
     public LaunchRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<LaunchRequestRouter> logger, IEnumerable<ILaunchRequestHandler> requestHandlers)
     {
