@@ -13,7 +13,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsMax : BaseRequestHandler<GetPointsMax>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.GetPointsMax; } }
+    public string HandlerName { get { return IntentRequestName.GetPointsMax; } }
     
     public GetPointsMax(ILogger<GetPointsMax> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

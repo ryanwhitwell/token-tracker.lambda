@@ -12,7 +12,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class RemoveSinglePoint : BaseRequestHandler<RemoveSinglePoint>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.RemoveSinglePoint; } }
+    public string HandlerName { get { return IntentRequestName.RemoveSinglePoint; } }
     
     public RemoveSinglePoint(ILogger<RemoveSinglePoint> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

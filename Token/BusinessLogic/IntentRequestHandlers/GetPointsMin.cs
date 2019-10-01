@@ -13,7 +13,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class GetPointsMin : BaseRequestHandler<GetPointsMin>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.GetPointsMin; } }
+    public string HandlerName { get { return IntentRequestName.GetPointsMin; } }
     
     public GetPointsMin(ILogger<GetPointsMin> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

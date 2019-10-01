@@ -14,17 +14,17 @@ using Newtonsoft.Json;
 
 namespace Token.BusinessLogic
 {
-  public class IntentRequestRouter : IRequestRouter
+  public class LaunchRequestRouter : IRequestRouter
   {
-    private IEnumerable<IIntentRequestHandler> intentRequestHandlers;
+    private IEnumerable<ILaunchRequestHandler> requestHandlers;
 
-    private ILogger<IntentRequestRouter> logger;
+    private ILogger<LaunchRequestRouter> logger;
 
     ISkillRequestValidator skillRequestValidator;
 
     public RequestType RequestType { get { return RequestType.IntentRequest; }}
 
-    public IntentRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers)
+    public LaunchRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<LaunchRequestRouter> logger, IEnumerable<ILaunchRequestHandler> requestHandlers)
     {
       if (skillRequestValidator == null)
       {
@@ -36,14 +36,14 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("logger");
       }
 
-      if (intentRequestHandlers == null || intentRequestHandlers.Count() <= 0)
+      if (requestHandlers == null || requestHandlers.Count() <= 0)
       {
-        throw new ArgumentNullException("intentRequestHandlers");
+        throw new ArgumentNullException("requestHandlers");
       }
 
       this.skillRequestValidator = skillRequestValidator;
       this.logger = logger;
-      this.intentRequestHandlers = intentRequestHandlers;
+      this.requestHandlers = requestHandlers;
     }
 
     public async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
@@ -60,19 +60,14 @@ namespace Token.BusinessLogic
       
       this.logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      IntentRequest intentRequest = skillRequest.Request as IntentRequest;
+      LaunchRequest launchRequest = skillRequest.Request as LaunchRequest;
 
-      if (intentRequest.Intent.ConfirmationStatus == "DENIED")
-      {
-        return string.Format("Okay").Tell();
-      }
-
-      // Get the right handler for the IntentRequest based on the name of the intent
-      IIntentRequestHandler requestHandler = intentRequestHandlers.Where(x => x.HandlerName == intentRequest.Intent.Name).FirstOrDefault();
+      // There is only one handler and it is the default. Select it and throw an error if it's not bound correctly.
+      ILaunchRequestHandler requestHandler = requestHandlers.FirstOrDefault();
 
       if (requestHandler == null)
       {
-        throw new NotSupportedException(string.Format("Cannot successfully route IntentRequest '{0}'.", intentRequest.Intent.Name));
+        throw new Exception(string.Format("Cannot successfully route LaunchRequest. The request handler is not bound to the container.", launchRequest.Type));
       }
 
       // Handle the request

@@ -125,7 +125,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
       
       Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
-      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.HandlerName).Returns(IntentRequestName.AddPoints);
       mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
       
       List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();
@@ -151,7 +151,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
       
       Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
-      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.HandlerName).Returns(IntentRequestName.AddPoints);
       mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
       
       List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();
@@ -180,7 +180,7 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<IntentRequestRouter>> mockLogger = new Mock<ILogger<IntentRequestRouter>>();
       
       Mock<IIntentRequestHandler> mockIntentRequestHandler = new Mock<IIntentRequestHandler>();
-      mockIntentRequestHandler.Setup(x => x.IntentRequestHandlerName).Returns(IntentRequestName.AddPoints);
+      mockIntentRequestHandler.Setup(x => x.HandlerName).Returns(IntentRequestName.AddPoints);
       mockIntentRequestHandler.Setup(x => x.Handle(It.IsAny<SkillRequest>(), It.IsAny<TokenUser>())).Returns(expectedSkillResponse);
       
       List<Mock<IIntentRequestHandler>> mockRequestHandlers = new List<Mock<IIntentRequestHandler>>();

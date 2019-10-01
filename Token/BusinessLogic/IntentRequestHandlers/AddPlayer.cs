@@ -12,7 +12,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class AddPlayer : BaseRequestHandler<AddPlayer>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.AddPlayer; } }
+    public string HandlerName { get { return IntentRequestName.AddPlayer; } }
     
     public AddPlayer(ILogger<AddPlayer> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

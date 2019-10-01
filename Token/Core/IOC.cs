@@ -12,6 +12,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Token.BusinessLogic.IntentRequestHandlers;
+using Token.BusinessLogic.LaunchRequestHandlers;
 
 namespace Token.Core
 {
@@ -50,6 +51,7 @@ namespace Token.Core
           .AddTransient<IIntentRequestHandler, RemovePoints>()
           .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
           .AddTransient<IIntentRequestHandler, ResetAllPoints>()
+          .AddTransient<ILaunchRequestHandler, DefaultLaunchRequest>()
           .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
           .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
           .AddTransient<IRequestMapper, RequestMapper>()

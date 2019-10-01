@@ -11,7 +11,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class DeleteAllPlayers : BaseRequestHandler<DeleteAllPlayers>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.DeleteAllPlayers; } }
+    public string HandlerName { get { return IntentRequestName.DeleteAllPlayers; } }
     
     public DeleteAllPlayers(ILogger<DeleteAllPlayers> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

@@ -13,7 +13,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 {
   public class DeletePlayer : BaseRequestHandler<DeletePlayer>, IIntentRequestHandler
   {
-    public string IntentRequestHandlerName { get { return IntentRequestName.DeletePlayer; } }
+    public string HandlerName { get { return IntentRequestName.DeletePlayer; } }
     
     public DeletePlayer(ILogger<DeletePlayer> logger, ISkillRequestValidator skillRequestValidator) : base(logger, skillRequestValidator) { }
 

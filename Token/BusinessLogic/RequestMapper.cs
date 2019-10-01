@@ -76,7 +76,7 @@ namespace Token.BusinessLogic
       }
       else if (skillRequest.Request is LaunchRequest)
       {
-        throw new NotSupportedException();
+        requestHandler = this.requestHandlers.FirstOrDefault(x => x.RequestType == RequestType.LaunchRequest);
       }
       else if (skillRequest.Request is PermissionSkillEventRequest)
       {

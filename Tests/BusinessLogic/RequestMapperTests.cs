@@ -199,7 +199,7 @@ namespace Token.Tests.BusinessLogic
     }
 
     [Fact]
-    public void GetRequestHandler_ShouldThrowNotSupportedException_WhenSkillRequestTypeIsLaunchRequest()
+    public void GetRequestHandler_ShouldReturnLaunchRequestHandler_WhenSkillRequestTypeIsLaunchRequest()
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
@@ -207,14 +207,15 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestMapper>> mockLogger = new Mock<ILogger<RequestMapper>>();
 
       Mock<IRequestRouter> mockRequestrouter = new Mock<IRequestRouter>();
-      mockRequestrouter.Setup(x => x.RequestType).Returns(RequestType.IntentRequest);
+      mockRequestrouter.Setup(x => x.RequestType).Returns(RequestType.LaunchRequest);
 
       List<Mock<IRequestRouter>> mockRequestRouters = new List<Mock<IRequestRouter>>();
       mockRequestRouters.Add(mockRequestrouter);
 
       RequestMapper sut = new RequestMapper(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestRouters.Select(x => x.Object));
+      IRequestRouter intentRequestHandler = sut.GetRequestHandler(GenerateValidSkillRequest(new LaunchRequest() { RequestId= "TestRequestId", Type = "LaunchRequest", Locale = "en-US"}));
       
-      Assert.Throws<NotSupportedException>(() => sut.GetRequestHandler(GenerateValidSkillRequest(new LaunchRequest(){ RequestId= "TestRequestId", Type = "LaunchRequest", Locale = "en-US"})));
+      Assert.Equal(RequestType.LaunchRequest, intentRequestHandler.RequestType);
     }
 
     [Fact]

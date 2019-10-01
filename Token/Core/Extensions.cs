@@ -15,6 +15,17 @@ namespace Token.Core
       return speechResponse;
     }
 
+    public static SkillResponse TellWithReprompt(this string phrase, string repromptPhrase)
+    {
+      SsmlOutputSpeech speech = new SsmlOutputSpeech();
+      speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
+
+      Reprompt reprompt = new Reprompt(repromptPhrase);
+
+      SkillResponse speechResponse = ResponseBuilder.TellWithReprompt(speech, reprompt);
+      return speechResponse;
+    }
+
     public static string Mask(this string source)
     {
       return source.Mask('*');
