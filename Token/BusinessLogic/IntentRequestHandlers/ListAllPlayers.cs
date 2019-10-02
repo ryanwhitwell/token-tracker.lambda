@@ -35,6 +35,10 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       {
         response = string.Format("Hmm, you don't have any tokens yet.").Tell();
       }
+      else if (tokenUser.Players.Count == 1)
+      {
+        response = string.Format("Alright, it looks like the only token in your list is the color {0}.", tokenUser.Players[0].Name).Tell();
+      }
       else
       {
         StringBuilder responsePhraseBuilder = new StringBuilder();
@@ -59,7 +63,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
           responsePhraseBuilder.AppendFormat(", {0}", arrayOfPlayersNames[i]);
         }
 
-        responsePhraseBuilder.Append(" I think that's everybody.");
+        responsePhraseBuilder.Append(" . I think that's everybody.");
 
         response = responsePhraseBuilder.ToString().Tell();
       }

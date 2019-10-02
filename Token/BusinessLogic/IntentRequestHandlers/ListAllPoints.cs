@@ -35,6 +35,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       {
         response = string.Format("Hmm, you don't have any tokens yet.").Tell();
       }
+      else if (tokenUser.Players.Count == 1)
+      {
+        string pointsWord = Math.Abs(tokenUser.Players[0].Points) != 1 ? "points" : "point";
+        response = string.Format("Alright, it looks like the only token in your list is the color {0}, and they have {1} {2}.", tokenUser.Players[0].Name, tokenUser.Players[0].Points, pointsWord).Tell();
+      }
       else
       {
         StringBuilder responsePhraseBuilder = new StringBuilder();
