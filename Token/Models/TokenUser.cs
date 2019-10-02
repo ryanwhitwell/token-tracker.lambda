@@ -36,7 +36,7 @@ namespace Token.Models
       get 
       {
         int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
-        DateTime userCreateDate = this.CreateDate ?? DateTime.UtcNow;
+        DateTime userCreateDate = this.CreateDate.HasValue ? this.CreateDate.Value : DateTime.UtcNow;
         DateTime userDataExpirationDate = userCreateDate.AddMinutes(configuredTtlMinutes);
         int userDataTtlMinutes = (int)(userDataExpirationDate - userCreateDate).TotalMinutes;
 
