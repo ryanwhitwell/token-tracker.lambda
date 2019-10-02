@@ -4,6 +4,33 @@
             "invocationName": "token",
             "intents": [
                 {
+                    "name": "WhatCanIBuy",
+                    "samples": [
+                        "what can I buy",
+                        "what can I shop for",
+                        "tell me what I can buy",
+                        "buy",
+                        "shop",
+                        "purchase"
+                    ],
+                    "slots": []
+                },
+                {
+                    "name": "Buy",
+                    "samples": [
+                        "buy {ProductName}",
+                        "purchase {ProductName}",
+                        "want {ProductName}",
+                        "would like {ProductName}"
+                    ],
+                    "slots": [
+                        {
+                            "name": "ProductName",
+                            "type": "LIST_OF_PRODUCT_NAMES"
+                        }
+                    ]
+                },
+                {
                     "name": "AMAZON.FallbackIntent",
                     "samples": []
                 },
@@ -259,7 +286,22 @@
                     ]
                 }
             ],
-            "types": []
+            "types": [
+                {
+                    "name": "LIST_OF_PRODUCT_NAMES",
+                    "values": [
+                        {
+                            "id": "amzn1.adg.product.467f7ca4-91dd-48d3-b831-040673e7066c",
+                            "name": {
+                                "value": "PointsPersistence",
+                                "synonyms": [
+                                    "Points Persistence"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         "dialog": {
             "intents": [
