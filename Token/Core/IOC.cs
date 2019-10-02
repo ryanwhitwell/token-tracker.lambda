@@ -57,6 +57,7 @@ namespace Token.Core
           .AddTransient<IIntentRequestHandler, Buy>()
           .AddTransient<IIntentRequestHandler, WhatCanIBuy>()
           .AddTransient<IIntentRequestHandler, Help>()
+          .AddTransient<IIntentRequestHandler, RefundSubscription>()
           .AddTransient<ILaunchRequestHandler, DefaultLaunchRequest>()
           .AddTransient<IConnectionResponseRequestHandler, DefaultConnectionResponseRequest>()
           .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
