@@ -71,7 +71,7 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
 
     private int GetUserDataTtlMinutes(TokenUser tokenUser)
     {
-      int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("InSkillProducts")["DataTimeToLiveMinutes"]);
+      int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
       DateTime userCreateDate = tokenUser.CreateDate ?? DateTime.UtcNow;
       int userDataTtlMinutes = (int)(userCreateDate.AddMinutes(configuredTtlMinutes) - TokenUserData.EPOCH_DATE).TotalMinutes;
 

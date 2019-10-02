@@ -100,7 +100,8 @@
                         "give {amount} point to {player}",
                         "add {amount} point to {player}",
                         "give {amount} points to {player}",
-                        "add {amount} points to {player}"
+                        "add {amount} points to {player}",
+                        "give {player} {amount} points"
                     ]
                 },
                 {
