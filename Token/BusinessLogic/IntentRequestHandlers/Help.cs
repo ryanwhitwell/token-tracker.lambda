@@ -32,7 +32,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN Help. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = string.Format("You can add a new token by saying something like, add a blue token. To give a token points, you can say something like, give two points to red. If you need more help, please check the instructions provided in the description of this app in the Alexa skill catalog.").Tell();
+      SkillResponse response = string.Format("You can add a new token by saying something like, <emphasis>add</emphasis> a blue token. To give a token points, you can say something like, <emphasis>give</emphasis> two points to red. If you need more help, please check the instructions provided in the description of this skill in the Alexa skill catalog.").Tell();
 
       logger.LogTrace("END Help. RequestId: {0}.", skillRequest.Request.RequestId);
 

@@ -5,6 +5,12 @@
             "intents": [
                 {
                     "name": "RefundSubscription",
+                    "slots": [
+                        {
+                            "name": "ProductName",
+                            "type": "LIST_OF_PRODUCT_NAMES"
+                        }
+                    ],
                     "samples": [
                         "return {ProductName}",
                         "refund {ProductName}",
@@ -12,16 +18,11 @@
                         "would like to return {ProductName}",
                         "cancel my subscription for {ProductName}",
                         "cancel the subscription for {ProductName}"
-                    ],
-                    "slots": [
-                        {
-                            "name": "ProductName",
-                            "type": "LIST_OF_PRODUCT_NAMES"
-                        }
                     ]
                 },
                 {
                     "name": "WhatCanIBuy",
+                    "slots": [],
                     "samples": [
                         "what can I buy",
                         "what can I shop for",
@@ -29,22 +30,21 @@
                         "buy",
                         "shop",
                         "purchase"
-                    ],
-                    "slots": []
+                    ]
                 },
                 {
                     "name": "Buy",
-                    "samples": [
-                        "buy {ProductName}",
-                        "purchase {ProductName}",
-                        "want {ProductName}",
-                        "would like {ProductName}"
-                    ],
                     "slots": [
                         {
                             "name": "ProductName",
                             "type": "LIST_OF_PRODUCT_NAMES"
                         }
+                    ],
+                    "samples": [
+                        "buy {ProductName}",
+                        "purchase {ProductName}",
+                        "want {ProductName}",
+                        "would like {ProductName}"
                     ]
                 },
                 {
@@ -57,7 +57,18 @@
                 },
                 {
                     "name": "AMAZON.HelpIntent",
-                    "samples": []
+                    "samples": [
+                        "what I can say",
+                        "what can I say",
+                        "how to add tokens",
+                        "how do I find out who is playing",
+                        "how do I remove points",
+                        "how do I subtract points",
+                        "how to I add points",
+                        "how do I add tokens",
+                        "how do I add a token",
+                        "how I can remove points"
+                    ]
                 },
                 {
                     "name": "AMAZON.StopIntent",

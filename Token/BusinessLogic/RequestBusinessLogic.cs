@@ -185,8 +185,10 @@ namespace Token.BusinessLogic
       // Handle the request
       SkillResponse response = await this.GetSkillResponse(skillRequest, tokenUser);
 
-      // Upsell if user doesn't have a subscription and they've reached the upsell tick threshold
-      if (!tokenUser.HasPointsPersistence && tokenUser.UpsellTicks >= int.Parse(Configuration.File.GetSection("Application")["UpsellTickThreshold"]))
+      // Upsell if user doesn't have a subscription, they've reached the upsell tick threshold, and there isn't a reprompt in the response.
+      if (response.Response.Reprompt == null &&
+          !tokenUser.HasPointsPersistence && 
+          tokenUser.UpsellTicks >= int.Parse(Configuration.File.GetSection("Application")["UpsellTickThreshold"]))
       {
         this.AddUpsellDirective(tokenUser, response);
       }

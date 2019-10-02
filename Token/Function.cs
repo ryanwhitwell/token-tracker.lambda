@@ -8,6 +8,7 @@ using System;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Token.BusinessLogic.Interfaces;
+using Alexa.NET.InSkillPricing.Responses;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace Token

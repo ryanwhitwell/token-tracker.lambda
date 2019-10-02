@@ -52,6 +52,7 @@ namespace Token.BusinessLogic
 
       this.logger.LogDebug(JsonConvert.SerializeObject(skillRequest));
 
+
       IRequestRouter requestHandler;
 
       if (skillRequest.Request is IntentRequest)
@@ -60,7 +61,7 @@ namespace Token.BusinessLogic
       }
       else if (skillRequest.Request is ConnectionResponseRequest)
       {
-        throw new NotSupportedException();
+        requestHandler = this.requestHandlers.FirstOrDefault(x => x.RequestType == RequestType.ConnectionResponseRequest);
       }
       else if (skillRequest.Request is AccountLinkSkillEventRequest)
       {

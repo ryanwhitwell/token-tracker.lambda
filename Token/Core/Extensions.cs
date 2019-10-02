@@ -22,7 +22,7 @@ namespace Token.Core
 
       Reprompt reprompt = new Reprompt(repromptPhrase);
 
-      SkillResponse speechResponse = ResponseBuilder.TellWithReprompt(speech, reprompt);
+      SkillResponse speechResponse = ResponseBuilder.Ask(speech, reprompt);
       return speechResponse;
     }
 
