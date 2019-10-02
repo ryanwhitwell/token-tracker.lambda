@@ -8,6 +8,6 @@ namespace Token.BusinessLogic
 {
   public class ConnectionResponseRequestRouter : BaseRequestRouter<ConnectionResponseRequestRouter>
   {
-    public ConnectionResponseRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<ConnectionResponseRequestRouter> logger, IEnumerable<ILaunchRequestHandler> requestHandlers) : base(RequestType.ConnectionResponseRequest, skillRequestValidator, logger, requestHandlers) { }
+    public ConnectionResponseRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<ConnectionResponseRequestRouter> logger, IEnumerable<IConnectionResponseRequestHandler> requestHandlers) : base(RequestType.ConnectionResponseRequest, skillRequestValidator, logger, requestHandlers) { }
   }
 }

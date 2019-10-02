@@ -8,7 +8,7 @@
                     "slots": [
                         {
                             "name": "ProductName",
-                            "type": "LIST_OF_PRODUCT_NAMES"
+                            "type": "ListOfProductNames"
                         }
                     ],
                     "samples": [
@@ -37,7 +37,7 @@
                     "slots": [
                         {
                             "name": "ProductName",
-                            "type": "LIST_OF_PRODUCT_NAMES"
+                            "type": "ListOfProductNames"
                         }
                     ],
                     "samples": [
@@ -87,7 +87,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "samples": [
                                 "the color {player}",
                                 "{player}"
@@ -108,7 +108,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "samples": [
                                 "the color {player}",
                                 "{player}"
@@ -126,7 +126,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "samples": [
                                 "the color {player}",
                                 "{player}"
@@ -162,7 +162,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color"
+                            "type": "TokenColor"
                         }
                     ],
                     "samples": [
@@ -183,7 +183,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.Color"
+                            "type": "TokenColor"
                         }
                     ],
                     "samples": [
@@ -269,7 +269,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color"
+                            "type": "TokenColor"
                         }
                     ],
                     "samples": [
@@ -284,7 +284,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color"
+                            "type": "TokenColor"
                         }
                     ],
                     "samples": [
@@ -316,7 +316,7 @@
             ],
             "types": [
                 {
-                    "name": "LIST_OF_PRODUCT_NAMES",
+                    "name": "ListOfProductNames",
                     "values": [
                         {
                             "id": "amzn1.adg.product.467f7ca4-91dd-48d3-b831-040673e7066c",
@@ -325,6 +325,179 @@
                                 "synonyms": [
                                     "Points Persistence"
                                 ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "TokenColor",
+                    "values": [
+                        {
+                            "id": "WHITE",
+                            "name": {
+                                "value": "white"
+                            }
+                        },
+                        {
+                            "id": "YELLOW",
+                            "name": {
+                                "value": "yellow"
+                            }
+                        },
+                        {
+                            "id": "BLUE",
+                            "name": {
+                                "value": "blue"
+                            }
+                        },
+                        {
+                            "id": "RED",
+                            "name": {
+                                "value": "red"
+                            }
+                        },
+                        {
+                            "id": "GREEN",
+                            "name": {
+                                "value": "green"
+                            }
+                        },
+                        {
+                            "id": "BLACK",
+                            "name": {
+                                "value": "black"
+                            }
+                        },
+                        {
+                            "id": "BROWN",
+                            "name": {
+                                "value": "brown"
+                            }
+                        },
+                        {
+                            "id": "AZURE",
+                            "name": {
+                                "value": "azure"
+                            }
+                        },
+                        {
+                            "id": "IVORY",
+                            "name": {
+                                "value": "ivory"
+                            }
+                        },
+                        {
+                            "id": "TEAL",
+                            "name": {
+                                "value": "teal"
+                            }
+                        },
+                        {
+                            "id": "SILVER",
+                            "name": {
+                                "value": "silver"
+                            }
+                        },
+                        {
+                            "id": "PURPLE",
+                            "name": {
+                                "value": "purple"
+                            }
+                        },
+                        {
+                            "id": "GRAY",
+                            "name": {
+                                "value": "gray"
+                            }
+                        },
+                        {
+                            "id": "ORANGE",
+                            "name": {
+                                "value": "orange"
+                            }
+                        },
+                        {
+                            "id": "MAROON",
+                            "name": {
+                                "value": "maroon"
+                            }
+                        },
+                        {
+                            "id": "CHARCOAL",
+                            "name": {
+                                "value": "charcoal"
+                            }
+                        },
+                        {
+                            "id": "AQUAMARINE",
+                            "name": {
+                                "value": "aquamarine"
+                            }
+                        },
+                        {
+                            "id": "CORAL",
+                            "name": {
+                                "value": "coral"
+                            }
+                        },
+                        {
+                            "id": "FUCHSIA",
+                            "name": {
+                                "value": "fuchsia"
+                            }
+                        },
+                        {
+                            "id": "WHEAT",
+                            "name": {
+                                "value": "wheat"
+                            }
+                        },
+                        {
+                            "id": "LIME",
+                            "name": {
+                                "value": "lime"
+                            }
+                        },
+                        {
+                            "id": "CRIMSON",
+                            "name": {
+                                "value": "crimson"
+                            }
+                        },
+                        {
+                            "id": "KHAKI",
+                            "name": {
+                                "value": "khaki"
+                            }
+                        },
+                        {
+                            "id": "MAGENTA",
+                            "name": {
+                                "value": "magenta"
+                            }
+                        },
+                        {
+                            "id": "OLDEN",
+                            "name": {
+                                "value": "olden"
+                            }
+                        },
+                        {
+                            "id": "PLUM",
+                            "name": {
+                                "value": "plum"
+                            }
+                        },
+                        {
+                            "id": "OLIVE",
+                            "name": {
+                                "value": "olive"
+                            }
+                        },
+                        {
+                            "id": "CYAN",
+                            "name": {
+                                "value": "cyan"
                             }
                         }
                     ]
@@ -348,7 +521,7 @@
                         },
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
@@ -365,7 +538,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
@@ -384,7 +557,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
@@ -400,7 +573,7 @@
                     "slots": [
                         {
                             "name": "player",
-                            "type": "AMAZON.Color",
+                            "type": "TokenColor",
                             "confirmationRequired": false,
                             "elicitationRequired": false,
                             "prompts": {}
