@@ -9,7 +9,7 @@ namespace Token.Data
 {
   public class TokenUserData : ITokenUserData
   {
-    private static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
+    public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
     private static readonly int TTL_MINUTES = Int32.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
     private ILogger<TokenUserData> _logger;
     private ITokenUserRepository _tokenUserRepository;
