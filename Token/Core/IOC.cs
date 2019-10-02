@@ -13,6 +13,7 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Token.BusinessLogic.IntentRequestHandlers;
 using Token.BusinessLogic.LaunchRequestHandlers;
+using Token.BusinessLogic.ConnectionResponseRequestHandlers;
 
 namespace Token.Core
 {
@@ -32,6 +33,7 @@ namespace Token.Core
           .AddTransient<IRequestBusinessLogic, RequestBusinessLogic>()
           .AddTransient<IRequestRouter, IntentRequestRouter>()
           .AddTransient<IRequestRouter, LaunchRequestRouter>()
+          .AddTransient<IRequestRouter, ConnectionResponseRequestRouter>()
           .AddTransient<ITokenUserData, TokenUserData>()
           .AddTransient<ITokenUserRepository, TokenUserRepository>()
           .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
@@ -52,7 +54,11 @@ namespace Token.Core
           .AddTransient<IIntentRequestHandler, RemovePoints>()
           .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
           .AddTransient<IIntentRequestHandler, ResetAllPoints>()
+          .AddTransient<IIntentRequestHandler, Buy>()
+          .AddTransient<IIntentRequestHandler, WhatCanIBuy>()
+          .AddTransient<IIntentRequestHandler, Help>()
           .AddTransient<ILaunchRequestHandler, DefaultLaunchRequest>()
+          .AddTransient<IConnectionResponseRequestHandler, DefaultConnectionResponseRequest>()
           .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
           .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
           .AddTransient<IRequestMapper, RequestMapper>()

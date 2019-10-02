@@ -44,9 +44,7 @@ namespace Token
       {
         logger.Log(LogLevel.Error, e);
 
-        SsmlOutputSpeech speech = new SsmlOutputSpeech();
-        speech.Ssml = "<speak>I'm sorry but I seem to be having trouble handling your request. Please try again.</speak>";
-        response = Alexa.NET.ResponseBuilder.Tell(speech);
+        response = string.Format("I'm sorry but I seem to be having trouble handling your request. If you need help you can say, ask {0} for help.", Configuration.File.GetSection("Application")["SkillName"]).Tell();
       }
 
       return response;

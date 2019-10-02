@@ -25,6 +25,9 @@ namespace Token.Models
     [DynamoDBProperty]
     public long? TTL { get; set; }
 
+    [DynamoDBProperty]
+    public int UpsellTicks { get; set; }
+
     public bool HasPointsPersistence { get; set; }
   }
 }

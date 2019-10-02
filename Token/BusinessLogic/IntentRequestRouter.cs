@@ -10,45 +10,16 @@ using Token.Core;
 using System.Collections.Generic;
 using System.Linq;
 using Token.BusinessLogic.Interfaces;
-using Newtonsoft.Json;
 
 namespace Token.BusinessLogic
 {
-  public class IntentRequestRouter : IRequestRouter
+  public class IntentRequestRouter : BaseRequestRouter<IntentRequestRouter>
   {
-    private IEnumerable<IIntentRequestHandler> intentRequestHandlers;
+    public IntentRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers) : base(RequestType.IntentRequest, skillRequestValidator, logger, intentRequestHandlers) { }
 
-    private ILogger<IntentRequestRouter> logger;
-
-    ISkillRequestValidator skillRequestValidator;
-
-    public RequestType RequestType { get { return RequestType.IntentRequest; }}
-
-    public IntentRequestRouter(ISkillRequestValidator skillRequestValidator, ILogger<IntentRequestRouter> logger, IEnumerable<IIntentRequestHandler> intentRequestHandlers)
+    public override async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
     {
-      if (skillRequestValidator == null)
-      {
-        throw new ArgumentNullException("skillRequestValidator");
-      }
-      
-      if (logger == null)
-      {
-        throw new ArgumentNullException("logger");
-      }
-
-      if (intentRequestHandlers == null || intentRequestHandlers.Count() <= 0)
-      {
-        throw new ArgumentNullException("intentRequestHandlers");
-      }
-
-      this.skillRequestValidator = skillRequestValidator;
-      this.logger = logger;
-      this.intentRequestHandlers = intentRequestHandlers;
-    }
-
-    public async Task<SkillResponse> GetSkillResponse(SkillRequest skillRequest, TokenUser tokenUser)
-    {
-      if (!this.skillRequestValidator.IsValid(skillRequest))
+      if (!base.SkillRequestValidator.IsValid(skillRequest))
       {
         throw new ArgumentNullException("skillRequest");
       }
@@ -58,7 +29,7 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("tokenUser");
       }
       
-      this.logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
+      base.Logger.LogTrace("BEGIN GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
       IntentRequest intentRequest = skillRequest.Request as IntentRequest;
 
@@ -68,7 +39,7 @@ namespace Token.BusinessLogic
       }
 
       // Get the right handler for the IntentRequest based on the name of the intent
-      IIntentRequestHandler requestHandler = intentRequestHandlers.Where(x => x.HandlerName == intentRequest.Intent.Name).FirstOrDefault();
+      IIntentRequestHandler requestHandler = base.RequestHandlers.Where(x => x.HandlerName == intentRequest.Intent.Name).FirstOrDefault() as IIntentRequestHandler;
 
       if (requestHandler == null)
       {
@@ -78,7 +49,7 @@ namespace Token.BusinessLogic
       // Handle the request
       SkillResponse skillResponse = await Task.Run(() => requestHandler.Handle(skillRequest, tokenUser));
 
-      this.logger.LogTrace("END GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
+      base.Logger.LogTrace("END GetSkillResponse. RequestId: {0}.", skillRequest.Request.RequestId);
 
       return skillResponse;
     }

@@ -4,6 +4,23 @@
             "invocationName": "token",
             "intents": [
                 {
+                    "name": "RefundSubscription",
+                    "samples": [
+                        "return {ProductName}",
+                        "refund {ProductName}",
+                        "want a refund for {ProductName}",
+                        "would like to return {ProductName}",
+                        "cancel my subscription for {ProductName}",
+                        "cancel the subscription for {ProductName}"
+                    ],
+                    "slots": [
+                        {
+                            "name": "ProductName",
+                            "type": "LIST_OF_PRODUCT_NAMES"
+                        }
+                    ]
+                },
+                {
                     "name": "WhatCanIBuy",
                     "samples": [
                         "what can I buy",

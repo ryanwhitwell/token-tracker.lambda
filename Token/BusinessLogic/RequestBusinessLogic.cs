@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Alexa.NET.InSkillPricing;
+using Alexa.NET.InSkillPricing.Directives;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Amazon.Lambda.Core;
@@ -17,7 +18,7 @@ namespace Token.BusinessLogic
 {
   public class RequestBusinessLogic : IRequestBusinessLogic
   {
-    private static readonly string POINTS_PERSISTENCE_PRODUCT_ID = Configuration.File.GetSection("InSkillProducts")["PointsPersistence"];
+    private static readonly string POINTS_PERSISTENCE_PRODUCT_ID = Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"];
     private ITokenUserData tokenUserData;
     private ILogger<RequestBusinessLogic> logger;
     private IRequestMapper requestMapper;
@@ -156,6 +157,14 @@ namespace Token.BusinessLogic
       return response;
     }
 
+    public void AddUpsellDirective(TokenUser tokenUser, SkillResponse response)
+    {
+      string message = string.Format("If you want to track your tokens and points forever, you can subscribe to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
+      UpsellDirective directive = new UpsellDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken", message);
+      response.Response.Directives.Add(directive);
+      tokenUser.UpsellTicks = 0;
+    }
+
     public async Task<SkillResponse> HandleSkillRequest(SkillRequest skillRequest, ILambdaContext lambdaContext)
     {
       if (!this.skillRequestValidator.IsValid(skillRequest))
@@ -176,6 +185,16 @@ namespace Token.BusinessLogic
       // Handle the request
       SkillResponse response = await this.GetSkillResponse(skillRequest, tokenUser);
 
+      // Upsell if user doesn't have a subscription and they've reached the upsell tick threshold
+      if (!tokenUser.HasPointsPersistence && tokenUser.UpsellTicks >= int.Parse(Configuration.File.GetSection("Application")["UpsellTickThreshold"]))
+      {
+        this.AddUpsellDirective(tokenUser, response);
+      }
+      else if (!tokenUser.HasPointsPersistence)
+      {
+        tokenUser.UpsellTicks++;
+      }
+      
       // Save the user's application state
       await this.tokenUserData.Save(tokenUser);
 
