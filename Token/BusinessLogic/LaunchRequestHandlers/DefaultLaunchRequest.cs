@@ -34,14 +34,17 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       {
         response = string.Format("Welcome to {0}. You currently have Points Persistence so your tokens and points are available for as long as your subscription is active. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, you can say something like, " +
-          "<emphasis>add</emphasis> three points to red. ", Configuration.File.GetSection("Application")["SkillName"])
+          "<emphasis>add</emphasis> three points to red. ", 
+          Configuration.File.GetSection("Application")["SkillName"])
           .TellWithReprompt("So, what can I help you with?");
       }
       else
       {
-        response = string.Format("Welcome to {0}. Your tokens and points will be available to use for about the next {1} minutes. " +
+        response = string.Format("Welcome to {0}. Your tokens and points will only be available to use for a limited amount of time without a subscription to {1}. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, " +
-          "you can say something like, <emphasis>add</emphasis> three points to red. ", Configuration.File.GetSection("Application")["SkillName"], tokenUser.DataTtlMinutes)
+          "you can say something like, <emphasis>add</emphasis> three points to red.", 
+          Configuration.File.GetSection("Application")["SkillName"], 
+          Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"])
           .TellWithReprompt("So, what can I help you with?");
       }
 

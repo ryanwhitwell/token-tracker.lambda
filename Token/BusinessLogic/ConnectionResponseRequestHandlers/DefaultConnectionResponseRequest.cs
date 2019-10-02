@@ -50,11 +50,11 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
         case PurchaseResult.Accepted:
         case PurchaseResult.AlreadyPurchased:
           tokenUser.HasPointsPersistence = true;
-          response = string.Format("Your tokens and points are available while your subscription is active. Enjoy!", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]).Tell();
+          response = string.Format("Your tokens and points are available while your subscription is active. Enjoy!").Tell();
           break;
         case PurchaseResult.Declined:
         case PurchaseResult.Error:
-          response = string.Format("Your tokens and points will be availble to use for about the next {0} minutes.", tokenUser.DataTtlMinutes).Tell();
+          response = string.Format("Your tokens and points will only be availble to use for a limited amount of time without a subscription to {0}.", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]).Tell();
           if (payload.PurchaseResult ==  PurchaseResult.Error)
           {
             logger.LogError(string.Format("An error occurred while a user was attempting to purchase a product. User Id: {0}, Product Id: {1}, ConnectionResponsePayload: {2}.", tokenUser.Id,  Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], JsonConvert.SerializeObject(payload)));

@@ -159,7 +159,7 @@ namespace Token.BusinessLogic
 
     public void AddUpsellDirective(TokenUser tokenUser, SkillResponse response)
     {
-      string message = string.Format("If you want to track your tokens and points forever, you can subscribe to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
+      string message = string.Format("Your tokens and points will only be availble to use for a limited amount of time without a subscription to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
       UpsellDirective directive = new UpsellDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken", message);
       response.Response.Directives.Add(directive);
       tokenUser.UpsellTicks = 0;

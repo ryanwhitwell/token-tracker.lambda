@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
-using Token.Core;
 
 namespace Token.Models
 {
@@ -30,18 +29,5 @@ namespace Token.Models
     public int UpsellTicks { get; set; }
 
     public bool HasPointsPersistence { get; set; }
-
-    public int DataTtlMinutes
-    {
-      get 
-      {
-        int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
-        DateTime userCreateDate = this.CreateDate.HasValue ? this.CreateDate.Value : DateTime.UtcNow;
-        DateTime userDataExpirationDate = userCreateDate.AddMinutes(configuredTtlMinutes);
-        int userDataTtlMinutes = (int)(userDataExpirationDate - userCreateDate).TotalMinutes;
-
-        return userDataTtlMinutes;
-      }
-    }
   }
 }
