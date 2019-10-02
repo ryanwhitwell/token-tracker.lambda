@@ -54,7 +54,7 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
           break;
         case PurchaseResult.Declined:
         case PurchaseResult.Error:
-          response = string.Format("Your tokens and points will be availble to use for about the next {0} minutes.", this.GetUserDataTtlMinutes(tokenUser)).Tell();
+          response = string.Format("Your tokens and points will be availble to use for about the next {0} minutes.", tokenUser.DataTtlMinutes).Tell();
           if (payload.PurchaseResult ==  PurchaseResult.Error)
           {
             logger.LogError(string.Format("An error occurred while a user was attempting to purchase a product. User Id: {0}, Product Id: {1}, ConnectionResponsePayload: {2}.", tokenUser.Id,  Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], JsonConvert.SerializeObject(payload)));
@@ -67,15 +67,6 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
       logger.LogTrace("END Default. RequestId: {0}.", skillRequest.Request.RequestId);
 
       return response;
-    }
-
-    private int GetUserDataTtlMinutes(TokenUser tokenUser)
-    {
-      int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
-      DateTime userCreateDate = tokenUser.CreateDate ?? DateTime.UtcNow;
-      int userDataTtlMinutes = (int)(userCreateDate.AddMinutes(configuredTtlMinutes) - TokenUserData.EPOCH_DATE).TotalMinutes;
-
-      return userDataTtlMinutes;
     }
   }
 

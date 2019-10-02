@@ -39,11 +39,9 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       }
       else
       {
-        int configuredTtlMinutes = int.Parse(Configuration.File.GetSection("InSkillProducts")["DataTimeToLiveMinutes"]);
-        int userDataTtlMinutes = (int)(DateTime.UtcNow.AddMinutes(configuredTtlMinutes) - TokenUserData.EPOCH_DATE).TotalMinutes;
         response = string.Format("Welcome to {0}. Your tokens and points will be available to use for about the next {1} minutes. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, " +
-          "you can say something like, <emphasis>add</emphasis> three points to red. ", Configuration.File.GetSection("Application")["SkillName"], userDataTtlMinutes)
+          "you can say something like, <emphasis>add</emphasis> three points to red. ", Configuration.File.GetSection("Application")["SkillName"], tokenUser.DataTtlMinutes)
           .TellWithReprompt("So, what can I help you with?");
       }
 
