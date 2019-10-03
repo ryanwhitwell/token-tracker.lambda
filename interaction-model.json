@@ -117,8 +117,8 @@
                         }
                     ],
                     "samples": [
-                        "add another token",
-                        "add a token",
+                        "add another color",
+                        "add a color",
                         "add the color {player}"
                     ]
                 },
@@ -135,7 +135,7 @@
                         }
                     ],
                     "samples": [
-                        "delete a token",
+                        "delete a color",
                         "delete the color {player}",
                         "remove the color {player}"
                     ]
