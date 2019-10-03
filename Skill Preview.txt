@@ -84,8 +84,8 @@ What's new?
 -----------------------------
 
 Example Phrases 
-Alexa, tell token to add the color blue.
 Alexa, tell token to give three points to blue.
+Alexa, tell token to add the color blue.
 Alexa, ask token who has the highest score?
 
 -----------------------------
