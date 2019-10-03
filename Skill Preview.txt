@@ -11,14 +11,14 @@ Let Token keep track of your game, it's players, who's winning, and more.
 -----------------------------
 Detailed Description 
 -----------------------------
-Token let's you keep track of your game's players, their score, who's winning, and more. With Token you can add players to your game by assigning them a color token. Just have your players pick a color, add them to your game, and start playing. Keeping score is easy as asking Token to add or subtract points for a color token. You can also ask Token to tell you whose winning, who has the lowest score, and what's the average score among all tokens. Asking Token to reset everyone's score is al it takes to start a new game from scratch. Here's a quick look at the features you'll get with Token:
+Token let's you keep track of your game's players, their score, who's winning, and more. With Token you can add players to your game by assigning them a color token. Just have your players pick a color, add them to your game, and start playing. Keeping score is as easy as asking Token to add or subtract points for a color token. You can also ask Token to tell you whose winning, who has the lowest score, and what's the average score among all tokens. Asking Token to reset everyone's score is al it takes to start a new game from scratch. Here's a quick look at the features you'll get with Token:
 
-- Lots of token colors to choose
+- Multiple token colors to choose
 - Tracking for each token's score
 - Add and remove points for each token
-- High score tracking
-- Lowest score announcement
-- Get the average score for the current game
+- High-score announcement
+- Low-score announcement
+- Average score for the current game
 - Add and remove points from all tokens at once
 - Announce all tokens and their current score
 - Lifetime data storage for subscribers!
@@ -26,7 +26,7 @@ Token let's you keep track of your game's players, their score, who's winning, a
 Track your points using any of these colors for your player's token:
 white, yellow, blue, red, green, black, brown, azure, ivory, teal, silver, purple, gray, orange, maroon, charcoal, aquamarine, coral, fuchsia, wheat, lime, crimson, khaki, magenta, olden, plum, olive, and cyan
 
-Here's a breakdown of Token's features and some sample commands you can use with this skill:
+Here's a breakdown of Token's features and some sample commands to use with this skill:
 
 Add a Token
 Alexa, tell Token to add the color blue.
