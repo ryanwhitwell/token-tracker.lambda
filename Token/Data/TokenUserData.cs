@@ -51,7 +51,7 @@ namespace Token.Data
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
       // If TTL has passed then force delete the TokenUser and return null
-      if (tokenUser.TTL.HasValue)
+      if (tokenUser != null && tokenUser.TTL != null)
       {
         long calculatedTtl = GetTTL(tokenUser.CreateDate.Value);
         bool isExpired = calculatedTtl >= tokenUser.TTL.Value;
