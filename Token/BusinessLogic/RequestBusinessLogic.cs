@@ -187,6 +187,7 @@ namespace Token.BusinessLogic
 
       // Upsell if user doesn't have a subscription, they've reached the upsell tick threshold, and there isn't a reprompt in the response.
       if (response.Response.Reprompt == null &&
+          (response.Response.Directives == null || response.Response.Directives.Count <= 0) &&
           !tokenUser.HasPointsPersistence && 
           tokenUser.UpsellTicks + 1 >= int.Parse(Configuration.File.GetSection("Application")["UpsellDirectiveInterval"]))
       {
