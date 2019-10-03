@@ -51,6 +51,19 @@ namespace Token.Data
 
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
+      // If TTL has passed then return null
+      if (tokenUser.TTL.HasValue)
+      {
+        DateTime expirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
+        bool isExpired = expirationDate > DateTime.UtcNow;
+
+        if (isExpired)
+        {
+          _logger.LogInformation("User is expired. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("YYYY-MM-dd HH:mm:ss"), expirationDate.ToString("YYYY-MM-dd HH:mm:ss"));
+          tokenUser = null;
+        }
+      }
+
       return tokenUser;
     }
 
