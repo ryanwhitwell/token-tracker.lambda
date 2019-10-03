@@ -56,14 +56,14 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
           if (i == arrayOfPlayersNames.Length - 1)
           {
-            responsePhraseBuilder.AppendFormat(" and {0}.", arrayOfPlayersNames[i]);
+            responsePhraseBuilder.AppendFormat(" and {0}", arrayOfPlayersNames[i]);
             continue;
           }
 
           responsePhraseBuilder.AppendFormat(", {0}", arrayOfPlayersNames[i]);
         }
 
-        responsePhraseBuilder.Append(" . I think that's everybody.");
+        responsePhraseBuilder.Append(". I think that's everybody.");
 
         response = responsePhraseBuilder.ToString().Tell();
       }
