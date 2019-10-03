@@ -217,7 +217,7 @@ namespace Token.Tests.Data
       DateTime epoch = new DateTime(1970, 1, 1);
 
       long ttlSeconds = TokenUserData.GetTTL(dateTime);
-      long expectedTtlSeconds = (long)(dateTime.Value.AddMinutes(30) - epoch).TotalSeconds;
+      long expectedTtlSeconds = (long)(dateTime.Value.AddMinutes(15) - epoch).TotalSeconds;
 
       
       Assert.Equal(expectedTtlSeconds, ttlSeconds);
