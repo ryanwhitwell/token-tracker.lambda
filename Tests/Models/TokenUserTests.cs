@@ -14,9 +14,9 @@ namespace Token.Tests.Models
       string expectedId = "TestId";
       DateTime expectedCreateDate = DateTime.Now;
       DateTime expectedUpdateDate = DateTime.Now;
-      DateTime expectedExpirationDate = DateTime.Now;
       string expectedPasswordHash = "TestPasswordHash";
       bool expectedHasPointsPersistence = false;
+      long expectedTTL = 123456789;
       List<Player> expectedPlayers = new List<Player>() { new Player() { Name = "TestPlayerName", Points = 3 } };
 
       TokenUser tokenUser = new TokenUser();
@@ -25,7 +25,7 @@ namespace Token.Tests.Models
       tokenUser.UpdateDate = expectedUpdateDate;
       tokenUser.PasswordHash = expectedPasswordHash;
       tokenUser.HasPointsPersistence = expectedHasPointsPersistence;
-      tokenUser.ExpirationDate = expectedExpirationDate;
+      tokenUser.TTL = expectedTTL;
       tokenUser.Players = expectedPlayers;
 
       Assert.IsType<TokenUser>(tokenUser);
@@ -34,7 +34,7 @@ namespace Token.Tests.Models
       Assert.Equal(tokenUser.UpdateDate, expectedUpdateDate);
       Assert.Equal(tokenUser.PasswordHash, expectedPasswordHash);
       Assert.Equal(tokenUser.HasPointsPersistence, expectedHasPointsPersistence);
-      Assert.Equal(tokenUser.ExpirationDate, expectedExpirationDate);
+      Assert.Equal(tokenUser.TTL, expectedTTL);
       Assert.True(tokenUser.Players.SequenceEqual(expectedPlayers));
     }
   }

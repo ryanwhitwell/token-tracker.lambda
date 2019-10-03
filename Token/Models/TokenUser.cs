@@ -17,9 +17,6 @@ namespace Token.Models
     public DateTime? UpdateDate { get; set; }
 
     [DynamoDBProperty]
-    public DateTime? ExpirationDate { get; set; }
-
-    [DynamoDBProperty]
     public List<Player> Players { get; set; }
 
     [DynamoDBProperty]
