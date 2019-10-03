@@ -189,7 +189,7 @@ namespace Token.BusinessLogic
       if (response.Response.Reprompt == null &&
           (response.Response.Directives == null || response.Response.Directives.Count <= 0) &&
           !tokenUser.HasPointsPersistence && 
-          tokenUser.UpsellTicks + 1 >= int.Parse(Configuration.File.GetSection("Application")["UpsellDirectiveInterval"]))
+          tokenUser.UpsellTicks >= int.Parse(Configuration.File.GetSection("Application")["UpsellDirectiveInterval"]) - 1)
       {
         this.AddUpsellDirective(tokenUser, response);
       }
