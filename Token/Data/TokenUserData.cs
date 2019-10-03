@@ -55,11 +55,11 @@ namespace Token.Data
       if (tokenUser != null && tokenUser.TTL.HasValue)
       {
         DateTime expirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
-        bool isExpired = DateTime.UtcNow > expirationDate;
+        bool isExpired = expirationDate > DateTime.UtcNow;
 
         if (isExpired)
         {
-          _logger.LogInformation("User exists and is expired. Deleting Token User. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), expirationDate.ToString("yyyy-MM-dd HH:mm:ss"));
+          _logger.LogInformation("User exists and is expired. Deleting Token User. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("YYYY-MM-dd HH:mm:ss"), expirationDate.ToString("YYYY-MM-dd HH:mm:ss"));
           await _tokenUserRepository.Delete(id);
           tokenUser = null;
         }
