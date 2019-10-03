@@ -25,6 +25,12 @@ namespace Token.Models
     [DynamoDBProperty]
     public string PasswordHash { get; set; }
 
+    [DynamoDBProperty]
+    public long? TTL { get; set; }
+
+    [DynamoDBProperty]
+    public int UpsellTicks { get; set; }
+
     public bool HasPointsPersistence { get; set; }
   }
 }
