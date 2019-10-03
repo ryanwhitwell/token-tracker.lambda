@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Token.Core;
@@ -11,7 +10,7 @@ namespace Token.Data
   public class TokenUserData : ITokenUserData
   {
     public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
-    private static readonly int TTL_MINUTES = Int32.Parse(Configuration.File.GetSection("Application")["UserDataExpirationMinutes"]);
+    private static readonly int TTL_MINUTES = Int32.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
     private ILogger<TokenUserData> _logger;
     private ITokenUserRepository _tokenUserRepository;
 
@@ -42,15 +41,6 @@ namespace Token.Data
 
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
-      DateTime now = DateTime.UtcNow;
-
-      // Don't let the user retrieve player data if the account is expired and they don't have subscription
-      if (tokenUser != null && !tokenUser.HasPointsPersistence && (now >= tokenUser.ExpirationDate.Value))
-      {
-        _logger.LogInformation("Discovered expired user data while loading. Removing players from token user. User Id: {0}, UTC Now: {1}, Expiration Date: {2}.", tokenUser.Id, now, tokenUser.ExpirationDate.Value);
-        tokenUser.Players = new List<Player>();
-      }
-
       return tokenUser;
     }
 
@@ -76,7 +66,7 @@ namespace Token.Data
       tokenUser.CreateDate = tokenUser.CreateDate ?? utcNow;
       tokenUser.UpdateDate = utcNow;
 
-      // Remove or set expiration date
+      // Remove or add expiration date as needed
       if (tokenUser.HasPointsPersistence)
       {
         tokenUser.ExpirationDate = (DateTime?)null;
@@ -84,13 +74,6 @@ namespace Token.Data
       else if (!tokenUser.HasPointsPersistence && !tokenUser.ExpirationDate.HasValue)
       {
         tokenUser.ExpirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
-      }
-
-      // Don't let the user save player data if they don't have subscription and the account is expired
-      if (!tokenUser.HasPointsPersistence || utcNow >= tokenUser.ExpirationDate.Value)
-      {
-        _logger.LogInformation("Discovered expired user data while saving. Removing players from token user. User Id: {0}, UTC Now: {1}, Expiration Date: {2}.", tokenUser.Id, utcNow, tokenUser.ExpirationDate.Value);
-        tokenUser.Players = new List<Player>();
       }
 
       await _tokenUserRepository.Save(tokenUser);
