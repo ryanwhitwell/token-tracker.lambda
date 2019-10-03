@@ -1,0 +1,34 @@
+Public Name
+Token
+
+One Sentence Description
+Let Token keep track of your game, it's players, who's winning, and more.
+
+Detailed Description 
+Token let's you keep track of your game's players, their score, who's winning and more. With Token you can add players to your game by assigning them a  color token. Just have your players pick a color and add them to your game. Keeping score is easy as asking Token to add or subtract points. You can also ask Token to tell you whose winning, who has the lowest score, and what's the average score among all players. Starting a new game from scratch is as easy as asking Token to reset everyone's score. Here's a quick look at the feature's you'll get with Token:
+
+- Plenty of token colors to choose from
+- Tracking for each token's score/points
+- Add and remove points for each player/token
+- High score tracking
+- Lowest score announcement
+- Get the average score for the current game
+- Add and remove points from all players at once
+- Announce all players/tokens and their current score
+- Lifetime data storage for subscribers!
+
+What's new?
+
+Example Phrases 
+Alexa, tell token to add the color blue.
+Alexa, tell token to give three points to blue.
+Alexa, ask token who has the highest score?
+
+Category
+Sports - Score Keeping
+
+Keywords 
+token, argument, spouse, score, partner, smarty, know-it-all, relationship, tracker, correct, wrong, incorrect, couple, couples, disagreement, fight, points, games, game, gaming
+
+Privacy Policy URL 
+http://alexa-skill-token.s3-website-us-east-1.amazonaws.com/
