@@ -64,7 +64,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
               continue;
             }
 
-            responsePhraseBuilder.AppendFormat("and {0}", currentPlayer.Name);
+            responsePhraseBuilder.AppendFormat(" and {0}", currentPlayer.Name);
           }
 
           string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
