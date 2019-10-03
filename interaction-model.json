@@ -97,7 +97,9 @@
                         "give {amount} point to {player}",
                         "add {amount} point to {player}",
                         "give {amount} points to {player}",
-                        "add {amount} points to {player}"
+                        "add {amount} points to {player}",
+                        "give {player} {amount} points",
+                        "give {player} {amount} point"
                     ]
                 },
                 {
@@ -533,7 +535,7 @@
                 },
                 {
                     "name": "DeletePlayer",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1501884991038"
@@ -587,7 +589,7 @@
                 },
                 {
                     "name": "ResetAllPoints",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.264720803003"
@@ -615,7 +617,7 @@
                 },
                 {
                     "name": "DeleteAllPlayers",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.372361820960"
