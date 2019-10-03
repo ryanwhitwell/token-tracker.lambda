@@ -162,7 +162,7 @@ namespace Token.BusinessLogic
 
     public void AddUpsellDirective(TokenUser tokenUser, SkillResponse response)
     {
-      string message = string.Format("Your tokens will only be availble {0} without a subscription to {1}. Do you want to know more?", tokenUser.TTLPhrase(), Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
+      string message = string.Format("Your tokens will only be availble {0} without a subscription to {1}. Do you want to subscribe?", tokenUser.TTLPhrase(), Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
       UpsellDirective directive = new UpsellDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken", message);
       response.Response.Directives.Add(directive);
       tokenUser.UpsellTicks = 0;
