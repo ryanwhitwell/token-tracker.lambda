@@ -53,12 +53,11 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
           response = string.Format("Your tokens and points are available while your subscription is active. Enjoy!").Tell();
           break;
         case PurchaseResult.Declined:
+           response = string.Format("Don't forget to subscribe so you can keep your tokens and points forever.").Tell();
+           break;
         case PurchaseResult.Error:
-          response = string.Format("Your tokens and points will only be availble to use for a limited amount of time without a subscription to {0}.", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]).Tell();
-          if (payload.PurchaseResult ==  PurchaseResult.Error)
-          {
-            logger.LogError(string.Format("An error occurred while a user was attempting to purchase a product. User Id: {0}, Product Id: {1}, ConnectionResponsePayload: {2}.", tokenUser.Id,  Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], JsonConvert.SerializeObject(payload)));
-          }
+          response = string.Format("Please try again.").Tell();
+          logger.LogError(string.Format("An error occurred while a user was attempting to purchase a product. User Id: {0}, Product Id: {1}, ConnectionResponsePayload: {2}.", tokenUser.Id,  Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], JsonConvert.SerializeObject(payload)));
           break;
         default:
           throw new NotSupportedException(string.Format("PurchaseResult '{0}' is not supported.", payload.PurchaseResult));
