@@ -44,16 +44,6 @@ namespace Token.Data
       return tokenUser;
     }
 
-    public async Task Delete(string id)
-    {
-      if (String.IsNullOrWhiteSpace(id))
-      {
-        throw new ArgumentNullException("id");
-      }
-
-      await _tokenUserRepository.Delete(id);
-    }
-
     public async Task Save(TokenUser tokenUser)
     {
       if (tokenUser == null)
@@ -76,7 +66,17 @@ namespace Token.Data
         tokenUser.ExpirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
       }
 
-      await _tokenUserRepository.Save(tokenUser);
+      // Delete the TokenUser if it is expired otherwise save it
+      if (DateTime.UtcNow > tokenUser.ExpirationDate)
+      {
+        _logger.LogInformation("Token User is expired. Deleting Token User. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), tokenUser.ExpirationDate.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+        await _tokenUserRepository.Delete(tokenUser.Id);
+      }
+      else
+      {
+        await _tokenUserRepository.Save(tokenUser);
+      }
+      
     }
   }
 }

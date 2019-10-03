@@ -159,7 +159,7 @@ namespace Token.BusinessLogic
 
     public void AddUpsellDirective(TokenUser tokenUser, SkillResponse response)
     {
-      string message = string.Format("Your tokens and points are no longer available. You can keep them forever with a subscription to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
+      string message = string.Format("Your tokens and points will only be availble to use for a limited amount of time without a subscription to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
       UpsellDirective directive = new UpsellDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken", message);
       response.Response.Directives.Add(directive);
       tokenUser.UpsellTicks = 0;
@@ -185,21 +185,21 @@ namespace Token.BusinessLogic
       // Handle the request
       SkillResponse response = await this.GetSkillResponse(skillRequest, tokenUser);
 
-      // upsell the user and delete their data if it is expired,  otherwise save it
+      // Upsell if user doesn't have a subscription, they've reached the upsell tick threshold, and there isn't a reprompt in the response.
       if (response.Response.Reprompt == null &&
-        (response.Response.Directives == null || response.Response.Directives.Count <= 0) &&
-        !tokenUser.HasPointsPersistence &&
-        DateTime.UtcNow > tokenUser.ExpirationDate)
+          (response.Response.Directives == null || response.Response.Directives.Count <= 0) &&
+          !tokenUser.HasPointsPersistence && 
+          tokenUser.UpsellTicks + 1 >= int.Parse(Configuration.File.GetSection("Application")["UpsellDirectiveInterval"]))
       {
         this.AddUpsellDirective(tokenUser, response);
-        logger.LogInformation("Token User is expired. Deleting data and upselling User. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), tokenUser.ExpirationDate.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-        await tokenUserData.Delete(tokenUser.Id);
       }
-      else 
+      else if (!tokenUser.HasPointsPersistence)
       {
-        // Save the user's application state
-        await this.tokenUserData.Save(tokenUser);
+        tokenUser.UpsellTicks++;
       }
+      
+      // Save the user's application state
+      await this.tokenUserData.Save(tokenUser);
 
       this.logger.LogTrace("END Handling request type '{0}'. RequestId: {1}. Response: {2}", skillRequest.Request.Type, skillRequest.Request.RequestId, JsonConvert.SerializeObject(response));
 

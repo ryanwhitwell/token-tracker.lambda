@@ -8,6 +8,5 @@ namespace Token.Data.Interfaces
     Task Save(TokenUser tokenUser);
     Task<TokenUser> Get(string id);
     Task<bool> Exists(string id);
-    Task Delete(string id);
   }
 }
