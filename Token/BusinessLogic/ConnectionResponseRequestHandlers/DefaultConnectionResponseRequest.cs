@@ -50,6 +50,7 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
         case PurchaseResult.Accepted:
         case PurchaseResult.AlreadyPurchased:
           tokenUser.HasPointsPersistence = true;
+          tokenUser.UpsellTicks = 0;
           response = string.Format("Your tokens and points are available while your subscription is active. Enjoy!").Tell();
           break;
         case PurchaseResult.Declined:
