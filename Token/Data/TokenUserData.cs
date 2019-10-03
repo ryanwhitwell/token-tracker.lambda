@@ -51,15 +51,16 @@ namespace Token.Data
 
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
-      // If TTL has passed then return null
+      // If TTL has passed then force delete the TokenUser and return null
       if (tokenUser.TTL.HasValue)
       {
-        DateTime expirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
-        bool isExpired = expirationDate > DateTime.UtcNow;
+        long calculatedTtl = GetTTL(tokenUser.CreateDate.Value);
+        bool isExpired = calculatedTtl >= tokenUser.TTL.Value;
 
         if (isExpired)
         {
-          _logger.LogInformation("User is expired. User Id: {0}, Created Date: {1}, Expiration Date: {2}.", tokenUser.Id, tokenUser.CreateDate.Value.ToString("YYYY-MM-dd HH:mm:ss"), expirationDate.ToString("YYYY-MM-dd HH:mm:ss"));
+          _logger.LogInformation("Deleting expired User. User Id: {0}, Calculated TTL: {1}, Stored TTL: {2}.", tokenUser.Id, calculatedTtl, tokenUser.TTL.Value);
+          await _tokenUserRepository.Delete(id);
           tokenUser = null;
         }
       }
