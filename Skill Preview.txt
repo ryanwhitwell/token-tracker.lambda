@@ -37,14 +37,8 @@ Alexa, tell Token to remove the color blue.
 Give a Token points
 Alexa, tell Token to give three points to blue.
 
-Give a Token a single point
-Alexa, tell Token to give one to blue.
-
 Subtract points from a Token
 Alexa, tell Token to take two points away from blue.
-
-Subtract a single point from a Token
-Alexa, tell Token to take one from blue.
 
 Get a Token's points
 Alexa, tell Token to get the score for blue.

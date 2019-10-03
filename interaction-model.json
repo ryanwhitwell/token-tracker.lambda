@@ -95,13 +95,10 @@
                         }
                     ],
                     "samples": [
-                        "assign {amount} points to {player}",
-                        "assign {amount} point to {player}",
                         "give {amount} point to {player}",
                         "add {amount} point to {player}",
                         "give {amount} points to {player}",
-                        "add {amount} points to {player}",
-                        "give {player} {amount} points"
+                        "add {amount} points to {player}"
                     ]
                 },
                 {
@@ -234,7 +231,11 @@
                         "read everyones points",
                         "read everyones score",
                         "read all the scores",
-                        "read all the points"
+                        "read all the points",
+                        "tell me everyones points",
+                        "tell me everyones score",
+                        "tell me all the scores",
+                        "tell me all the points"
                     ]
                 },
                 {
@@ -259,41 +260,14 @@
                         }
                     ],
                     "samples": [
-                        "give everyone {amount} points",
-                        "give everyone {amount} point",
-                        "give all tokens {amount} point",
-                        "give all tokens {amount} points"
-                    ]
-                },
-                {
-                    "name": "AddSinglePoint",
-                    "slots": [
-                        {
-                            "name": "player",
-                            "type": "TokenColor"
-                        }
-                    ],
-                    "samples": [
-                        "give one to {player}",
-                        "add one to {player}",
-                        "give a point to {player}",
-                        "add a point to {player}"
-                    ]
-                },
-                {
-                    "name": "RemoveSinglePoint",
-                    "slots": [
-                        {
-                            "name": "player",
-                            "type": "TokenColor"
-                        }
-                    ],
-                    "samples": [
-                        "subtract a point from {player}",
-                        "remove one from {player}",
-                        "take one from {player}",
-                        "take a point away from {player}",
-                        "remove a point from {player}"
+                        "give {amount} points to everyone",
+                        "give {amount} point to everyone",
+                        "give {amount} points to all tokens",
+                        "give {amount} point to all tokens",
+                        "add {amount} points to everyone",
+                        "add {amount} point to everyone",
+                        "add {amount} points to all tokens",
+                        "add {amount} point to all tokens"
                     ]
                 },
                 {
@@ -311,7 +285,10 @@
                     "samples": [
                         "subtract {amount} points from everyone",
                         "take {amount} away from everyone",
-                        "remove {amount} points from everyone"
+                        "remove {amount} points from everyone",
+                        "subtract {amount} points from all tokens",
+                        "take {amount} away from all tokens",
+                        "remove {amount} points from all tokens"
                     ]
                 }
             ],
