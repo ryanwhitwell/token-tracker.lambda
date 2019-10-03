@@ -59,11 +59,18 @@ namespace Token.Core
       };
     }
 
-    public static string TTLPhrase(this TokenUser tokenUser)
+    public static double TTLSecondsRemaining(this TokenUser tokenUser)
     {
       long now = (long)(DateTime.UtcNow - EPOCH_DATE).TotalSeconds;
       
       double secondsLeft = (tokenUser.TTL.Value - now);
+
+      return secondsLeft;
+    }
+
+    public static string TTLPhrase(this TokenUser tokenUser)
+    {
+      double secondsLeft = tokenUser.TTLSecondsRemaining();
       double minutesLeft = Math.Ceiling(secondsLeft / 60);
 
       if (secondsLeft > 60)
