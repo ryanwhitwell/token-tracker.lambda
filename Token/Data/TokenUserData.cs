@@ -52,7 +52,7 @@ namespace Token.Data
       TokenUser tokenUser = await _tokenUserRepository.Load(id);
 
       // If TTL has passed then return null
-      if (tokenUser.TTL.HasValue)
+      if (tokenUser != null && tokenUser.TTL.HasValue)
       {
         DateTime expirationDate = tokenUser.CreateDate.Value.AddMinutes(TTL_MINUTES);
         bool isExpired = expirationDate > DateTime.UtcNow;
