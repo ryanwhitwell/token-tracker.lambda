@@ -15,6 +15,7 @@ using Alexa.NET.InSkillPricing;
 using Alexa.NET.Response;
 using Token.Core;
 using Amazon.Lambda.Core;
+using Token.Data;
 
 namespace Token.Tests.BusinessLogic
 {
@@ -45,7 +46,7 @@ namespace Token.Tests.BusinessLogic
     public void Ctor_ShouldReturnInstanceOfClass_WhenInputIsValid()
     {
       Mock<ISkillRequestValidator>        mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
-      Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
+      Mock<ISkillProductsClientAdapter>   mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Alexa.NET;
 using Alexa.NET.Response;
+using Token.Data;
 
 namespace Token.Tests.Core
 {
@@ -69,6 +70,45 @@ namespace Token.Tests.Core
       Assert.IsType<SsmlOutputSpeech>(response.Response.OutputSpeech);
       Console.WriteLine(response);
       Assert.Equal(expectedSpeechText, outputSpeech.Ssml);
+    }
+
+    [Fact]
+    public void GetTTLPhrase_ShouldReturnCorrectValue_WhenInputIsValid()
+    {
+      DateTime now = DateTime.UtcNow;
+      TokenUser tokenUser = new TokenUser();
+      tokenUser.TTL = TokenUserData.GetTTL(now);
+
+      string expectedTtlPhrase = string.Format("for {0} more minutes", 15);
+      string ttlPhrase = tokenUser.TTLPhrase();
+      
+      Assert.Equal(expectedTtlPhrase, ttlPhrase);
+    }
+
+    [Fact]
+    public void GetTTLPhrase_ShouldReturnCorrectValue_WhenInputIsValidAndThereAreZeroMinutesLeft()
+    {
+      DateTime now = DateTime.UtcNow;
+      TokenUser tokenUser = new TokenUser();
+      tokenUser.TTL = (long)(now.AddMinutes(1) - Token.Core.Extensions.EPOCH_DATE).TotalSeconds;
+
+      string expectedTtlPhrase = string.Format("for {0} more minute", 1);
+      string ttlPhrase = tokenUser.TTLPhrase();
+      
+      Assert.Equal(expectedTtlPhrase, ttlPhrase);
+    }
+
+    [Fact]
+    public void GetTTLPhrase_ShouldReturnCorrectValue_WhenInputIsValidAndThereIsLessThanAMinute()
+    {
+      DateTime now = DateTime.UtcNow;
+      TokenUser tokenUser = new TokenUser();
+      tokenUser.TTL = (long)(now.AddMinutes(2) - Token.Core.Extensions.EPOCH_DATE).TotalSeconds;
+
+      string expectedTtlPhrase = string.Format("for {0} more minutes", 2);
+      string ttlPhrase = tokenUser.TTLPhrase();
+      
+      Assert.Equal(expectedTtlPhrase, ttlPhrase);
     }
   }
 }

@@ -7,6 +7,8 @@ namespace Token.Core
 {
   public static class Extensions
   {
+    public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
+    
     public static SkillResponse Tell(this string phrase)
     {
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
@@ -55,6 +57,34 @@ namespace Token.Core
         HasPointsPersistence = tokenUser.HasPointsPersistence,
         TTL = tokenUser.TTL
       };
+    }
+
+    public static string TTLPhrase(this TokenUser tokenUser)
+    {
+      long now = (long)(DateTime.UtcNow - EPOCH_DATE).TotalSeconds;
+      
+      double secondsLeft = (tokenUser.TTL.Value - now);
+      double minutesLeft = Math.Ceiling(secondsLeft / 60);
+
+      if (secondsLeft > 60)
+      {
+        return string.Format("for {0} more minutes", minutesLeft);
+      }
+      else if (secondsLeft == 60)
+      {
+        return string.Format("for {0} more minute", minutesLeft);
+      }
+      else if (secondsLeft < 60 && secondsLeft > 0)
+      {
+        if (secondsLeft == 1)
+        {
+          return string.Format("for {0} more second", secondsLeft);
+        }
+
+        return string.Format("for {0} more seconds", secondsLeft);
+      }
+      
+      return "momentarily";
     }
   }
 }

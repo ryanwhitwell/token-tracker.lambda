@@ -4,7 +4,6 @@ using Alexa.NET.Response;
 using Microsoft.Extensions.Logging;
 using Token.BusinessLogic.Interfaces;
 using Token.Core;
-using Token.Data;
 using Token.Models;
 
 namespace Token.BusinessLogic.LaunchRequestHandlers
@@ -32,7 +31,7 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       SkillResponse response;
       if (tokenUser.HasPointsPersistence)
       {
-        response = string.Format("Welcome to {0}. You currently have Points Persistence so your tokens and points are available for as long as your subscription is active. " +
+        response = string.Format("Welcome to {0}. You currently have Points Persistence so your tokens are available for as long as your subscription is active. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, you can say something like, " +
           "<emphasis>add</emphasis> three points to red. ", 
           Configuration.File.GetSection("Application")["SkillName"])
@@ -40,10 +39,11 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       }
       else
       {
-        response = string.Format("Welcome to {0}. Your tokens and points will only be available to use for a limited amount of time without a subscription to {1}. " +
+        response = string.Format("Welcome to {0}. Your tokens will only be availble {1} without a subscription to {2}. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, " +
           "you can say something like, <emphasis>add</emphasis> three points to red.", 
           Configuration.File.GetSection("Application")["SkillName"], 
+          tokenUser.TTLPhrase(),
           Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"])
           .TellWithReprompt("So, what can I help you with?");
       }

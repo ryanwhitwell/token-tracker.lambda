@@ -51,10 +51,10 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
         case PurchaseResult.AlreadyPurchased:
           tokenUser.HasPointsPersistence = true;
           tokenUser.UpsellTicks = 0;
-          response = string.Format("Your tokens and points are available while your subscription is active. Enjoy!").Tell();
+          response = string.Format("Your tokens are available while your subscription is active. Enjoy!").Tell();
           break;
         case PurchaseResult.Declined:
-           response = string.Format("Don't forget to subscribe so you can keep your tokens and points forever.").Tell();
+           response = string.Format("Don't forget to subscribe so you can keep your tokens forever.").Tell();
            break;
         case PurchaseResult.Error:
           response = string.Format("Please try again.").Tell();

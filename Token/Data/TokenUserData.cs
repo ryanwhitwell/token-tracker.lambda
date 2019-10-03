@@ -9,7 +9,6 @@ namespace Token.Data
 {
   public class TokenUserData : ITokenUserData
   {
-    public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
     private static readonly int TTL_MINUTES = Int32.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
     private ILogger<TokenUserData> _logger;
     private ITokenUserRepository _tokenUserRepository;
@@ -92,7 +91,7 @@ namespace Token.Data
         throw new ArgumentNullException("dateTime");
       }
 
-      return (long)(dateTime.Value.AddMinutes(TTL_MINUTES) - EPOCH_DATE).TotalSeconds;
+      return (long)(dateTime.Value.AddMinutes(TTL_MINUTES) - Token.Core.Extensions.EPOCH_DATE).TotalSeconds;
     }
   }
 }
