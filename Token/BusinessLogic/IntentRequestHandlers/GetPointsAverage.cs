@@ -42,9 +42,10 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       else 
       {
         double averagePoints = allPoints.Average();
+        string averagePointsFormatted = string.Format("{0:0.0}", averagePoints);
 
         string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
-        response = string.Format("The average score for all tokens is {0} {1}.", averagePoints, pointsWord).Tell();
+        response = string.Format("The average score for all tokens is {0} {1}.", averagePointsFormatted, pointsWord).Tell();
       }
 
       logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);
