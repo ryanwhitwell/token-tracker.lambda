@@ -162,7 +162,6 @@ namespace Token.BusinessLogic
       string message = string.Format("Your tokens and points are no longer available. You can keep them forever with a subscription to {0}. Do you want to know more?", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]);
       UpsellDirective directive = new UpsellDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken", message);
       response.Response.Directives.Add(directive);
-      tokenUser.UpsellTicks = 0;
     }
 
     public async Task<SkillResponse> HandleSkillRequest(SkillRequest skillRequest, ILambdaContext lambdaContext)
