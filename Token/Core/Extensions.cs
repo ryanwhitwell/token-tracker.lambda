@@ -53,7 +53,7 @@ namespace Token.Core
         Players = tokenUser.Players,
         PasswordHash = tokenUser.PasswordHash != null ? tokenUser.PasswordHash.Mask() : null,
         HasPointsPersistence = tokenUser.HasPointsPersistence,
-        TTL = tokenUser.TTL
+        ExpirationDate = tokenUser.ExpirationDate
       };
     }
   }
