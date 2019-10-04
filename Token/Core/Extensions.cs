@@ -16,7 +16,7 @@ namespace Token.Core
 
       ResponseBody responseBody = new ResponseBody();
       responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = false;
+      responseBody.ShouldEndSession = true;
 
       SkillResponse skillResponse = new SkillResponse();
       skillResponse.Response = responseBody;

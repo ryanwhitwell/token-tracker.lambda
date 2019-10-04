@@ -45,7 +45,7 @@ namespace Token
       {
         logger.Log(LogLevel.Error, e);
 
-        response = string.Format("I'm sorry but I seem to be having trouble handling your request. If you need help you can say, ask {0} for help.", Configuration.File.GetSection("Application")["SkillName"]).Tell();
+        response = string.Format("I'm sorry, but I seem to be having trouble handling your request.").TellWithReprompt(string.Format(" If you need help you can say, ask {0} for help.", Configuration.File.GetSection("Application")["SkillName"]));
       }
 
       return response;
