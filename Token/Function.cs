@@ -46,7 +46,7 @@ namespace Token
             string.IsNullOrWhiteSpace(skillRequest.Context.System.User.AccessToken))
         {
           // Send user a message with an Account Linking card
-          response = string.Format("Before I can keep track of your tokens, you need to log in with your Amazon account. Please visit the Alexa app to link your Amazon account.").TellWithCard(new LinkAccountCard());
+          response = string.Format("Before I can keep track of your tokens, you need to log in with your Amazon account. Please visit the home screen on the Alexa app to link your Amazon account.").TellWithCard(new LinkAccountCard());
 
           logger.Log(LogLevel.Debug, "SkillResponse: " + JsonConvert.SerializeObject(response));
 
