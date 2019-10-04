@@ -29,58 +29,58 @@ white, yellow, blue, red, green, black, brown, azure, ivory, teal, silver, purpl
 Here's a breakdown of Token's features and some sample commands to use with this skill:
 
 Add a Token
-Alexa, tell Token to add the color blue.
+Alexa, tell token tracker to add the color blue.
 
 Delete a Token
-Alexa, tell Token to remove the color blue.
+Alexa, tell token tracker to remove the color blue.
 
 Give a Token points
-Alexa, tell Token to give three points to blue.
+Alexa, tell token tracker to give three points to blue.
 
 Subtract points from a Token
-Alexa, tell Token to take two points away from blue.
+Alexa, tell token tracker to take two points away from blue.
 
 Get a Token's points
-Alexa, tell Token to get the score for blue.
+Alexa, tell token tracker to get the score for blue.
 
 Give points to all Tokens
-Alexa, tell Token to give everyone three points.
+Alexa, tell token tracker to give everyone three points.
 
 Subtract points from all Tokens
-Alexa, tell Token to subtract three points from everyone.
+Alexa, tell token tracker to subtract three points from everyone.
 
 Reset the points for all Tokens
-Alexa, tell Token to reset all of the tokens.
+Alexa, tell token tracker to reset all of the tokens.
 
 Delete all Tokens
-Alexa, tell Token to delete all of the tokens.
+Alexa, tell token tracker to delete all of the tokens.
 
 Get the highest score
-Alexa, ask Token who has the highest score?
+Alexa, ask token tracker who has the highest score?
 
 Get the lowest score
-Alexa, ask Token who has the lowest score?
+Alexa, ask token tracker who has the lowest score?
 
 Get the average score
-Alexa, ask Token what is the average score?
+Alexa, ask token tracker what is the average score?
 
 Announce all Tokens' points
-Alexa, tell Token to read all the scores.
+Alexa, tell token tracker to read all the scores.
 
 List all Tokens
-Alexa, ask Token who is playing?
+Alexa, ask token tracker who is playing?
 
 Announce the number of Tokens
-Alexa, ask Token how many tokens there are.
+Alexa, ask token tracker how many tokens there are.
 
 -----------------------------
 What's new?
 -----------------------------
 
 Example Phrases 
-Alexa, tell token to give three points to blue.
-Alexa, tell token to add the color blue.
-Alexa, ask token who has the highest score?
+Alexa, tell token tracker to give three points to blue.
+Alexa, tell token tracker to add the color blue.
+Alexa, ask token tracker who has the highest score?
 
 -----------------------------
 Category
