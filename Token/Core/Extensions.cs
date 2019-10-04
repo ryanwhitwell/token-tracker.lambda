@@ -98,9 +98,13 @@ namespace Token.Core
 
     public static double TTLSecondsRemaining(this TokenUser tokenUser)
     {
+      int configurableTtlMinutes = int.Parse(Configuration.File.GetSection("Application")["DataTimeToLiveMinutes"]);
+
+      double configurableTtlSeconds = configurableTtlMinutes * 60;
+      
       long now = (long)(DateTime.UtcNow - EPOCH_DATE).TotalSeconds;
       
-      double secondsLeft = (tokenUser.TTL.Value - now);
+      double secondsLeft = tokenUser.TTL == null ? configurableTtlSeconds : tokenUser.TTL.Value - now;
 
       return secondsLeft;
     }

@@ -40,10 +40,10 @@ namespace Token
       try
       {
         if (skillRequest.Context.System.User == null ||
-            string.IsNullOrWhiteSpace(skillRequest.Context.System.User.UserId))
+            string.IsNullOrWhiteSpace(skillRequest.Context.System.User.AccessToken))
         {
           // Send user a message with an Account Linking card
-          return string.Format("To get the most out of this skill, please link your account").TellWithCard(new LinkAccountCard());
+          return string.Format("To get the most out of this skill, please link it with your Amazon account.").TellWithCard(new LinkAccountCard());
 
         }
         
