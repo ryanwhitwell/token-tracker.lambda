@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "token",
+            "invocationName": "token tracker",
             "intents": [
                 {
                     "name": "RefundSubscription",
