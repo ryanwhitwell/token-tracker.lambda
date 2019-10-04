@@ -48,6 +48,23 @@ namespace Token.Core
       return skillResponse;
     }
 
+    public static SkillResponse TellWithCard(this string phrase, ICard card)
+    {
+      SsmlOutputSpeech speech = new SsmlOutputSpeech();
+      speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
+
+      ResponseBody responseBody = new ResponseBody();
+      responseBody.OutputSpeech = speech;
+      responseBody.ShouldEndSession = true;
+      responseBody.Card = card;
+
+      SkillResponse skillResponse = new SkillResponse();
+      skillResponse.Response = responseBody;
+      skillResponse.Version = "1.0";
+
+      return skillResponse;
+    }
+
     public static string Mask(this string source)
     {
       return source.Mask('*');

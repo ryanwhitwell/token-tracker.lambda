@@ -184,7 +184,7 @@ namespace Token.BusinessLogic
 
       // Load the user's application state
       TokenUser tokenUser = await this.GetUserApplicationState(skillRequest);
-
+      
       // Handle the request
       SkillResponse response = await this.GetSkillResponse(skillRequest, tokenUser);
 
