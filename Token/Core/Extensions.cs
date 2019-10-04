@@ -50,12 +50,12 @@ namespace Token.Core
 
     public static SkillResponse TellWithCard(this string phrase, ICard card)
     {
-      SsmlOutputSpeech speech = new SsmlOutputSpeech();
-      speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
+      PlainTextOutputSpeech plainText = new PlainTextOutputSpeech();
+      plainText.Text = string.Format("{0}", phrase);
 
       ResponseBody responseBody = new ResponseBody();
-      responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = true;
+      responseBody.OutputSpeech = plainText;
+      responseBody.ShouldEndSession = null;
       responseBody.Card = card;
 
       SkillResponse skillResponse = new SkillResponse();

@@ -9,6 +9,7 @@ using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Token.BusinessLogic.Interfaces;
 using Alexa.NET.InSkillPricing.Responses;
+using Newtonsoft.Json;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace Token
@@ -28,6 +29,8 @@ namespace Token
       // Skill ID verified by AWS Lambda service
       Logger logger = LogManager.GetCurrentClassLogger();
 
+      logger.Log(LogLevel.Debug, "SkillRequest: " + JsonConvert.SerializeObject(skillRequest));
+
       if (skillRequest.Version == "WARMING")
       {
         logger.Log(LogLevel.Info, "Keeping warm.");
@@ -43,8 +46,12 @@ namespace Token
             string.IsNullOrWhiteSpace(skillRequest.Context.System.User.AccessToken))
         {
           // Send user a message with an Account Linking card
-          return string.Format("To get the most out of this skill, please link it with your Amazon account.").TellWithCard(new LinkAccountCard());
+          response = string.Format("Before I can keep track of your tokens, you need to log in with your Amazon account. Please visit the Alexa app to link your Amazon account.").TellWithCard(new LinkAccountCard());
 
+          logger.Log(LogLevel.Debug, "SkillResponse: " + JsonConvert.SerializeObject(response));
+
+          return response;
+        
         }
         
         response = await _businessLogic.HandleSkillRequest(skillRequest, context);
@@ -55,6 +62,8 @@ namespace Token
 
         response = string.Format("I'm sorry, but I seem to be having trouble handling your request.").TellWithReprompt(string.Format(" If you need help you can say, ask {0} for help.", Configuration.File.GetSection("Application")["SkillName"]));
       }
+
+      logger.Log(LogLevel.Debug, "SkillResponse: " + JsonConvert.SerializeObject(response));
 
       return response;
     }

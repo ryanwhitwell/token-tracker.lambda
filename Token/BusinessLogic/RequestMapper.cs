@@ -50,9 +50,6 @@ namespace Token.BusinessLogic
       
       this.logger.LogTrace("BEGIN GetRequestHandler. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      this.logger.LogDebug(JsonConvert.SerializeObject(skillRequest));
-
-
       IRequestRouter requestHandler;
 
       if (skillRequest.Request is IntentRequest)
