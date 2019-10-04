@@ -13,8 +13,16 @@ namespace Token.Core
     {
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
-      SkillResponse speechResponse = ResponseBuilder.Tell(speech);
-      return speechResponse;
+
+      ResponseBody responseBody = new ResponseBody();
+      responseBody.OutputSpeech = speech;
+      responseBody.ShouldEndSession = false;
+
+      SkillResponse skillResponse = new SkillResponse();
+      skillResponse.Response = responseBody;
+      skillResponse.Version = "1.0";
+
+      return skillResponse;
     }
 
     public static SkillResponse TellWithReprompt(this string phrase, string repromptPhrase)
@@ -22,10 +30,22 @@ namespace Token.Core
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
 
-      Reprompt reprompt = new Reprompt(repromptPhrase);
+      PlainTextOutputSpeech repromptMessage = new PlainTextOutputSpeech();
+      repromptMessage.Text = repromptPhrase;
 
-      SkillResponse speechResponse = ResponseBuilder.Ask(speech, reprompt);
-      return speechResponse;
+      Reprompt repromptBody = new Reprompt();
+      repromptBody.OutputSpeech = repromptMessage;
+
+      ResponseBody responseBody = new ResponseBody();
+      responseBody.OutputSpeech = speech;
+      responseBody.ShouldEndSession = false;
+      responseBody.Reprompt = repromptBody;
+
+      SkillResponse skillResponse = new SkillResponse();
+      skillResponse.Response = responseBody;
+      skillResponse.Version = "1.0";
+
+      return skillResponse;
     }
 
     public static string Mask(this string source)
