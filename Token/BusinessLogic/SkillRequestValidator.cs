@@ -17,7 +17,7 @@ namespace Token.BusinessLogic
         || String.IsNullOrWhiteSpace(skillRequest.Request.Type)
         || String.IsNullOrWhiteSpace(skillRequest.Request.Locale)
         || skillRequest.Context.System.User == null
-        || String.IsNullOrWhiteSpace(skillRequest.Context.System.User.UserId))
+        || String.IsNullOrWhiteSpace(skillRequest.Context.System.User.AccessToken))
        
       {
         return false;
