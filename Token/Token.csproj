@@ -9,9 +9,15 @@
     <None Update="./appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources/**/*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
     <None Update="./appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources/**/*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -29,5 +35,6 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.5.1"/>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
     <PackageReference Include="Alexa.NET.InSkillPricing" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="3.0.0"/>
   </ItemGroup>
 </Project>

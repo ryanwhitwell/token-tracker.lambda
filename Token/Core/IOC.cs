@@ -14,6 +14,8 @@ using Amazon.DynamoDBv2;
 using Token.BusinessLogic.IntentRequestHandlers;
 using Token.BusinessLogic.LaunchRequestHandlers;
 using Token.BusinessLogic.ConnectionResponseRequestHandlers;
+using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace Token.Core
 {
@@ -23,56 +25,57 @@ namespace Token.Core
 
     private static ServiceProvider GetServiceProvider()
     {
-      ServiceProvider serviceProvider = new ServiceCollection()
-          .AddLogging(loggingBuilder =>
-          {
-            loggingBuilder.ClearProviders();
-            loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-            loggingBuilder.AddNLog();
-          })
-          .AddTransient<IRequestBusinessLogic, RequestBusinessLogic>()
-          .AddTransient<IRequestRouter, IntentRequestRouter>()
-          .AddTransient<IRequestRouter, LaunchRequestRouter>()
-          .AddTransient<IRequestRouter, ConnectionResponseRequestRouter>()
-          .AddTransient<ITokenUserData, TokenUserData>()
-          .AddTransient<ITokenUserRepository, TokenUserRepository>()
-          .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
-          .AddTransient<IIntentRequestHandler, AddAllPoints>()
-          .AddTransient<IIntentRequestHandler, AddPlayer>()
-          .AddTransient<IIntentRequestHandler, AddPoints>()
-          .AddTransient<IIntentRequestHandler, AddSinglePoint>()
-          .AddTransient<IIntentRequestHandler, DeleteAllPlayers>()
-          .AddTransient<IIntentRequestHandler, DeletePlayer>()
-          .AddTransient<IIntentRequestHandler, GetAllPlayersCount>()
-          .AddTransient<IIntentRequestHandler, GetPlayerPoints>()
-          .AddTransient<IIntentRequestHandler, GetPointsAverage>()
-          .AddTransient<IIntentRequestHandler, GetPointsMax>()
-          .AddTransient<IIntentRequestHandler, GetPointsMin>()
-          .AddTransient<IIntentRequestHandler, ListAllPlayers>()
-          .AddTransient<IIntentRequestHandler, ListAllPoints>()
-          .AddTransient<IIntentRequestHandler, RemoveAllPoints>()
-          .AddTransient<IIntentRequestHandler, RemovePoints>()
-          .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
-          .AddTransient<IIntentRequestHandler, ResetAllPoints>()
-          .AddTransient<IIntentRequestHandler, Buy>()
-          .AddTransient<IIntentRequestHandler, WhatCanIBuy>()
-          .AddTransient<IIntentRequestHandler, Help>()
-          .AddTransient<IIntentRequestHandler, RefundSubscription>()
-          .AddTransient<IIntentRequestHandler, Fallback>()
-          .AddTransient<IIntentRequestHandler, Stop>()
-          .AddTransient<IIntentRequestHandler, Cancel>()
-          .AddTransient<IIntentRequestHandler, NavigateHome>()
-          .AddTransient<ILaunchRequestHandler, DefaultLaunchRequest>()
-          .AddTransient<IConnectionResponseRequestHandler, DefaultConnectionResponseRequest>()
-          .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
-          .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
-          .AddTransient<IRequestMapper, RequestMapper>()
-          .BuildServiceProvider();
+      IServiceCollection serviceCollection = new ServiceCollection()
+        .AddLogging(loggingBuilder =>
+        {
+          loggingBuilder.ClearProviders();
+          loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+          loggingBuilder.AddNLog();
+        })
+        .AddTransient<IRequestBusinessLogic, RequestBusinessLogic>()
+        .AddTransient<IRequestRouter, IntentRequestRouter>()
+        .AddTransient<IRequestRouter, LaunchRequestRouter>()
+        .AddTransient<IRequestRouter, ConnectionResponseRequestRouter>()
+        .AddTransient<ITokenUserData, TokenUserData>()
+        .AddTransient<ITokenUserRepository, TokenUserRepository>()
+        .AddSingleton<IDynamoDBContext>(new DynamoDBContext(new AmazonDynamoDBClient(RegionEndpoint.USEast1), new DynamoDBContextConfig() { ConsistentRead = true }))
+        .AddTransient<IIntentRequestHandler, AddAllPoints>()
+        .AddTransient<IIntentRequestHandler, AddPlayer>()
+        .AddTransient<IIntentRequestHandler, AddPoints>()
+        .AddTransient<IIntentRequestHandler, AddSinglePoint>()
+        .AddTransient<IIntentRequestHandler, DeleteAllPlayers>()
+        .AddTransient<IIntentRequestHandler, DeletePlayer>()
+        .AddTransient<IIntentRequestHandler, GetAllPlayersCount>()
+        .AddTransient<IIntentRequestHandler, GetPlayerPoints>()
+        .AddTransient<IIntentRequestHandler, GetPointsAverage>()
+        .AddTransient<IIntentRequestHandler, GetPointsMax>()
+        .AddTransient<IIntentRequestHandler, GetPointsMin>()
+        .AddTransient<IIntentRequestHandler, ListAllPlayers>()
+        .AddTransient<IIntentRequestHandler, ListAllPoints>()
+        .AddTransient<IIntentRequestHandler, RemoveAllPoints>()
+        .AddTransient<IIntentRequestHandler, RemovePoints>()
+        .AddTransient<IIntentRequestHandler, RemoveSinglePoint>()
+        .AddTransient<IIntentRequestHandler, ResetAllPoints>()
+        .AddTransient<IIntentRequestHandler, Buy>()
+        .AddTransient<IIntentRequestHandler, WhatCanIBuy>()
+        .AddTransient<IIntentRequestHandler, Help>()
+        .AddTransient<IIntentRequestHandler, RefundSubscription>()
+        .AddTransient<IIntentRequestHandler, Fallback>()
+        .AddTransient<IIntentRequestHandler, Stop>()
+        .AddTransient<IIntentRequestHandler, Cancel>()
+        .AddTransient<IIntentRequestHandler, NavigateHome>()
+        .AddTransient<ILaunchRequestHandler, DefaultLaunchRequest>()
+        .AddTransient<IConnectionResponseRequestHandler, DefaultConnectionResponseRequest>()
+        .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
+        .AddTransient<ISkillRequestValidator, SkillRequestValidator>()
+        .AddTransient<IRequestMapper, RequestMapper>();
 
+      serviceCollection.AddLocalization(x => x.ResourcesPath = "Resources");
+          
       LoggingConfiguration nlogConfig = new NLogLoggingConfiguration(Configuration.File.GetSection("NLog"));
       LogManager.Configuration = nlogConfig;
 
-      return serviceProvider;
+      return serviceCollection.BuildServiceProvider();;
     }
   }
 }
