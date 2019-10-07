@@ -8,8 +8,8 @@ using System;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Token.BusinessLogic.Interfaces;
-using Alexa.NET.InSkillPricing.Responses;
 using Newtonsoft.Json;
+using System.Globalization;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace Token
@@ -24,9 +24,29 @@ namespace Token
     
     private IRequestBusinessLogic _businessLogic = container.GetService<IRequestBusinessLogic>();
 
+    private void SetCulture(SkillRequest skillRequest)
+    {
+      if (skillRequest.Request == null)
+      {
+        throw new ArgumentNullException("request");
+      }
+
+      if (string.IsNullOrWhiteSpace(skillRequest.Request.Locale))
+      {
+        throw new ArgumentNullException("locale");
+      }
+
+      CultureInfo.CurrentCulture = new CultureInfo(skillRequest.Request.Locale);
+      CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture;
+    }
+
     public async Task<SkillResponse> FunctionHandler(SkillRequest skillRequest, ILambdaContext context)
     {
-      // Skill ID verified by AWS Lambda service
+      // Skill ID verified by AWS Lambda service configuration
+      
+      // Set current culture
+      SetCulture(skillRequest);
+      
       Logger logger = LogManager.GetCurrentClassLogger();
 
       logger.Log(LogLevel.Debug, "SkillRequest: " + JsonConvert.SerializeObject(skillRequest));
