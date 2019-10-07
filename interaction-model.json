@@ -114,8 +114,7 @@
                         }
                     ],
                     "samples": [
-                        "add another color",
-                        "add a color",
+                        "add {player}",
                         "add the color {player}"
                     ]
                 },
@@ -131,7 +130,7 @@
                         }
                     ],
                     "samples": [
-                        "delete a color",
+                        "delete {player}",
                         "delete the color {player}",
                         "remove the color {player}"
                     ]
@@ -166,6 +165,7 @@
                         }
                     ],
                     "samples": [
+                        "tell me how many points {player} has",
                         "how many points does {player} have",
                         "what is the score for {player}",
                         "tell me the score for {player}",
