@@ -27,7 +27,7 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       }
 
       logger.LogTrace("BEGIN Default. RequestId: {0}.", skillRequest.Request.RequestId);
-      
+
       SkillResponse response;
       if (tokenUser.HasPointsPersistence)
       {
