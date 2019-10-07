@@ -43,25 +43,21 @@ namespace Token
     public async Task<SkillResponse> FunctionHandler(SkillRequest skillRequest, ILambdaContext context)
     {
       // Skill ID verified by AWS Lambda service configuration
-      
-      // Set current culture
-      SetCulture(skillRequest);
-      
-      Logger logger = LogManager.GetCurrentClassLogger();
-
-      logger.Log(LogLevel.Debug, "SkillRequest: " + JsonConvert.SerializeObject(skillRequest));
-
       if (skillRequest.Version == "WARMING")
       {
-        logger.Log(LogLevel.Info, "Keeping warm.");
-
         return null;
       }
 
-      SkillResponse response;
+      Logger logger = LogManager.GetCurrentClassLogger();
 
+      SkillResponse response;
       try
       {
+        // Set current culture
+        SetCulture(skillRequest);
+
+        logger.Log(LogLevel.Debug, "SkillRequest: " + JsonConvert.SerializeObject(skillRequest));
+        
         if (skillRequest.Context.System.User == null ||
             string.IsNullOrWhiteSpace(skillRequest.Context.System.User.AccessToken))
         {
