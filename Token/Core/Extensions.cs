@@ -9,14 +9,14 @@ namespace Token.Core
   {
     public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
     
-    public static SkillResponse Tell(this string phrase)
+    public static SkillResponse Tell(this string phrase, bool endSession = false)
     {
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
 
       ResponseBody responseBody = new ResponseBody();
       responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = true;
+      responseBody.ShouldEndSession = endSession;
 
       SkillResponse skillResponse = new SkillResponse();
       skillResponse.Response = responseBody;
@@ -25,7 +25,7 @@ namespace Token.Core
       return skillResponse;
     }
 
-    public static SkillResponse TellWithReprompt(this string phrase, string repromptPhrase)
+    public static SkillResponse TellWithReprompt(this string phrase, string repromptPhrase, bool endSession = false)
     {
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
@@ -38,7 +38,7 @@ namespace Token.Core
 
       ResponseBody responseBody = new ResponseBody();
       responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = false;
+      responseBody.ShouldEndSession = endSession;
       responseBody.Reprompt = repromptBody;
 
       SkillResponse skillResponse = new SkillResponse();
@@ -48,14 +48,14 @@ namespace Token.Core
       return skillResponse;
     }
 
-    public static SkillResponse TellWithCard(this string phrase, ICard card)
+    public static SkillResponse TellWithCard(this string phrase, ICard card, bool? endSession = null)
     {
       PlainTextOutputSpeech plainText = new PlainTextOutputSpeech();
       plainText.Text = string.Format("{0}", phrase);
 
       ResponseBody responseBody = new ResponseBody();
       responseBody.OutputSpeech = plainText;
-      responseBody.ShouldEndSession = null;
+      responseBody.ShouldEndSession = endSession;
       responseBody.Card = card;
 
       SkillResponse skillResponse = new SkillResponse();
