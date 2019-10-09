@@ -258,7 +258,7 @@ namespace Token.Tests.BusinessLogic
     }
 
     [Fact]
-    public void GetRequestHandler_ShouldThrowNotSupportedException_WhenSkillRequestTypeIsSessionEndedRequest()
+    public void GetRequestHandler_ShouldReturnSessionEndedRequestHandler_WhenSkillRequestTypeIsSessionEndedRequest()
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
@@ -266,14 +266,15 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestMapper>> mockLogger = new Mock<ILogger<RequestMapper>>();
 
       Mock<IRequestRouter> mockRequestrouter = new Mock<IRequestRouter>();
-      mockRequestrouter.Setup(x => x.RequestType).Returns(RequestType.IntentRequest);
+      mockRequestrouter.Setup(x => x.RequestType).Returns(RequestType.SessionEndedRequest);
 
       List<Mock<IRequestRouter>> mockRequestRouters = new List<Mock<IRequestRouter>>();
       mockRequestRouters.Add(mockRequestrouter);
 
       RequestMapper sut = new RequestMapper(mockSkillRequestValidator.Object, mockLogger.Object, mockRequestRouters.Select(x => x.Object));
+      IRequestRouter intentRequestHandler = sut.GetRequestHandler(GenerateValidSkillRequest(new SessionEndedRequest() { RequestId= "TestRequestId", Type = "SessionEndedRequest", Locale = "en-US"}));
       
-      Assert.Throws<NotSupportedException>(() => sut.GetRequestHandler(GenerateValidSkillRequest(new SessionEndedRequest(){ RequestId= "TestRequestId", Type = "SessionEndedRequest", Locale = "en-US"})));
+      Assert.Equal(RequestType.SessionEndedRequest, intentRequestHandler.RequestType);
     }
 
     [Fact]

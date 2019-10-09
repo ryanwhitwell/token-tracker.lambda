@@ -4,6 +4,7 @@ namespace Token.Core
   {
     IntentRequest             = 0,
     LaunchRequest             = 1,
-    ConnectionResponseRequest = 2
+    ConnectionResponseRequest = 2,
+    SessionEndedRequest       = 3
   }
 }

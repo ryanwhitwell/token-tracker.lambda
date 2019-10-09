@@ -86,7 +86,7 @@ namespace Token.BusinessLogic
       }
       else if (skillRequest.Request is SessionEndedRequest)
       {
-        throw new NotSupportedException();
+        requestHandler = this.requestHandlers.FirstOrDefault(x => x.RequestType == RequestType.SessionEndedRequest);
       }
       else if (skillRequest.Request is SkillEventRequest)
       {
