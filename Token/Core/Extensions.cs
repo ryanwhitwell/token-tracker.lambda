@@ -30,8 +30,8 @@ namespace Token.Core
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
 
-      PlainTextOutputSpeech repromptMessage = new PlainTextOutputSpeech();
-      repromptMessage.Text = repromptPhrase;
+      SsmlOutputSpeech repromptMessage = new SsmlOutputSpeech();
+      repromptMessage.Ssml = string.Format("<speak>{0}</speak>", repromptPhrase);
 
       Reprompt repromptBody = new Reprompt();
       repromptBody.OutputSpeech = repromptMessage;

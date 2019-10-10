@@ -319,169 +319,253 @@
                         {
                             "id": "WHITE",
                             "name": {
-                                "value": "white"
+                                "value": "white",
+                                "synonyms": [
+                                    "white"
+                                ]
                             }
                         },
                         {
                             "id": "YELLOW",
                             "name": {
-                                "value": "yellow"
+                                "value": "yellow",
+                                "synonyms": [
+                                    "yellow"
+                                ]
                             }
                         },
                         {
                             "id": "BLUE",
                             "name": {
-                                "value": "blue"
+                                "value": "blue",
+                                "synonyms": [
+                                    "blue"
+                                ]
                             }
                         },
                         {
                             "id": "RED",
                             "name": {
-                                "value": "red"
+                                "value": "red",
+                                "synonyms": [
+                                    "red"
+                                ]
                             }
                         },
                         {
                             "id": "GREEN",
                             "name": {
-                                "value": "green"
+                                "value": "green",
+                                "synonyms": [
+                                    "green"
+                                ]
                             }
                         },
                         {
                             "id": "BLACK",
                             "name": {
-                                "value": "black"
+                                "value": "black",
+                                "synonyms": [
+                                    "black"
+                                ]
                             }
                         },
                         {
                             "id": "BROWN",
                             "name": {
-                                "value": "brown"
+                                "value": "brown",
+                                "synonyms": [
+                                    "brown"
+                                ]
                             }
                         },
                         {
                             "id": "AZURE",
                             "name": {
-                                "value": "azure"
+                                "value": "azure",
+                                "synonyms": [
+                                    "azure"
+                                ]
                             }
                         },
                         {
                             "id": "IVORY",
                             "name": {
-                                "value": "ivory"
+                                "value": "ivory",
+                                "synonyms": [
+                                    "ivory"
+                                ]
                             }
                         },
                         {
                             "id": "TEAL",
                             "name": {
-                                "value": "teal"
+                                "value": "teal",
+                                "synonyms": [
+                                    "teal"
+                                ]
                             }
                         },
                         {
                             "id": "SILVER",
                             "name": {
-                                "value": "silver"
+                                "value": "silver",
+                                "synonyms": [
+                                    "silver"
+                                ]
                             }
                         },
                         {
                             "id": "PURPLE",
                             "name": {
-                                "value": "purple"
+                                "value": "purple",
+                                "synonyms": [
+                                    "purple"
+                                ]
                             }
                         },
                         {
                             "id": "GRAY",
                             "name": {
-                                "value": "gray"
+                                "value": "gray",
+                                "synonyms": [
+                                    "gray"
+                                ]
                             }
                         },
                         {
                             "id": "ORANGE",
                             "name": {
-                                "value": "orange"
+                                "value": "orange",
+                                "synonyms": [
+                                    "orange"
+                                ]
                             }
                         },
                         {
                             "id": "MAROON",
                             "name": {
-                                "value": "maroon"
+                                "value": "maroon",
+                                "synonyms": [
+                                    "maroon"
+                                ]
                             }
                         },
                         {
                             "id": "CHARCOAL",
                             "name": {
-                                "value": "charcoal"
+                                "value": "charcoal",
+                                "synonyms": [
+                                    "charcoal"
+                                ]
                             }
                         },
                         {
                             "id": "AQUAMARINE",
                             "name": {
-                                "value": "aquamarine"
+                                "value": "aquamarine",
+                                "synonyms": [
+                                    "aquamarine"
+                                ]
                             }
                         },
                         {
                             "id": "CORAL",
                             "name": {
-                                "value": "coral"
+                                "value": "coral",
+                                "synonyms": [
+                                    "coral"
+                                ]
                             }
                         },
                         {
                             "id": "FUCHSIA",
                             "name": {
-                                "value": "fuchsia"
+                                "value": "fuchsia",
+                                "synonyms": [
+                                    "fuchsia"
+                                ]
                             }
                         },
                         {
                             "id": "WHEAT",
                             "name": {
-                                "value": "wheat"
+                                "value": "wheat",
+                                "synonyms": [
+                                    "wheat"
+                                ]
                             }
                         },
                         {
                             "id": "LIME",
                             "name": {
-                                "value": "lime"
+                                "value": "lime",
+                                "synonyms": [
+                                    "lime"
+                                ]
                             }
                         },
                         {
                             "id": "CRIMSON",
                             "name": {
-                                "value": "crimson"
+                                "value": "crimson",
+                                "synonyms": [
+                                    "crimson"
+                                ]
                             }
                         },
                         {
                             "id": "KHAKI",
                             "name": {
-                                "value": "khaki"
+                                "value": "khaki",
+                                "synonyms": [
+                                    "khaki"
+                                ]
                             }
                         },
                         {
                             "id": "MAGENTA",
                             "name": {
-                                "value": "magenta"
+                                "value": "magenta",
+                                "synonyms": [
+                                    "magenta"
+                                ]
                             }
                         },
                         {
                             "id": "OLDEN",
                             "name": {
-                                "value": "olden"
+                                "value": "olden",
+                                "synonyms": [
+                                    "olden"
+                                ]
                             }
                         },
                         {
                             "id": "PLUM",
                             "name": {
-                                "value": "plum"
+                                "value": "plum",
+                                "synonyms": [
+                                    "plum"
+                                ]
                             }
                         },
                         {
                             "id": "OLIVE",
                             "name": {
-                                "value": "olive"
+                                "value": "olive",
+                                "synonyms": [
+                                    "olive"
+                                ]
                             }
                         },
                         {
                             "id": "CYAN",
                             "name": {
-                                "value": "cyan"
+                                "value": "cyan",
+                                "synonyms": [
+                                    "cyan"
+                                ]
                             }
                         }
                     ]
@@ -518,7 +602,7 @@
                 },
                 {
                     "name": "AddPlayer",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -529,7 +613,13 @@
                             "elicitationRequired": true,
                             "prompts": {
                                 "elicitation": "Elicit.Slot.993571989655.1260685028240"
-                            }
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.1360441051077.866726959620.225918401910"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -776,6 +866,15 @@
                     {
                         "type": "PlainText",
                         "value": "how many points do you want me to add to {player}"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1360441051077.866726959620.225918401910",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "tell me the color of the token you want to add"
                     }
                 ]
             }
