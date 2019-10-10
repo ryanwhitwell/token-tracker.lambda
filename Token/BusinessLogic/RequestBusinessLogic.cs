@@ -196,6 +196,7 @@ namespace Token.BusinessLogic
           tokenUser.UpsellTicks >= int.Parse(Configuration.File.GetSection("Application")["UpsellDirectiveInterval"]) - 1)
       {
         this.AddUpsellDirective(tokenUser, response);
+        response.Response.ShouldEndSession = true;
       }
       else if (!tokenUser.HasPointsPersistence)
       {
