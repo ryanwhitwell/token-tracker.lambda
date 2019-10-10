@@ -33,11 +33,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
       {
-        response = string.Format("Hmm, you don't have any tokens yet.").Tell();
+        response = string.Format("Hmm, you don't have any tokens yet.").Tell(true);
       }
       else if (tokenUser.Players.Count == 1)
       {
-        response = string.Format("Alright, it looks like the only token in your list is the color {0}.", tokenUser.Players[0].Name).Tell();
+        response = string.Format("Alright, it looks like the only token in your list is the color {0}.", tokenUser.Players[0].Name).Tell(true);
       }
       else
       {
@@ -65,7 +65,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
         responsePhraseBuilder.Append(". I think that's everybody.");
 
-        response = responsePhraseBuilder.ToString().Tell();
+        response = responsePhraseBuilder.ToString().Tell(true);
       }
 
       logger.LogTrace("END ListAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);

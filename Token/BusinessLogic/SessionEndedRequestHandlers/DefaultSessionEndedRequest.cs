@@ -28,7 +28,7 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
 
       logger.LogTrace("BEGIN Default. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = string.Format("Hmm, alright.").Tell();
+      SkillResponse response = string.Format("Hmm, alright.").Tell(true);
 
       logger.LogTrace("END Default. RequestId: {0}.", skillRequest.Request.RequestId);
 

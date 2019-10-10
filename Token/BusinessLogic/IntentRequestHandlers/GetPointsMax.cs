@@ -39,7 +39,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       if (playersScoreDescending == null || playersScoreDescending.Length <= 0)
       {
-        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell();
+        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell(true);
       }
       else
       {
@@ -49,7 +49,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         if (highScorePlayers.Length == playersScoreDescending.Count())
         {
           string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
-          response = string.Format("All tokens are tied with a score of {0} {1}.", highScore, pointsWord).Tell();
+          response = string.Format("All tokens are tied with a score of {0} {1}.", highScore, pointsWord).Tell(true);
         }
         else if (highScorePlayers.Length > 1)
         {
@@ -70,12 +70,12 @@ namespace Token.BusinessLogic.IntentRequestHandlers
           string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
           responsePhraseBuilder.AppendFormat(" are tied for the high score with {0} {1}.", highScore, pointsWord);
 
-          response = responsePhraseBuilder.ToString().Tell();
+          response = responsePhraseBuilder.ToString().Tell(true);
         }
         else
         {
           string pointsWord = Math.Abs(highScore) != 1 ? "points" : "point";
-          response = string.Format("{0} has the highest score with {1} {2}.", highScorePlayers[0].Name, highScore, pointsWord).Tell();
+          response = string.Format("{0} has the highest score with {1} {2}.", highScorePlayers[0].Name, highScore, pointsWord).Tell(true);
         }
       }
 

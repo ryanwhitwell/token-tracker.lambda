@@ -40,13 +40,13 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       if (existingPlayer != null)
       {
         // Don't update any data
-        response = string.Format("{0} is already in your list of tokens.", existingPlayer.Name).Tell();
+        response = string.Format("{0} is already in your list of tokens.", existingPlayer.Name).Tell(true);
       }
       else
       {
         // Add new Player data
         tokenUser.Players.Add(new Player() { Name = playerName });
-        response = string.Format("Alright, I added {0} to your list of tokens.", playerName).Tell();
+        response = string.Format("Alright, I added {0} to your list of tokens.", playerName).Tell(true);
       }
 
       logger.LogTrace("END AddPlayer. RequestId: {0}.", skillRequest.Request.RequestId);

@@ -28,7 +28,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN Fallback. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = string.Format("Hmm, I'm not sure what you wanted there.").TellWithReprompt("How can I help?");
+      SkillResponse response = string.Format("Hmm, I'm not sure what you wanted there. Please try again.").Tell(false);
 
       logger.LogTrace("END Fallback. RequestId: {0}.", skillRequest.Request.RequestId);
 

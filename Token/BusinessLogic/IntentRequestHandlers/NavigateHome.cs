@@ -28,7 +28,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN NavigateHome. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = "Done".Tell();
+      SkillResponse response = "Done".Tell(true);
 
       logger.LogTrace("END NavigateHome. RequestId: {0}.", skillRequest.Request.RequestId);
 

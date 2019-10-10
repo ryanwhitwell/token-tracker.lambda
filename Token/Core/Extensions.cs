@@ -9,37 +9,14 @@ namespace Token.Core
   {
     public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1);
     
-    public static SkillResponse Tell(this string phrase)
+    public static SkillResponse Tell(this string phrase, bool shouldEndSession)
     {
       SsmlOutputSpeech speech = new SsmlOutputSpeech();
       speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
 
       ResponseBody responseBody = new ResponseBody();
       responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = true;
-
-      SkillResponse skillResponse = new SkillResponse();
-      skillResponse.Response = responseBody;
-      skillResponse.Version = "1.0";
-
-      return skillResponse;
-    }
-
-    public static SkillResponse TellWithReprompt(this string phrase, string repromptPhrase)
-    {
-      SsmlOutputSpeech speech = new SsmlOutputSpeech();
-      speech.Ssml = string.Format("<speak>{0}</speak>", phrase);
-
-      SsmlOutputSpeech repromptMessage = new SsmlOutputSpeech();
-      repromptMessage.Ssml = string.Format("<speak>{0}</speak>", repromptPhrase);
-
-      Reprompt repromptBody = new Reprompt();
-      repromptBody.OutputSpeech = repromptMessage;
-
-      ResponseBody responseBody = new ResponseBody();
-      responseBody.OutputSpeech = speech;
-      responseBody.ShouldEndSession = false;
-      responseBody.Reprompt = repromptBody;
+      responseBody.ShouldEndSession = shouldEndSession;
 
       SkillResponse skillResponse = new SkillResponse();
       skillResponse.Response = responseBody;

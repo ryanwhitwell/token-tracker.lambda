@@ -46,11 +46,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         existingPlayer.Points -= 1;
         tokenUser.Players.Add(existingPlayer);
 
-        response = string.Format("Okay, I removed one point from {0}.", existingPlayer.Name).Tell();
+        response = string.Format("Okay, I removed one point from {0}.", existingPlayer.Name).Tell(true);
       }
       else
       {
-        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell();
+        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell(true);
       }
 
       logger.LogTrace("END RemoveSinglePoint. RequestId: {0}.", skillRequest.Request.RequestId);

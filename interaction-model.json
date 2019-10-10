@@ -8,7 +8,10 @@
                     "slots": [
                         {
                             "name": "ProductName",
-                            "type": "ListOfProductNames"
+                            "type": "ListOfProductNames",
+                            "samples": [
+                                "{ProductName}"
+                            ]
                         }
                     ],
                     "samples": [
@@ -34,7 +37,10 @@
                     "slots": [
                         {
                             "name": "ProductName",
-                            "type": "ListOfProductNames"
+                            "type": "ListOfProductNames",
+                            "samples": [
+                                "{ProductName}"
+                            ]
                         }
                     ],
                     "samples": [
@@ -576,7 +582,7 @@
             "intents": [
                 {
                     "name": "AddPoints",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -596,7 +602,13 @@
                             "elicitationRequired": true,
                             "prompts": {
                                 "elicitation": "Elicit.Slot.185969148480.1322191848251"
-                            }
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.351681451929.162952872224.414968678023"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -638,12 +650,19 @@
                             "elicitationRequired": true,
                             "prompts": {
                                 "elicitation": "Elicit.Slot.1501884991038.341232485437"
-                            }
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.21113515489.648723593046.1167393801496"
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     "name": "GetPlayerPoints",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -654,13 +673,19 @@
                             "elicitationRequired": true,
                             "prompts": {
                                 "elicitation": "Elicit.Slot.902873210424.1117939562401"
-                            }
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.400327641181.471751754066.523609495510"
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     "name": "AddAllPoints",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1160332779911"
@@ -669,9 +694,10 @@
                         {
                             "name": "amount",
                             "type": "AMAZON.NUMBER",
-                            "confirmationRequired": false,
+                            "confirmationRequired": true,
                             "elicitationRequired": true,
                             "prompts": {
+                                "confirmation": "Confirm.Slot.393113372571.1094929531824",
                                 "elicitation": "Elicit.Slot.1160332779911.911689315608"
                             }
                         }
@@ -688,7 +714,7 @@
                 },
                 {
                     "name": "RemoveAllPoints",
-                    "delegationStrategy": "SKILL_RESPONSE",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.939523654694"
@@ -697,9 +723,10 @@
                         {
                             "name": "amount",
                             "type": "AMAZON.NUMBER",
-                            "confirmationRequired": false,
+                            "confirmationRequired": true,
                             "elicitationRequired": true,
                             "prompts": {
+                                "confirmation": "Confirm.Slot.535976141177.207537112161",
                                 "elicitation": "Elicit.Slot.939523654694.1487315397461"
                             }
                         }
@@ -716,6 +743,7 @@
                 },
                 {
                     "name": "RemovePoints",
+                    "delegationStrategy": "ALWAYS",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -735,7 +763,59 @@
                             "elicitationRequired": true,
                             "prompts": {
                                 "elicitation": "Elicit.Slot.13794185328.161757027054"
-                            }
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.282918961528.1466782744409.663602573961"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "RefundSubscription",
+                    "delegationStrategy": "ALWAYS",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "ProductName",
+                            "type": "ListOfProductNames",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1179691742951.154379682908"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.1179691742951.154379682908.1097672227869"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Buy",
+                    "delegationStrategy": "ALWAYS",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "ProductName",
+                            "type": "ListOfProductNames",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.804126982334.558767732988"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.804126982334.558767732988.418831662471"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -757,7 +837,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token you want to remove"
+                        "value": "That doesn't seem right. Please tell me the color of the token you want to add."
                     }
                 ]
             },
@@ -766,7 +846,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token you want to add points to"
+                        "value": "That doesn't seem right. Please tell me the color of the token you want to add."
                     }
                 ]
             },
@@ -775,7 +855,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token you want to add"
+                        "value": "That doesn't seem right. Please tell me the color of the token you want to add."
                     }
                 ]
             },
@@ -784,7 +864,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "how many points do you want me to add to everyone"
+                        "value": "Please tell me how many points you want me to give everyone."
                     }
                 ]
             },
@@ -820,7 +900,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "how many points do you want to take away from everyone"
+                        "value": "Please tell me how many points you want to subtract from everyone?"
                     }
                 ]
             },
@@ -838,7 +918,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token you want to subtract points from"
+                        "value": "That doesn't seem right. Please tell me the color of the token you want to subtract points from."
                     }
                 ]
             },
@@ -847,7 +927,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "how many points do you want be to subtract from {player}"
+                        "value": "That doesn't seem right. Please tell me how many points you would like to subtract from {player}"
                     }
                 ]
             },
@@ -856,7 +936,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token whose points you want to know"
+                        "value": "That doesn't seem right. Please tell me the color of the token whose points you'd like to get."
                     }
                 ]
             },
@@ -865,7 +945,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "how many points do you want me to add to {player}"
+                        "value": "Hmm, please tell me how many points you want to add to {player}"
                     }
                 ]
             },
@@ -874,7 +954,105 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "tell me the color of the token you want to add"
+                        "value": "Please select a color from the list of valid colors in the app's description and tell me the color of the token you want to add."
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please pick a color and tell me the color of the token you want to add."
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the color of the token you want to add."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1179691742951.154379682908",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "That doesn't seem right. Please tell me the name of the product you would like to return."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1179691742951.154379682908.1097672227869",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the name of the product you would like to return."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.804126982334.558767732988",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "That doesn't seem right. Please tell me the name of the product you would like to buy."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.804126982334.558767732988.418831662471",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the name of the product you would like to buy."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.351681451929.162952872224.414968678023",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the color of the token you want to add."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.21113515489.648723593046.1167393801496",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the color of the token you want to add."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.400327641181.471751754066.523609495510",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the color of the token whose points you'd like to get."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.282918961528.1466782744409.663602573961",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please tell me the color of the token you want to subtract points from."
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.393113372571.1094929531824",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Are you sure you want me to add {amount} points to everyone?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.535976141177.207537112161",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Are you sure you want me to subtract {amount} points from everyone?"
                     }
                 ]
             }

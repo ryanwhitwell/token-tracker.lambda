@@ -28,7 +28,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN Stop. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = "Alright".Tell();
+      SkillResponse response = "Alright".Tell(true);
 
       logger.LogTrace("END Stop. RequestId: {0}.", skillRequest.Request.RequestId);
 

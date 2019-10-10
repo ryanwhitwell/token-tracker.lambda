@@ -76,7 +76,7 @@ namespace Token
       {
         logger.Log(LogLevel.Error, e);
 
-        response = string.Format("I'm sorry, but I seem to be having trouble handling your request.").TellWithReprompt("Please try again.");
+        response = string.Format("I'm sorry, but I seem to be having trouble handling your request.").Tell(true);
       }
 
       logger.Log(LogLevel.Debug, "SkillResponse: " + JsonConvert.SerializeObject(response));

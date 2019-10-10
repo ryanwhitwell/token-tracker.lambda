@@ -33,7 +33,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       tokenUser.Players = tokenUser.Players.Select(x => new Player() { Name = x.Name, Points = 0 }).ToList();
 
-      response = string.Format("Okay, I reset all of the tokens' points to zero.").Tell();
+      response = string.Format("Okay, I reset all of the tokens' points to zero.").Tell(true);
 
       logger.LogTrace("END ResetAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);
 

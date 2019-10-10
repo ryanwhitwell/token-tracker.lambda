@@ -35,7 +35,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       BuyDirective directive = new BuyDirective(Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], "correlationToken");
 
       SkillResponse response = ResponseBuilder.Empty();
-      response.Response.ShouldEndSession = true;
+      response.Response.ShouldEndSession = false;
 
       response.Response.Directives.Add(directive);
 

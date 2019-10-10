@@ -28,7 +28,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN Cancel. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = "Okay".Tell();
+      SkillResponse response = "Okay".Tell(true);
 
       logger.LogTrace("END Cancel. RequestId: {0}.", skillRequest.Request.RequestId);
 

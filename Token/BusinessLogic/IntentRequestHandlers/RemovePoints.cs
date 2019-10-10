@@ -48,11 +48,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         tokenUser.Players.Add(existingPlayer);
 
         string pointsResponseWord = points != Math.Abs(1) ? "points" : "point";
-        response = string.Format("Okay, I removed {0} {1} from {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
+        response = string.Format("Okay, I removed {0} {1} from {2}.", points, pointsResponseWord, existingPlayer.Name).Tell(true);
       }
       else
       {
-        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell();
+        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell(true);
       }
 
       logger.LogTrace("END RemovePoints. RequestId: {0}.", skillRequest.Request.RequestId);

@@ -37,7 +37,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response;
       if (allPoints == null || allPoints.Length <= 0)
       {
-        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell();
+        response = string.Format("Hmm, you don't see anyone in your list of tokens.").Tell(true);
       }
       else 
       {
@@ -45,7 +45,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         string averagePointsFormatted = string.Format("{0:0.0}", averagePoints);
 
         string pointsWord = Math.Abs(averagePoints) != 1 ? "points" : "point";
-        response = string.Format("The average score for all tokens is {0} {1}.", averagePointsFormatted, pointsWord).Tell();
+        response = string.Format("The average score for all tokens is {0} {1}.", averagePointsFormatted, pointsWord).Tell(true);
       }
 
       logger.LogTrace("END GetPointsAverage. RequestId: {0}.", skillRequest.Request.RequestId);

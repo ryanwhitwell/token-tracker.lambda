@@ -33,19 +33,19 @@ namespace Token.BusinessLogic.LaunchRequestHandlers
       {
         response = string.Format("Welcome to {0}. You currently have Points Persistence so your tokens are available for as long as your subscription is active. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, you can say something like, " +
-          "<emphasis>add</emphasis> three points to red.", 
+          "<emphasis>add</emphasis> three points to red. So, what can I help you with?", 
           Configuration.File.GetSection("Application")["SkillName"])
-          .TellWithReprompt("So, what can I help you with?");
+          .Tell(false);
       }
       else
       {
         response = string.Format("Welcome to {0}. Your tokens will only be availble {1} without a subscription to {2}. " +
           "To add a new token you can say something like, <emphasis>add</emphasis> the color blue, or to add points to an existing token, " +
-          "you can say something like, <emphasis>add</emphasis> three points to red.", 
+          "you can say something like, <emphasis>add</emphasis> three points to red. So, what can I help you with?", 
           Configuration.File.GetSection("Application")["SkillName"], 
           tokenUser.TTLPhrase(),
           Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"])
-          .TellWithReprompt("So, what can I help you with?");
+          .Tell(false);
       }
 
       logger.LogTrace("END Default. RequestId: {0}.", skillRequest.Request.RequestId);

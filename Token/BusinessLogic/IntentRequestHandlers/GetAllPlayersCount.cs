@@ -31,11 +31,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response;
       if (tokenUser.Players == null)
       {
-        response = string.Format("There are no tokens in your list.").Tell();
+        response = string.Format("There are no tokens in your list.").Tell(true);
       }
       else
       {
-        response = string.Format("There are {0} tokens in your list.", tokenUser.Players.Count).Tell();
+        response = string.Format("There are {0} tokens in your list.", tokenUser.Players.Count).Tell(true);
       }
 
       logger.LogTrace("END GetAllPlayersCount. RequestId: {0}.", skillRequest.Request.RequestId);

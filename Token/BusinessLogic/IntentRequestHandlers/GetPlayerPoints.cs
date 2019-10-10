@@ -40,11 +40,11 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       if (existingPlayer != null)
       {
         string pointsWord = Math.Abs(existingPlayer.Points) != 1 ? "points" : "point";
-        response = string.Format("{0} has {1} {2}.", existingPlayer.Name, existingPlayer.Points, pointsWord).Tell();
+        response = string.Format("{0} has {1} {2}.", existingPlayer.Name, existingPlayer.Points, pointsWord).Tell(true);
       }
       else
       {
-        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell();
+        response = string.Format("Hmm, I don't see {0} in your list of tokens.", playerName).Tell(true);
       }
 
       logger.LogTrace("END GetPlayerPoints. RequestId: {0}.", skillRequest.Request.RequestId);

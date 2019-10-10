@@ -30,7 +30,9 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       
       logger.LogTrace("BEGIN WhatCanIBuy. RequestId: {0}.", skillRequest.Request.RequestId);
 
-      SkillResponse response = string.Format("You can subscribe to {0}. {0} allows you to store all of your tokens forever.", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]).TellWithReprompt(string.Format("If you would like to subscribe, you can say, purchase {0}.", Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"]));
+      SkillResponse response = string.Format("You can subscribe to {0}. {0} allows you to store all of your tokens forever. If you would like to subscribe, you can say something like, purchase {0}.", 
+      Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Name"])
+      .Tell(false);
       
       logger.LogTrace("END WhatCanIBuy. RequestId: {0}.", skillRequest.Request.RequestId);
 

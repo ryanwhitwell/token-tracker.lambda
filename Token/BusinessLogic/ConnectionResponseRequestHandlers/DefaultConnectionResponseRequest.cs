@@ -51,13 +51,13 @@ namespace Token.BusinessLogic.ConnectionResponseRequestHandlers
         case PurchaseResult.AlreadyPurchased:
           tokenUser.HasPointsPersistence = true;
           tokenUser.UpsellTicks = 0;
-          response = string.Format("Your tokens are available while your subscription is active. Enjoy!").TellWithReprompt("So, what can I help you with?");
+          response = string.Format("Your tokens are available while your subscription is active. To get started, add a token by saying something like, add the color blue.").Tell(false);
           break;
         case PurchaseResult.Declined:
-           response = string.Format("Don't forget to subscribe so you can keep your tokens forever.").Tell();
+           response = string.Format("Don't forget to subscribe so you can keep your tokens forever.").Tell(true);
            break;
         case PurchaseResult.Error:
-          response = string.Format("Please try again.").TellWithReprompt("So, what can I help you with?");
+          response = string.Format("Please try again.").Tell(true);
           logger.LogError(string.Format("An error occurred while a user was attempting to purchase a product. User Id: {0}, Product Id: {1}, ConnectionResponsePayload: {2}.", tokenUser.Id,  Configuration.File.GetSection("InSkillProducts").GetSection("PointsPersistence")["Id"], JsonConvert.SerializeObject(payload)));
           break;
         default:

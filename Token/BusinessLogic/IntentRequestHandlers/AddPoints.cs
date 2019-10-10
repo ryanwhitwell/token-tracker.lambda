@@ -68,13 +68,13 @@ namespace Token.BusinessLogic.IntentRequestHandlers
         existingPlayer.Points += points;
         tokenUser.Players.Add(existingPlayer);
 
-        response = string.Format("Okay, I added {0} {1} to {2}.", points, pointsResponseWord, existingPlayer.Name).Tell();
+        response = string.Format("Okay, I added {0} {1} to {2}.", points, pointsResponseWord, existingPlayer.Name).Tell(true);
       }
       else
       {
         // Add new Player data
         tokenUser.Players.Add(new Player() { Name = playerName, Points = points });
-        response = string.Format("Alright, I added {0} to your list of tokens and gave them {1} {2}.", playerName, points, pointsResponseWord).Tell();
+        response = string.Format("Alright, I added {0} to your list of tokens and gave them {1} {2}.", playerName, points, pointsResponseWord).Tell(true);
       }
 
       logger.LogTrace("END AddPoints. RequestId: {0}.", skillRequest.Request.RequestId);

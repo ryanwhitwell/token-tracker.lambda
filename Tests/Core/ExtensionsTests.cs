@@ -60,7 +60,7 @@ namespace Token.Tests.Core
     public void Tell_ShouldReturnSkillResponse_WhenInputIsValid()
     {
       string phrase = "This is a test";
-      SkillResponse response = phrase.Tell();
+      SkillResponse response = phrase.Tell(true);
 
       string expectedSpeechText = string.Format("<speak>{0}</speak>", phrase);
 

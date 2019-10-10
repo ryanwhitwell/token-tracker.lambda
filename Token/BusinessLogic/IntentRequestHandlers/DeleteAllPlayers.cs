@@ -33,7 +33,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
       tokenUser.Players = new List<Player>();
 
-      response = string.Format("Alright, I removed everyone from your list of tokens.").Tell();
+      response = string.Format("Alright, I removed everyone from your list of tokens.").Tell(true);
 
       logger.LogTrace("END DeleteAllPlayers. RequestId: {0}.", skillRequest.Request.RequestId);
 

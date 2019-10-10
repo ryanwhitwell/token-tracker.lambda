@@ -33,12 +33,12 @@ namespace Token.BusinessLogic.IntentRequestHandlers
       SkillResponse response = null;
       if (tokenUser.Players == null || tokenUser.Players.Count <= 0)
       {
-        response = string.Format("Hmm, you don't have any tokens yet.").Tell();
+        response = string.Format("Hmm, you don't have any tokens yet.").Tell(true);
       }
       else if (tokenUser.Players.Count == 1)
       {
         string pointsWord = Math.Abs(tokenUser.Players[0].Points) != 1 ? "points" : "point";
-        response = string.Format("Alright, it looks like the only token in your list is the color {0}, and they have {1} {2}.", tokenUser.Players[0].Name, tokenUser.Players[0].Points, pointsWord).Tell();
+        response = string.Format("Alright, it looks like the only token in your list is the color {0}, and they have {1} {2}.", tokenUser.Players[0].Name, tokenUser.Players[0].Points, pointsWord).Tell(true);
       }
       else
       {
@@ -53,7 +53,7 @@ namespace Token.BusinessLogic.IntentRequestHandlers
 
         responsePhraseBuilder.AppendFormat(" I think that's everybody.");
 
-        response = responsePhraseBuilder.ToString().Tell();
+        response = responsePhraseBuilder.ToString().Tell(true);
       }
 
       logger.LogTrace("END ListAllPoints. RequestId: {0}.", skillRequest.Request.RequestId);

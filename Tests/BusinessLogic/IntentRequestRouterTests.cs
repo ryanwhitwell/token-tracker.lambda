@@ -143,7 +143,7 @@ namespace Token.Tests.BusinessLogic
     [Fact]
     public async Task GetSkillResponse_ShouldReturnSkillResponse_WhenIntentConfirmationStatusIsDenied()
     {
-      SkillResponse expectedSkillResponse = string.Format("Okay").Tell();
+      SkillResponse expectedSkillResponse = string.Format("Okay").Tell(true);
       
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
@@ -172,7 +172,7 @@ namespace Token.Tests.BusinessLogic
     [Fact]
     public async Task GetSkillResponse_ShouldThrowNotSupportedException_WhenIntentNameIsUnknown()
     {
-      SkillResponse expectedSkillResponse = string.Format("Okay").Tell();
+      SkillResponse expectedSkillResponse = string.Format("Okay").Tell(true);
       
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);

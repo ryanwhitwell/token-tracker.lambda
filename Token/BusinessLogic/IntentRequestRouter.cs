@@ -35,7 +35,7 @@ namespace Token.BusinessLogic
 
       if (intentRequest.Intent.ConfirmationStatus == "DENIED")
       {
-        return string.Format("Okay").Tell();
+        return string.Format("Okay").Tell(true);
       }
 
       // Get the right handler for the IntentRequest based on the name of the intent
