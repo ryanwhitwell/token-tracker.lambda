@@ -55,7 +55,9 @@
         "--profile",
         "TokenLambda",
         "--function-role",
-        "LambdaService"
+        "LambdaService",
+        "--function-memory-size",
+        "128"
       ],
       "options": {
         "cwd": "${workspaceFolder}/Token"
