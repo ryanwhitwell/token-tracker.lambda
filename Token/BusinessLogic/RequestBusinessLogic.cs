@@ -126,10 +126,10 @@ namespace Token.BusinessLogic
       this.logger.LogTrace("BEGIN GetUserApplicationState. RequestId: {0}.", skillRequest.Request.RequestId);
 
       // Uniquely identifies each Token User
-      string    accessToken     = skillRequest.Context.System.User.AccessToken;
-      TokenUser tokenUser       = await this.tokenUserData.Get(accessToken);
+      string    userId    = skillRequest.Context.System.User.UserId;
+      TokenUser tokenUser = await this.tokenUserData.Get(userId);
 
-      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(accessToken);
+      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(userId);
 
       tokenUser.HasPointsPersistence = await this.HasPointsPersistence(skillRequest);
 
