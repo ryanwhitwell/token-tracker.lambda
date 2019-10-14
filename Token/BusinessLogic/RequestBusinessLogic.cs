@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Token.BusinessLogic.Interfaces;
 using Token.Core;
+using Token.Core.Security;
 using Token.Data;
 using Token.Data.Interfaces;
 using Token.Models;
@@ -125,10 +126,11 @@ namespace Token.BusinessLogic
       this.logger.LogTrace("BEGIN GetUserApplicationState. RequestId: {0}.", skillRequest.Request.RequestId);
 
       // Uniquely identifies each Token User
-      string accessToken = skillRequest.Context.System.User.AccessToken;
+      string    accessToken     = skillRequest.Context.System.User.AccessToken;
+      string    accessTokenHash = HashUtility.CreateHash(accessToken);
+      TokenUser tokenUser       = await this.tokenUserData.Get(accessTokenHash);
 
-      TokenUser tokenUser = await this.tokenUserData.Get(accessToken);
-      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(accessToken);
+      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(accessTokenHash);
 
       tokenUser.HasPointsPersistence = await this.HasPointsPersistence(skillRequest);
 
