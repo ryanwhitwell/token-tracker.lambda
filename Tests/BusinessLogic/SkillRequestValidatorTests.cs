@@ -20,7 +20,8 @@ namespace Token.Tests.BusinessLogic
             ApiAccessToken = "TestApiAccessToken",
             User = new User()
             {
-             AccessToken = "TestAccessToken"
+            UserId = "TestUserId", 
+AccessToken = "TestAccessToken"
             }
           }
         },

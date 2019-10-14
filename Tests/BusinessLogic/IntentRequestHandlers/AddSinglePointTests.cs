@@ -26,7 +26,8 @@ namespace Token.Tests.BusinessLogic.IntentRequestHandlers
             ApiAccessToken = "xx508xx63817x752xx74004x30705xx92x58349x5x78f5xx34xxxxx51",
             User = new User()
             {
-              AccessToken = "TestAccessToken"
+             UserId = "TestUserId", 
+AccessToken = "TestAccessToken"
             }
           }
         },
