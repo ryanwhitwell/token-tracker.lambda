@@ -127,10 +127,9 @@ namespace Token.BusinessLogic
 
       // Uniquely identifies each Token User
       string    accessToken     = skillRequest.Context.System.User.AccessToken;
-      string    accessTokenHash = HashUtility.CreateHash(accessToken);
-      TokenUser tokenUser       = await this.tokenUserData.Get(accessTokenHash);
+      TokenUser tokenUser       = await this.tokenUserData.Get(accessToken);
 
-      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(accessTokenHash);
+      tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(accessToken);
 
       tokenUser.HasPointsPersistence = await this.HasPointsPersistence(skillRequest);
 
