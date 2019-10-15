@@ -35,8 +35,6 @@ namespace Token.BusinessLogic
         HttpResponseMessage response = await client.GetAsync(requestUri);
         response.EnsureSuccessStatusCode();
         string responseBody = await response.Content.ReadAsStringAsync();
-        
-        logger.Debug("Response Body: " + responseBody);
 
         UserProfile profile = JsonConvert.DeserializeObject<UserProfile>(responseBody);
 

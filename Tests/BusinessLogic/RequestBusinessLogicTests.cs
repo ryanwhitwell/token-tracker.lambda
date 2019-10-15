@@ -51,8 +51,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       Assert.IsType<RequestBusinessLogic>(sut);
     }
 
@@ -63,8 +64,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockSkillRequestValidator.Object, null, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object));
+      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, null, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object));
     }
 
     [Fact]
@@ -74,8 +76,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestBusinessLogic>> mockLogger               = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper        = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData        = new Mock<ITokenUserData>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(null, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object));
+      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockUserProfileClient.Object, null, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object));
     }
 
     [Fact]
@@ -85,8 +88,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillProductsClientAdapter>  mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<IRequestMapper>         mockRequestMapper         = new Mock<IRequestMapper>();
       Mock<ITokenUserData>         mockTokenUserData         = new Mock<ITokenUserData>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, null, mockRequestMapper.Object, mockTokenUserData.Object));
+      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, null, mockRequestMapper.Object, mockTokenUserData.Object));
     }
 
     [Fact]
@@ -96,8 +100,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<ITokenUserData>                mockTokenUserData         = new Mock<ITokenUserData>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, null, mockTokenUserData.Object));
+      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, null, mockTokenUserData.Object));
     }
 
     [Fact]
@@ -107,8 +112,9 @@ namespace Token.Tests.BusinessLogic
       Mock<ISkillProductsClientAdapter>         mockSkillProductsAdapter  = new Mock<ISkillProductsClientAdapter>();
       Mock<ILogger<RequestBusinessLogic>> mockLogger                = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper         = new Mock<IRequestMapper>();
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
 
-      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, null));
+      Assert.Throws<ArgumentNullException>(() => new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, null));
     }
 
     [Theory]
@@ -158,9 +164,12 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData>                mockTokenUserData = new Mock<ITokenUserData>();
 
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
       SkillRequest skillRequest = ValidSkillRequest;
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       bool hashPointsPersistence = await sut.HasPointsPersistence(skillRequest);
 
       Assert.True(hashPointsPersistence);
@@ -171,6 +180,9 @@ namespace Token.Tests.BusinessLogic
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
 
       Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
@@ -187,7 +199,7 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       bool hashPointsPersistence = await sut.HasPointsPersistence(ValidSkillRequest);
 
       Assert.False(hashPointsPersistence);
@@ -198,6 +210,9 @@ namespace Token.Tests.BusinessLogic
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
 
       Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
@@ -214,7 +229,7 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       bool hashPointsPersistence = await sut.HasPointsPersistence(ValidSkillRequest);
 
       Assert.False(hashPointsPersistence);
@@ -225,6 +240,9 @@ namespace Token.Tests.BusinessLogic
     {
       Mock<ISkillRequestValidator> mockSkillRequestValidator = new Mock<ISkillRequestValidator>();
       mockSkillRequestValidator.Setup(x => x.IsValid(It.IsAny<SkillRequest>())).Returns(true);
+
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
 
       Mock<SkillProductsClient> mockInSkillProductsClient = new Mock<SkillProductsClient>(MockBehavior.Loose);
       mockInSkillProductsClient.Setup(x => x.GetProducts()).Returns(Task.FromResult<InSkillProductsResponse>(
@@ -241,7 +259,7 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       bool hashPointsPersistence = await sut.HasPointsPersistence(ValidSkillRequest);
 
       Assert.False(hashPointsPersistence);
@@ -263,7 +281,10 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
 
       bool hashPointsPersistence = await sut.HasPointsPersistence(ValidSkillRequest);
 
@@ -281,12 +302,15 @@ namespace Token.Tests.BusinessLogic
 
       Mock<ISkillProductsClientAdapter> mockSkillProductsAdapter = new Mock<ISkillProductsClientAdapter>(MockBehavior.Loose);
       mockSkillProductsAdapter.Setup(x => x.GetClient(It.IsAny<SkillRequest>())).Returns(mockInSkillProductsClient.Object);
+
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
       
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
 
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.HasPointsPersistence(ValidSkillRequest));
     }
@@ -307,7 +331,10 @@ namespace Token.Tests.BusinessLogic
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       bool hashPointsPersistence = await sut.HasPointsPersistence(ValidSkillRequest);
 
       Assert.False(hashPointsPersistence);
@@ -334,10 +361,13 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
 
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
       mockTokenUserData.Setup(x => x.Get(It.IsAny<string>())).ReturnsAsync(expectedTokenUser);
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       TokenUser tokenUser = await sut.GetUserApplicationState(ValidSkillRequest);
 
@@ -365,10 +395,13 @@ namespace Token.Tests.BusinessLogic
       Mock<ILogger<RequestBusinessLogic>> mockLogger = new Mock<ILogger<RequestBusinessLogic>>();
       Mock<IRequestMapper>                mockRequestMapper = new Mock<IRequestMapper>();
 
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
       mockTokenUserData.Setup(x => x.Get(It.IsAny<string>())).ReturnsAsync(expectedTokenUser);
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetUserApplicationState(ValidSkillRequest));
     }
@@ -405,7 +438,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
       mockTokenUserData.Setup(x => x.Get(It.IsAny<string>())).ReturnsAsync(tokenUser);
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       SkillResponse skillResponse = await sut.GetSkillResponse(ValidSkillRequest, tokenUser);
       
@@ -444,7 +480,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
       mockTokenUserData.Setup(x => x.Get(It.IsAny<string>())).ReturnsAsync(tokenUser);
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetSkillResponse(ValidSkillRequest, tokenUser));
     }
@@ -474,7 +513,10 @@ namespace Token.Tests.BusinessLogic
 
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetSkillResponse(ValidSkillRequest, null));
     }
@@ -499,7 +541,10 @@ namespace Token.Tests.BusinessLogic
 
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.HandleSkillRequest(ValidSkillRequest, mockLambdaContext.Object));
     }
@@ -522,7 +567,10 @@ namespace Token.Tests.BusinessLogic
 
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       await Assert.ThrowsAsync<ArgumentNullException>(() => sut.HandleSkillRequest(ValidSkillRequest, null));
     }
@@ -559,7 +607,10 @@ namespace Token.Tests.BusinessLogic
       Mock<ITokenUserData> mockTokenUserData = new Mock<ITokenUserData>();
       mockTokenUserData.Setup(x => x.Save(It.IsAny<TokenUser>())).Returns(Task.FromResult(true));
 
-      RequestBusinessLogic sut = new RequestBusinessLogic(mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
+      Mock<IUserProfileClient>            mockUserProfileClient     = new Mock<IUserProfileClient>();
+      mockUserProfileClient.Setup(x => x.GetUserId(It.IsAny<string>())).ReturnsAsync("TestProfileUserId");
+
+      RequestBusinessLogic sut = new RequestBusinessLogic(mockUserProfileClient.Object, mockSkillRequestValidator.Object, mockSkillProductsAdapter.Object, mockLogger.Object, mockRequestMapper.Object, mockTokenUserData.Object);
       
       SkillResponse skillResponse = await sut.HandleSkillRequest(ValidSkillRequest, mockLambdaContext.Object);
 
