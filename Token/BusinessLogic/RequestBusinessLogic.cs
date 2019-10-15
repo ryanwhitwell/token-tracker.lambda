@@ -25,9 +25,15 @@ namespace Token.BusinessLogic
     private ILogger<RequestBusinessLogic> logger;
     private IRequestMapper requestMapper;
     private ISkillProductsClientAdapter skillProductsClientAdapter;
+     private IUserProfileClient userProfileClient;
     ISkillRequestValidator skillRequestValidator;
-    public RequestBusinessLogic(ISkillRequestValidator skillRequestValidator, ISkillProductsClientAdapter skillProductsClientAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
+    public RequestBusinessLogic(IUserProfileClient userProfileClient, ISkillRequestValidator skillRequestValidator, ISkillProductsClientAdapter skillProductsClientAdapter, ILogger<RequestBusinessLogic> logger, IRequestMapper requestMapper, ITokenUserData tokenUserData)
     {
+      if (userProfileClient == null)
+      {
+        throw new ArgumentNullException("userProfileClient");
+      }
+
       if (skillRequestValidator == null)
       {
         throw new ArgumentNullException("skillRequestValidator");
@@ -53,6 +59,7 @@ namespace Token.BusinessLogic
         throw new ArgumentNullException("tokenUserData");
       }
 
+      this.userProfileClient = userProfileClient;
       this.skillRequestValidator = skillRequestValidator;
       this.skillProductsClientAdapter = skillProductsClientAdapter;
       this.logger = logger;
@@ -126,7 +133,7 @@ namespace Token.BusinessLogic
       this.logger.LogTrace("BEGIN GetUserApplicationState. RequestId: {0}.", skillRequest.Request.RequestId);
 
       // Uniquely identifies each Token User
-      string    userId    = skillRequest.Context.System.User.UserId;
+      string userId = await this.userProfileClient.GetUserId(skillRequest.Context.System.User.AccessToken);
       TokenUser tokenUser = await this.tokenUserData.Get(userId);
 
       tokenUser = tokenUser ?? RequestBusinessLogic.GenerateEmptyTokenUser(userId);

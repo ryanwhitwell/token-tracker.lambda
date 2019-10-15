@@ -40,7 +40,8 @@ namespace Token.Core
                         .AddTransient<ITokenUserData,              TokenUserData>()
                         .AddTransient<ITokenUserRepository,        TokenUserRepository>()
                         .AddTransient<ISkillProductsClientAdapter, SkillProductsClientAdapter>()
-                        .AddTransient<ISkillRequestValidator,      SkillRequestValidator>();
+                        .AddTransient<ISkillRequestValidator,      SkillRequestValidator>()
+                        .AddTransient<IUserProfileClient,          UserProfileClient>();
 
       // SessionEndedRequest
       serviceCollection.AddTransient<IRequestRouter,              SessionEndedRequestRouter>()

@@ -36,5 +36,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
     <PackageReference Include="Alexa.NET.InSkillPricing" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.0.0"/>
+    <PackageReference Include="Alexa.NET.CustomerProfile" Version="2.1.0"/>
   </ItemGroup>
 </Project>
