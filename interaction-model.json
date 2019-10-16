@@ -694,10 +694,9 @@
                         {
                             "name": "amount",
                             "type": "AMAZON.NUMBER",
-                            "confirmationRequired": true,
+                            "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
-                                "confirmation": "Confirm.Slot.393113372571.1094929531824",
                                 "elicitation": "Elicit.Slot.1160332779911.911689315608"
                             }
                         }
@@ -723,10 +722,9 @@
                         {
                             "name": "amount",
                             "type": "AMAZON.NUMBER",
-                            "confirmationRequired": true,
+                            "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
-                                "confirmation": "Confirm.Slot.535976141177.207537112161",
                                 "elicitation": "Elicit.Slot.939523654694.1487315397461"
                             }
                         }
