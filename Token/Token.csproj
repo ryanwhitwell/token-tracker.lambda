@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview9.19423.4"/>
     <PackageReference Include="NLog" Version="4.6.5"/>
     <PackageReference Include="NLog.Extensions.Logging" Version="1.5.1"/>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
     <PackageReference Include="Alexa.NET.InSkillPricing" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.0.0"/>
     <PackageReference Include="Alexa.NET.CustomerProfile" Version="2.1.0"/>
